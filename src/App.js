@@ -9,15 +9,15 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Realtime Footfall Analysis
           </p>
           <a
             className="App-link"
-            href="https://reactjs.org"
+            href="https://github.com/real-time-footfall-analysis/rtfa-web"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            View Repo
           </a>
         </header>
       </div>
