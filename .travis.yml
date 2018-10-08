@@ -1,11 +1,18 @@
-# Set language to NodeJS
+# Set language to latest stable version of NodeJS
 language: node_js
+node_js:
+  - "stable"
 
 # Cache the node_modules directory between builds instead of
 # re-compiling on every commit
 cache:
   directories:
   - node_modules
+
+# Run tests, then create a build
+script:
+  - npm test
+  - npm run build
 
 # Deployment to AWS S3
 deploy:
