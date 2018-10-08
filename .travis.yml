@@ -26,7 +26,6 @@ deploy:
   bucket: rtfa-genesis
   # Upload the 'build' directory for deployment
   local-dir: build
-  acl: ''
   # Only push on master branch
   on:
     branch: master
