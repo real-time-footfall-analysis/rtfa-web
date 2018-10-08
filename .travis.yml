@@ -1,0 +1,25 @@
+# Set language to NodeJS
+language: node_js
+
+# Cache the node_modules directory between builds instead of
+# re-compiling on every commit
+cache:
+  directories:
+  - node_modules
+
+# Deployment to AWS S3
+deploy:
+  provider: s3
+  # Don't delete build files
+  skip_cleanup: true
+  access_key_id: AKIAJORQS5TWJFCY422Q
+  # Secret key is encrypted
+  secret_access_key:
+    secure: noAGX7YtQgT/bMvF9Ssn1jyEGKCTJ3ESKhLLxAKHYFw36YvNLS5TU6vCG4tFuJ6nVQOhRvqdnB5Bj0pg+/Jyx9H+FJL3wugIRTm+kvRVQlsP5sP8E2ie4jQz8IyVUI/VKLsUjF1V43gHT28mMpM9nSwg1M1wYhWrhHFekBi02xUDQ/71dHR/DjlLfDAJj20huRxhpZYERIA357CuMW8v26jmF8WxhY60el9MqHdMWL3p8LUUkrxHX7Stb68qLZr3YngqHSaHTGFtxRmfeC8GidpuLCZyd767ngIeZAYZFZyng3PbwteSgvw8BwK7XxTVUrASb4wOh+fkojzCXJ+B2mhlEtkBtqbYvY929S4nFE3N2aa/MspVivIlOb0SUypEpo+BnJrYGuh8xTpg92TuUzKQMbw0iRYPhbpceNZRJVL0BJfKCSs0ip9HV8yS9LM2lhT3+l5TZVi9CGt6Vkl0lkhGknRemivh2WuoRkB9qSEuLLQF5n19ygP2AJINN/MjrTwdbh67oVTlSmBA8EtbV55EPsO/BHH324iNgwOYqH6v8znkpUXZgysufhdYzgGx4rUMvx8PeboTyUPgzWseAdBjgDSbqJpEOLboalZktpbwd4RLYBcqrGbWtHnJUudGv6amcz9hBeNLE9wRbeDypMz5BjdasRP0y7YImPiSosA=
+  bucket: rtfa-genesis
+  # Upload the 'build' directory for deployment
+  local-dir: build
+  acl: ''
+  # Only push on master branch
+  on:
+    branch: master
