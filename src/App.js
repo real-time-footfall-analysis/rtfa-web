@@ -1,26 +1,10 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import './App.scss'
 
 class App extends Component {
   render () {
     return (
-      <div className='App'>
-        <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <p>
-            Realtime Footfall Analysis | 3rd Year Project
-          </p>
-          <a
-            className='App-link'
-            href='https://github.com/real-time-footfall-analysis/rtfa-web'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            View Repo
-          </a>
-        </header>
-      </div>
+      <h1>Hello World!</h1>
     )
   }
 }
