@@ -9,8 +9,9 @@ cache:
   directories:
   - node_modules
 
-# Run tests, then create a build
+# Run linter, run tests, then create a build if everything passes
 script:
+  - npm run-script lint
   - npm test
   - npm run build
 

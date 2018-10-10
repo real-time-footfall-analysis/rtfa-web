@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 
 class App extends Component {
-  render() {
+  render () {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className='App'>
+        <header className='App-header'>
+          <img src={logo} className='App-logo' alt='logo' />
           <p>
             Realtime Footfall Analysis | 3rd Year Project
           </p>
           <a
-            className="App-link"
-            href="https://github.com/real-time-footfall-analysis/rtfa-web"
-            target="_blank"
-            rel="noopener noreferrer"
+            className='App-link'
+            href='https://github.com/real-time-footfall-analysis/rtfa-web'
+            target='_blank'
+            rel='noopener noreferrer'
           >
             View Repo
           </a>
         </header>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
