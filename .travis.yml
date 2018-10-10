@@ -7,12 +7,11 @@ node_js:
 # re-compiling on every commit
 cache:
   directories:
-  - node_modules
+    - node_modules
 
 # Run linter, run tests, then create a build if everything passes
 script:
   - npm run validate
-  - npm test
   - npm run build
 
 # Deployment to AWS S3
