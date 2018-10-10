@@ -11,7 +11,7 @@ cache:
 
 # Run linter, run tests, then create a build if everything passes
 script:
-  - npm run-script lint
+  - npm run validate
   - npm test
   - npm run build
 
