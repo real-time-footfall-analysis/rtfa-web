@@ -52,6 +52,7 @@ class NavList extends Component {
 const NavListItem = props => {
   return (
     <a
+      href=""
       className={
         styles.navListItem + " " + (props.isSelected ? styles.selected : "")
       }
