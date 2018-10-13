@@ -1,0 +1,18 @@
+@import '../../styles/_colors.scss';
+
+.logoContainer {
+  color: $highlight;
+}
+
+.icon, .appName {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.appName {
+  margin: 0;
+}

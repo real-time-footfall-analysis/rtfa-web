@@ -1,0 +1,41 @@
+@import '../../../styles/_colors.scss';
+
+.navList {
+  padding: 0;
+  list-style: none;
+}
+
+.navListItem {
+  padding: 15px;
+  color: $mainText;
+  text-decoration: none;
+  display: flex;
+  cursor: pointer;
+  transition: opacity 0.15s ease-in-out;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  i {
+    width: 30px;
+    font-size: 20px;
+  }
+
+  .itemName {
+    font-weight: 500;
+  }
+
+  .itemCount {
+    margin-left: auto;
+  }
+}
+
+.navListItem.selected {
+  color: $highlight;
+  box-shadow: inset 4px 0 0 $highlight;
+}
