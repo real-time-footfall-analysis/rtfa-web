@@ -14,13 +14,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint-js": "eslint '**/*.js'",
-    "lint-scss": "stylelint '**/*.scss'",
+    "lint-js": "eslint 'src/**/*.js'",
+    "lint-scss": "stylelint 'src/**/*.scss'",
     "lint": "npm-run-all --parallel lint-js lint-scss",
-    "prettify": "prettier --write '{./**/*.scss,./**/*.json,./**/*.js,./**/*.yml,./**/*.yaml}'",
+    "prettify": "prettier --write '{./src/**/*.scss,./src/**/*.json,./src/**/*.js,./src/**/*.yml,./src/**/*.yaml}'",
     "autotest": "CI=true npm test",
-    "validate": "npm-run-all lint prettify autotest",
-    "precommit": "npm run validate"
+    "validate": "npm-run-all lint prettify autotest build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run validate"
+    }
   },
   "browserslist": [
     ">0.2%",

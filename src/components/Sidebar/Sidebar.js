@@ -4,7 +4,6 @@ import Logo from "../Logo/Logo";
 import NavList from "./NavList/NavList";
 
 const Sidebar = () => {
-  // eslint-disable-line
   return (
     <nav className={styles.sidebar}>
       <div className={styles.logo}>

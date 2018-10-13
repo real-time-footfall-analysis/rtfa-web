@@ -35,7 +35,6 @@ class NavList extends Component {
   }
 
   render() {
-    // eslint-disable-line
     const navItems = this.navList.map(navItem => (
       <li key={navItem.iconName}>
         <NavListItem
@@ -52,7 +51,7 @@ class NavList extends Component {
 const NavListItem = props => {
   return (
     <a
-      href=""
+      href="#example"
       className={
         styles.navListItem + " " + (props.isSelected ? styles.selected : "")
       }
