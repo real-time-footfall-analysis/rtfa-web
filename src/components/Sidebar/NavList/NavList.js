@@ -1,30 +1,12 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import styles from "./NavList.module.scss";
 
 class NavList extends Component {
   constructor(props) {
     super(props);
-    this.navList = [
-      {
-        itemName: "Events",
-        iconName: "calendar"
-      },
-      {
-        itemName: "Maps",
-        iconName: "map"
-      },
-      {
-        itemName: "Region Groups",
-        iconName: "layer-group",
-        shortName: "Groups"
-      },
-      {
-        itemName: "Regions",
-        iconName: "object-ungroup"
-      }
-    ];
-    this.state = { selectedItem: this.navList[0].itemName };
+    this.state = { selectedItem: this.props.links[0].name };
     this.changeSelected = this.changeSelected.bind(this);
   }
 
@@ -35,7 +17,7 @@ class NavList extends Component {
   }
 
   render() {
-    const navItems = this.navList.map(navItem => (
+    const navItems = this.props.links.map(navItem => (
       <li key={navItem.iconName}>
         <NavListItem
           {...navItem}
@@ -50,19 +32,19 @@ class NavList extends Component {
 
 const NavListItem = props => {
   return (
-    <a
-      href="#example"
-      className={
-        styles.navListItem + " " + (props.isSelected ? styles.selected : "")
-      }
-      onClick={() => props.changeSelected(props.itemName)}
+    <NavLink
+      exact={true}
+      to={props.path}
+      className={styles.navListItem}
+      activeClassName={styles.selected}
+      onClick={() => props.changeSelected(props.name)}
     >
       <i className={"far fa-" + props.iconName} />
-      <span className={styles.itemName}>{props.itemName}</span>
+      <span className={styles.name}>{props.name}</span>
       <span className={styles.itemCount}>
-        0 {props.shortName ? props.shortName : props.itemName}
+        0 {props.shortName ? props.shortName : props.name}
       </span>
-    </a>
+    </NavLink>
   );
 };
 
@@ -71,9 +53,10 @@ NavListItem.defaultProps = {
 };
 
 NavListItem.propTypes = {
-  iconName: PropTypes.string,
-  itemName: PropTypes.string,
+  path: PropTypes.string,
+  name: PropTypes.string,
   shortName: PropTypes.string,
+  iconName: PropTypes.string,
   isSelected: PropTypes.bool,
   changeSelected: PropTypes.func
 };
