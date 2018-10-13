@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
-import Sidebar from './components/Sidebar/Sidebar'
+import React, { Component } from "react";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 class App extends Component {
-  render () {
-    return (
-      <Sidebar />
-    )
+  render() {
+    return <Sidebar />;
   }
 }
 
-export default App
+export default App;

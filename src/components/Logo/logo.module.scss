@@ -1,10 +1,11 @@
-@import '../../styles/_colors.scss';
+@import "../../styles/_colors.scss";
 
 .logoContainer {
   color: $highlight;
 }
 
-.icon, .appName {
+.icon,
+.appName {
   display: inline-block;
   vertical-align: middle;
 }
