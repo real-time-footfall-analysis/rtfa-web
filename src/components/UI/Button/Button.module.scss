@@ -1,11 +1,11 @@
 @import "../../../styles/_vars.scss";
 
 .button {
-  padding: 15px 20px;
   background-color: $highlight;
-  color: #fff;
   border: none;
   border-radius: $cornerRadius;
+  color: #fff;
+  padding: 15px 20px;
   font: {
     family: $fontFamily;
     size: 18px;

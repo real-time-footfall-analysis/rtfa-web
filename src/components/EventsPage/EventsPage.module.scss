@@ -6,8 +6,8 @@
 }
 
 .newEventLink {
-  margin-left: 15px;
   display: inline-block;
+  margin-left: 15px;
 }
 
 .eventsWrapper {
@@ -16,15 +16,15 @@
 }
 
 .eventCard {
-  min-width: 400px;
   margin: 0 20px 20px 0;
+  min-width: 400px;
   transition: all $transitionDuration $transitionFunction;
 
   img {
-    width: 360px;
+    background: #e0e0e0;
     height: 240px;
     max-width: 100%;
-    background: #e0e0e0;
+    width: 360px;
   }
   .eventName {
     margin: 13px 0 10px 0;
@@ -37,8 +37,8 @@
     }
   }
   .eventLocation {
-    margin-bottom: 5px;
     color: $mainText;
     font-size: 20px;
+    margin-bottom: 5px;
   }
 }

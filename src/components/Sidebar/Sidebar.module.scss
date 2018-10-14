@@ -1,10 +1,10 @@
 @import "../../styles/_vars.scss";
 
 .sidebar {
-  width: 300px;
+  background: $secondaryBackground;
   height: 100vh;
   min-width: 300px;
-  background: $secondaryBackground;
+  width: 300px;
 }
 
 .logo {

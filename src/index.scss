@@ -2,29 +2,29 @@
 
 @font-face {
   font-family: "Cerebri Sans";
+  font-style: normal;
+  font-weight: normal;
   src: url("/fonts/CerebriSans-Regular.woff2") format("woff2"),
     url("/fonts/CerebriSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
 }
 
 @font-face {
   font-family: "Cerebri Sans";
+  font-style: normal;
+  font-weight: 500;
   src: url("fonts/CerebriSans-Medium.woff2") format("woff2"),
     url("fonts/CerebriSans-Medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
 }
 
 body.body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
   font: {
     family: $fontFamily;
     size: 16px;
   }
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
@@ -33,8 +33,8 @@ code {
 }
 
 a {
-  cursor: pointer;
   color: $highlight;
+  cursor: pointer;
   &:hover {
     color: $mainText;
     text-decoration: none;
