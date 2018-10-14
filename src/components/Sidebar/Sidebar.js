@@ -6,6 +6,8 @@ import styles from "./Sidebar.module.scss";
 import Logo from "../Logo/Logo";
 import NavList from "./NavList/NavList";
 import EventSelector from "./EventSelector/EventSelector";
+import PhotoText from "../UI/PhotoText/PhotoText";
+import Button from "../UI/Button/Button";
 
 class Sidebar extends Component {
   handleEventSelection(event) {
@@ -26,6 +28,13 @@ class Sidebar extends Component {
           </div>
         </Link>
 
+        <div className={styles.photoText}>
+          <PhotoText
+            imageURL={store.getState().selectedEvent.coverPhoto}
+            text={store.getState().selectedEvent.name}
+          />
+        </div>
+
         <div className={styles.eventSelector}>
           <EventSelector
             selectedEvent={store.getState().selectedEvent}
@@ -35,6 +44,12 @@ class Sidebar extends Component {
         </div>
 
         <NavList {...this.props} />
+
+        <div className={styles.newEventLink}>
+          <Button leftIcon="calendar-plus" path="/events/new">
+            Create New Event
+          </Button>
+        </div>
       </nav>
     );
   }

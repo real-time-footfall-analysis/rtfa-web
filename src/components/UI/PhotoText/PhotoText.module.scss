@@ -1,0 +1,33 @@
+@import "../../../styles/_vars.scss";
+
+.photoBG {
+  display: block;
+  position: relative;
+  width: 100%;
+
+  img {
+    margin-bottom: -5px;
+    width: 100%;
+  }
+
+  .imageOverlay {
+    background-color: rgba(darken($highlight, 20%), 0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  h2 {
+    color: #fff;
+    font-weight: 500;
+    left: 50%;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+}

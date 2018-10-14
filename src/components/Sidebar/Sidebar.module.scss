@@ -4,7 +4,12 @@
   background: $secondaryBackground;
   height: 100vh;
   min-width: 300px;
+  position: relative;
   width: 300px;
+}
+
+.photoText {
+  margin-top: 0;
 }
 
 .eventSelector {
@@ -13,7 +18,14 @@
 }
 
 .logo {
-  padding-top: 20px;
+  padding: 20px 0 18px 0;
   text-align: center;
   @include clickable();
+}
+
+.newEventLink {
+  bottom: 30px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
 }
