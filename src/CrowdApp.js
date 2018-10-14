@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+import { store } from "./store";
 import Sidebar from "./components/Sidebar/Sidebar";
 import routes from "./CrowdApp.routing";
 import eventsMock from "./eventsMock";
@@ -22,13 +23,17 @@ class CrowdApp extends Component {
     ));
   }
 
+  componentDidMount() {
+    fetchEvents();
+  }
+
   render() {
     return (
       <Router>
         <div className={styles.content}>
           <Sidebar
             links={routes.filter(route => route.inSidebar)}
-            events={fetchEvents()}
+            events={store.getState().events}
           />
           <div className={styles.main}>
             {this.redirectHomeRoute}
@@ -41,7 +46,12 @@ class CrowdApp extends Component {
 }
 
 const fetchEvents = () => {
-  return eventsMock;
+  store.dispatch({
+    type: "LOAD_EVENTS",
+    payload: {
+      events: eventsMock
+    }
+  });
 };
 
 export default CrowdApp;

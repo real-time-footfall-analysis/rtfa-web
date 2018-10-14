@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import { Button, MenuItem } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import styles from "./EventSelector.module.scss";
@@ -7,26 +8,28 @@ import styles from "./EventSelector.module.scss";
 class EventSelector extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedEvent: this.props.events[0] };
-    this.handleValueChange = this.handleValueChange.bind(this);
+    this.handleEventSelection = this.handleEventSelection.bind(this);
   }
 
-  handleValueChange(event) {
-    this.setState({ selectedEvent: event });
+  handleEventSelection(event) {
+    this.props.handleEventSelection(event);
   }
 
   render() {
+    const eventList = _.map(this.props.events, (event, eventID) => {
+      return { ...event, id: eventID };
+    });
     return (
       <Select
         className={styles.select}
-        items={this.props.events}
+        items={eventList}
         itemRenderer={renderEvents}
         filterable={false}
-        onItemSelect={this.handleValueChange}
+        onItemSelect={this.handleEventSelection}
       >
         <Button
           large={true}
-          text={this.state.selectedEvent.name}
+          text={this.props.selectedEvent.name}
           icon="calendar"
           rightIcon="double-caret-vertical"
         />
@@ -36,11 +39,13 @@ class EventSelector extends Component {
 }
 
 EventSelector.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.number)
+  events: PropTypes.object,
+  selectedEvent: PropTypes.object,
+  handleEventSelection: PropTypes.func
 };
 
 const renderEvents = (event, { handleClick }) => {
-  return <MenuItem text={event.name} onClick={handleClick} />;
+  return <MenuItem key={event.id} text={event.name} onClick={handleClick} />;
 };
 
 export default EventSelector;

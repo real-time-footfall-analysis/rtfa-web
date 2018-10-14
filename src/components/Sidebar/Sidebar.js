@@ -1,22 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import store from "../../store";
 import styles from "./Sidebar.module.scss";
 import Logo from "../Logo/Logo";
 import NavList from "./NavList/NavList";
 import EventSelector from "./EventSelector/EventSelector";
 
 class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedEvent: this.props.events[0]
-    };
-  }
-
-  handleEventChange(event) {
-    this.setState({
-      selectedEvent: event
+  handleEventSelection(event) {
+    store.dispatch({
+      type: "SELECT_NEW_EVENT",
+      payload: {
+        selectedEvent: event
+      }
     });
   }
 
@@ -31,8 +28,9 @@ class Sidebar extends Component {
 
         <div className={styles.eventSelector}>
           <EventSelector
+            selectedEvent={store.getState().selectedEvent}
             events={this.props.events}
-            handleValueChange={this.handleEventChange}
+            handleEventSelection={this.handleEventSelection}
           />
         </div>
 
@@ -43,7 +41,7 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object)
+  events: PropTypes.object
 };
 
 export default Sidebar;
