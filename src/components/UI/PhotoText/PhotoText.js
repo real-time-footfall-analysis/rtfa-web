@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import styles from "./PhotoText.module.scss";
 
 const PhotoText = props => {
-  console.log(props);
   return (
     <div className={styles.photoBG}>
-      <img src={props.imageURL} />
+      <img src={props.imageURL} alt={props.text} />
       <div className={styles.imageOverlay} />
       <h2>{props.text}</h2>
     </div>
