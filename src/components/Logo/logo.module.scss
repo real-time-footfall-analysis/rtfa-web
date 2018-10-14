@@ -1,4 +1,4 @@
-@import "../../styles/_colors.scss";
+@import "../../styles/_vars.scss";
 
 .logoContainer {
   color: $highlight;
@@ -12,6 +12,7 @@
 
 .icon {
   margin-right: 8px;
+  font-size: 22px;
 }
 
 .appName {

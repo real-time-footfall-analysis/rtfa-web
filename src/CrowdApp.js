@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import NewEventForm from "./components/NewEventForm/NewEventForm";
 import { EventsPage } from "./components/EventsPage/EventsPage";
@@ -8,7 +8,7 @@ import styles from "./App.module.scss";
 
 const routes = [
   {
-    path: "/",
+    path: "/events",
     name: "Events",
     exact: true,
     iconName: "calendar",
@@ -45,21 +45,31 @@ const routes = [
   }
 ];
 
-class App extends Component {
+class CrowdApp extends Component {
+  constructor(props) {
+    super(props);
+    this.redirectHomeRoute = (
+      <Route exact path="/" render={() => <Redirect to="/events" />} />
+    );
+    this.routes = routes.map(route => (
+      <Route
+        key={route.path}
+        name={route.name}
+        path={route.path}
+        exact={route.exact}
+        render={() => <route.content name={route.name} />}
+      />
+    ));
+  }
+
   render() {
     return (
       <Router>
         <div className={styles.content}>
           <Sidebar links={routes.filter(route => route.inSidebar)} />
           <div className={styles.main}>
-            {routes.map(route => (
-              <Route
-                key={route.path}
-                path={route.path}
-                exact={route.exact}
-                component={route.content}
-              />
-            ))}
+            {this.redirectHomeRoute}
+            {this.routes}
           </div>
         </div>
       </Router>
@@ -67,4 +77,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default CrowdApp;

@@ -1,4 +1,4 @@
-@import "../../../styles/_colors.scss";
+@import "../../../styles/_vars.scss";
 
 .navList {
   padding: 0;
@@ -10,16 +10,7 @@
   color: $mainText;
   text-decoration: none;
   display: flex;
-  cursor: pointer;
-  transition: opacity 0.15s ease-in-out;
-
-  &:hover {
-    opacity: 0.7;
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
+  @include clickable();
 
   i {
     width: 30px;

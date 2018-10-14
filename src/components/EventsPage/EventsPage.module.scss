@@ -1,0 +1,44 @@
+@import "../../styles/_vars.scss";
+
+.pageTitle {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.newEventLink {
+  margin-left: 15px;
+  display: inline-block;
+}
+
+.eventsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.eventCard {
+  min-width: 400px;
+  margin: 0 20px 20px 0;
+  transition: all $transitionDuration $transitionFunction;
+
+  img {
+    width: 360px;
+    height: 240px;
+    max-width: 100%;
+    background: #e0e0e0;
+  }
+  .eventName {
+    margin: 13px 0 10px 0;
+  }
+  .eventLink {
+    color: $highlight;
+    font: {
+      size: 28px;
+      weight: 500;
+    }
+  }
+  .eventLocation {
+    margin-bottom: 5px;
+    color: $mainText;
+    font-size: 20px;
+  }
+}

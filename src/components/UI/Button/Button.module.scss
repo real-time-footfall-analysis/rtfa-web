@@ -1,0 +1,18 @@
+@import "../../../styles/_vars.scss";
+
+.button {
+  padding: 15px 20px;
+  background-color: $highlight;
+  color: #fff;
+  border: none;
+  border-radius: $cornerRadius;
+  font: {
+    family: $fontFamily;
+    size: 18px;
+  }
+  @include clickable();
+
+  i {
+    margin-right: 8px;
+  }
+}
