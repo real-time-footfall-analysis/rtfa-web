@@ -1,30 +1,50 @@
+@import "./styles/_vars.scss";
+
 @font-face {
   font-family: "Cerebri Sans";
+  font-style: normal;
+  font-weight: normal;
   src: url("/fonts/CerebriSans-Regular.woff2") format("woff2"),
     url("/fonts/CerebriSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
 }
 
 @font-face {
   font-family: "Cerebri Sans";
+  font-style: normal;
+  font-weight: 500;
   src: url("fonts/CerebriSans-Medium.woff2") format("woff2"),
     url("fonts/CerebriSans-Medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Cerebri Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+body.body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  font: {
+    family: $fontFamily;
+    size: 16px;
+  }
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+a {
+  color: $highlight;
+  cursor: pointer;
+  &:hover {
+    color: $mainText;
+    text-decoration: none;
+  }
+}
+
+:focus {
+  outline: none;
+}
+
+::selection {
+  background: rgba($highlight, 0.2);
 }

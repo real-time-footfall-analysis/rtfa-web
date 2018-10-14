@@ -1,0 +1,36 @@
+@import "../../styles/_vars.scss";
+
+.formGroups {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  max-width: 900px;
+}
+
+.formGroup {
+  margin: 0 40px 40px 0;
+  max-width: 600px;
+  min-width: 400px;
+
+  $inputHeight: 60px;
+  $originalInputHeight: 40px;
+
+  /* TODO: This might need refactoring */
+  :global {
+    label.bp3-label {
+      color: $mainText;
+      font-size: 18px;
+      margin-bottom: 10px;
+
+      .bp3-text-muted {
+        color: $lightestText;
+      }
+    }
+    .bp3-input-group .bp3-input {
+      height: $inputHeight;
+    }
+    .bp3-input-group.bp3-large > .bp3-icon {
+      margin-top: 12 + (($inputHeight - $originalInputHeight) / 2);
+    }
+  }
+}

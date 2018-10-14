@@ -1,0 +1,32 @@
+@import "../../../styles/_vars.scss";
+
+.navList {
+  list-style: none;
+  padding: 0;
+}
+
+.navListItem {
+  color: $mainText;
+  display: flex;
+  padding: 15px;
+  text-decoration: none;
+  @include clickable();
+
+  i {
+    font-size: 20px;
+    width: 30px;
+  }
+
+  .name {
+    font-weight: 500;
+  }
+
+  .itemCount {
+    margin-left: auto;
+  }
+}
+
+.navListItem.selected {
+  box-shadow: inset 4px 0 0 $highlight;
+  color: $highlight;
+}

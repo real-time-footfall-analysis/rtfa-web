@@ -1,0 +1,24 @@
+@import "../../../styles/_vars.scss";
+
+.button {
+  background-color: $highlight;
+  border: none;
+  border-radius: $cornerRadius;
+  color: #fff;
+  padding: 15px 20px;
+  font: {
+    family: $fontFamily;
+    size: 18px;
+  }
+  @include clickable();
+}
+
+$iconMargin: 8px;
+
+.leftIcon {
+  margin-right: $iconMargin;
+}
+
+.rightIcon {
+  margin-left: $iconMargin;
+}

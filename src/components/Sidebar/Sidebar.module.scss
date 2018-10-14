@@ -1,0 +1,31 @@
+@import "../../styles/_vars.scss";
+
+.sidebar {
+  background: $secondaryBackground;
+  height: 100vh;
+  min-width: 300px;
+  position: relative;
+  width: 300px;
+}
+
+.photoText {
+  margin-top: 0;
+}
+
+.eventSelector {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.logo {
+  padding: 20px 0 18px 0;
+  text-align: center;
+  @include clickable();
+}
+
+.newEventLink {
+  bottom: 30px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
