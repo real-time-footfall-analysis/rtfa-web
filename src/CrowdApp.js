@@ -13,7 +13,7 @@ const routes = [
     exact: true,
     iconName: "calendar",
     content: EventsPage,
-    inSidebar: true
+    inSidebar: false
   },
   {
     path: "/events/new",
@@ -66,7 +66,10 @@ class CrowdApp extends Component {
     return (
       <Router>
         <div className={styles.content}>
-          <Sidebar links={routes.filter(route => route.inSidebar)} />
+          <Sidebar
+            links={routes.filter(route => route.inSidebar)}
+            events={fetchEvents()}
+          />
           <div className={styles.main}>
             {this.redirectHomeRoute}
             {this.routes}
@@ -76,5 +79,34 @@ class CrowdApp extends Component {
     );
   }
 }
+
+const fetchEvents = () => {
+  return [
+    {
+      name: "Leeds Festival",
+      eventID: "312839",
+      location: "Leeds, United Kingdom",
+      startDate: "2018-08-25",
+      endDate: "2018-08-30",
+      maxAttendance: "150000"
+    },
+    {
+      name: "Reading Festival",
+      eventID: "312840",
+      location: "Reading, United Kingdom",
+      startDate: "2018-08-25",
+      endDate: "2018-08-30",
+      maxAttendance: "150000"
+    },
+    {
+      name: "Glastonbury",
+      eventID: "312841",
+      location: "Somerset, United Kingdom",
+      startDate: "2018-08-25",
+      endDate: "2018-08-30",
+      maxAttendance: "150000"
+    }
+  ];
+};
 
 export default CrowdApp;
