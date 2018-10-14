@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { FormGroup, InputGroup, NumericInput } from "@blueprintjs/core";
-import { DateRangeInput } from "@blueprintjs/datetime";
 import styles from "./NewEventForm.module.scss";
 import Button from "../UI/Button/Button";
+import TextField from "../UI/TextField/TextField";
+import NumberField from "../UI/NumberField/NumberField";
+import DateRangeField from "../UI/DateRangeField/DateRangeField";
 
 class NewEventForm extends Component {
   render() {
@@ -19,76 +20,55 @@ class NewEventForm extends Component {
 
   generateNameField() {
     return (
-      <FormGroup
+      <TextField
         className={styles.formGroup}
+        icon="sort-alphabetical"
         label="Event Name"
         labelFor="event-name"
-        labelInfo="(required)"
-      >
-        <InputGroup
-          large={true}
-          leftIcon="sort-alphabetical"
-          placeholder="What is your event's name?"
-        />
-      </FormGroup>
+        required={true}
+        placeholder="What is your event's name?"
+      />
     );
   }
 
   generateLocationField() {
     return (
-      <FormGroup
+      <TextField
         className={styles.formGroup}
+        icon="geolocation"
         label="Location"
         labelFor="location"
-        labelInfo="(required)"
-        helperText="This can be imprecise, e.g. 'Leeds, UK'"
-      >
-        <InputGroup
-          large={true}
-          leftIcon="geolocation"
-          placeholder="Where is your event being held?"
-        />
-      </FormGroup>
+        required={true}
+        placeholder="Where is your event being held?"
+      />
     );
   }
 
   generateAttendanceField() {
     return (
-      <FormGroup
+      <NumberField
         className={styles.formGroup}
         label="Maximum Attendance"
         labelFor="attendance"
-        labelInfo="(required)"
-      >
-        <NumericInput
-          large={true}
-          fill={true}
-          leftIcon="people"
-          placeholder="What is your event's maximum capacity?"
-        />
-      </FormGroup>
+        required={true}
+        icon="people"
+        placeholder="What is your event's maximum capacity?"
+        min={1}
+        max={200000}
+      />
     );
   }
 
   generateTimingField() {
     return (
-      <FormGroup
+      <DateRangeField
         className={styles.formGroup}
         label="Timing"
         labelFor="attendance"
-        labelInfo="(required)"
-      >
-        <DateRangeInput
-          formatDate={date => date.toLocaleString()}
-          parseDate={str => new Date(str)}
-          shortcuts={false}
-          allowSingleDayRange={true}
-          closeOnSelection={true}
-          contiguousCalendarMonths={true}
-          minDate={new Date()}
-          maxDate={new Date("2040-12-31")}
-        />
-      </FormGroup>
+        required={true}
+        minDate={new Date()}
+        maxDate={new Date("2040-12-31")}
+      />
     );
   }
 
