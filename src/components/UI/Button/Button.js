@@ -5,9 +5,10 @@ import styles from "./Button.module.scss";
 
 const Button = props => {
   let element = (
-    <button className={styles.button}>
-      <i className={`fa fa-${props.iconName}`} />
+    <button className={styles.button} onClick={props.onClick}>
+      {insertIconIfProvided(props.leftIcon, styles.leftIcon)}
       {props.children}
+      {insertIconIfProvided(props.rightIcon, styles.rightIcon)}
     </button>
   );
   /* Wrap in a link if needed. */
@@ -19,7 +20,13 @@ const Button = props => {
 
 Button.propTypes = {
   children: PropTypes.node,
-  iconName: PropTypes.string
+  leftIcon: PropTypes.string,
+  rightIcon: PropTypes.string,
+  onClick: PropTypes.func
+};
+
+const insertIconIfProvided = (iconName, className) => {
+  return iconName ? <i className={`fa fa-${iconName} ${className}`} /> : null;
 };
 
 export default Button;

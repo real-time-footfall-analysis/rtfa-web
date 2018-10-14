@@ -83,7 +83,7 @@ export class EventsPage extends Component {
       <div>
         <div className={styles.pageTitle}>{pageName}</div>
         <div className={styles.newEventLink}>
-          <Button iconName="calendar-plus" path="/events/new">
+          <Button leftIcon="calendar-plus" path="/events/new">
             Create New Event
           </Button>
         </div>

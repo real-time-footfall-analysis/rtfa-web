@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/datetime": "^3.3.0",
     "node-sass": "^4.9.3",
     "prop-types": "latest",
     "react": "^16.5.2",

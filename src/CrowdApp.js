@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
-import NewEventForm from "./components/NewEventForm/NewEventForm";
+import NewEventPage from "./components/NewEventPage/NewEventPage";
 import { EventsPage } from "./components/EventsPage/EventsPage";
 import styles from "./App.module.scss";
 
@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/events/new",
     name: "Create New Event",
-    content: NewEventForm,
+    content: NewEventPage,
     inSidebar: false
   },
   {

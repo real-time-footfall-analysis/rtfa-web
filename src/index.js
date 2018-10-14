@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import CrowdApp from "./CrowdApp";
 import "../node_modules/@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "../node_modules/@blueprintjs/core/lib/css/blueprint.css";
+import "../node_modules/@blueprintjs/datetime/lib/css/blueprint-datetime.css";
 import "./index.scss";
+import CrowdApp from "./CrowdApp";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<CrowdApp />, document.getElementById("root"));

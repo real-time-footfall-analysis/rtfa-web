@@ -11,8 +11,14 @@
     size: 18px;
   }
   @include clickable();
+}
 
-  i {
-    margin-right: 8px;
-  }
+$iconMargin: 8px;
+
+.leftIcon {
+  margin-right: $iconMargin;
+}
+
+.rightIcon {
+  margin-left: $iconMargin;
 }
