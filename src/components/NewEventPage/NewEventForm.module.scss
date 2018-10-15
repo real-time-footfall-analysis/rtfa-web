@@ -1,14 +1,29 @@
 @import "../../styles/_vars.scss";
 
 .formGroups {
-  display: flex;
-  flex-wrap: wrap;
   margin-top: 30px;
-  max-width: 900px;
+  max-width: 840px;
+
+  h2 {
+    color: $midText;
+    margin: 0 0 20px 0;
+    width: 100%;
+  }
+
+  .fields {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > *:nth-child(even) {
+      margin-right: 0;
+    }
+  }
 }
 
+$formGroupMargin: 40px;
+
 .formGroup {
-  margin: 0 40px 40px 0;
+  margin: 0 $formGroupMargin $formGroupMargin 0;
   max-width: 600px;
   min-width: 400px;
 
@@ -33,4 +48,14 @@
       margin-top: 12 + (($inputHeight - $originalInputHeight) / 2);
     }
   }
+}
+
+.fileField {
+  margin: 0 $formGroupMargin $formGroupMargin 0;
+  width: 400px;
+}
+
+.submitButtonWrapper {
+  text-align: right;
+  width: 100%;
 }

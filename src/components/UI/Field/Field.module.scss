@@ -1,1 +1,7 @@
 @import "../../../styles/_vars.scss";
+
+:global {
+  .bp3-form-group .bp3-form-content .bp3-form-helper-text {
+    margin-top: 12px;
+  }
+}
