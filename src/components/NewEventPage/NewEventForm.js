@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import styles from "./NewEventForm.module.scss";
-import Button from "../UI/Button/Button";
 import TextField from "../UI/TextField/TextField";
 import NumberField from "../UI/NumberField/NumberField";
 import DateRangeField from "../UI/DateRangeField/DateRangeField";
 import FileField from "../UI/FileField/FileField";
 import store from "../../store";
 import { newEventMock } from "../../eventsMock";
+import NavigateButton from "../UI/NavigateButton/NavigateButton";
 
 class NewEventForm extends Component {
   render() {
@@ -139,13 +139,13 @@ class NewEventForm extends Component {
   generateSubmitButton() {
     return (
       <div className={styles.submitButtonWrapper}>
-        <Button
+        <NavigateButton
           className={styles.submitButton}
           rightIcon="chevron-right"
           onClick={this.submitForm}
-        >
-          Create Event
-        </Button>
+          navigateToRoute={"/event/addRegions"}
+          text="Create Event"
+        />
       </div>
     );
   }

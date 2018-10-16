@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Card } from "@blueprintjs/core";
 import Page from "../Page/Page";
-import Button from "../UI/Button/Button";
 import styles from "./EventsPage.module.scss";
 import store from "../../store";
 import _ from "lodash";
@@ -59,11 +58,6 @@ export class EventsPage extends Component {
     return (
       <div>
         <div className={styles.pageTitle}>{pageName}</div>
-        <div className={styles.newEventLink}>
-          <Button leftIcon="calendar-plus" path="/events/new">
-            Create New Event
-          </Button>
-        </div>
       </div>
     );
   }

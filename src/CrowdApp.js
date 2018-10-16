@@ -18,7 +18,9 @@ class CrowdApp extends Component {
         name={route.name}
         path={route.path}
         exact={route.exact}
-        render={() => <route.content name={route.name} />}
+        render={() => (
+          <route.content name={route.name} description={route.description} />
+        )}
       />
     ));
   }
