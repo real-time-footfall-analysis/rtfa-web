@@ -29,7 +29,7 @@ export default (state, action) => {
       return {
         ...state,
         events: updatedEvents,
-        selectedEventID: action.payload.eventID
+        selectedEventID: action.payload.event.eventID
       };
     }
     default: {
