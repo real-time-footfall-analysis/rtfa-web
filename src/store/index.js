@@ -7,4 +7,9 @@ const initialState = {
 };
 export const store = createStore(reducer, initialState);
 
+export const getSelectedEvent = () => {
+  const selectedEvent = store.getState()[store.getState().selectedEventID];
+  return selectedEvent ? selectedEvent : {};
+};
+
 export default store;
