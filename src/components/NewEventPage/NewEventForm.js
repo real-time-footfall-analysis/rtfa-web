@@ -8,6 +8,17 @@ import FileField from "../UI/FileField/FileField";
 
 class NewEventForm extends Component {
   render() {
+    /*
+    const indoorMappingDetails = (
+      <section key={2} className={styles.formGroups}>
+        <h2>Mapping Details</h2>
+        <div className={styles.fields}>
+          {this.generateMapImageField()}
+          {this.generateMapWidthField()}
+        </div>
+      </section>
+    );
+    */
     return [
       <section key={1} className={styles.formGroups}>
         <h2>Basic Info</h2>
@@ -17,15 +28,8 @@ class NewEventForm extends Component {
           {this.generateAttendanceField()}
           {this.generateTimingField()}
           {this.generateCoverPhotoField()}
+          {this.generateSubmitButton()}
         </div>
-      </section>,
-      <section key={2} className={styles.formGroups}>
-        <h2>Mapping Details</h2>
-        <div className={styles.fields}>
-          {this.generateMapImageField()}
-          {this.generateMapWidthField()}
-        </div>
-        {this.generateSubmitButton()}
       </section>
     ];
   }
