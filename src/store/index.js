@@ -3,7 +3,7 @@ import reducer from "../reducers";
 
 const initialState = {
   events: {},
-  selectedEvent: {}
+  selectedEventID: ""
 };
 export const store = createStore(reducer, initialState);
 

@@ -17,8 +17,10 @@ class EventSelector extends Component {
 
   render() {
     const eventList = _.map(this.props.events, (event, eventID) => {
-      return { ...event, id: eventID };
-    });
+        return { ...event, id: eventID };
+      }),
+      selectedEvent = this.props.events[this.props.selectedEventID],
+      selectedEventName = selectedEvent ? selectedEvent.name : "";
     return (
       <Select
         className={styles.select}
@@ -29,7 +31,7 @@ class EventSelector extends Component {
       >
         <Button
           large={true}
-          text={this.props.selectedEvent.name}
+          text={selectedEventName}
           icon="calendar"
           rightIcon="double-caret-vertical"
         />
@@ -40,7 +42,7 @@ class EventSelector extends Component {
 
 EventSelector.propTypes = {
   events: PropTypes.object,
-  selectedEvent: PropTypes.object,
+  selectedEventID: PropTypes.string,
   handleEventSelection: PropTypes.func
 };
 

@@ -6,9 +6,9 @@ export default (state, action) => {
     case "LOAD_EVENTS": {
       return {
         ...state,
-        selectedEvent: _.isEmpty(action.payload.events)
+        selectedEventID: _.isEmpty(action.payload.events)
           ? {}
-          : _.values(action.payload.events)[0],
+          : _.values(action.payload.events)[0].eventID,
         events: action.payload.events
       };
     }
@@ -17,7 +17,7 @@ export default (state, action) => {
     case "SELECT_NEW_EVENT": {
       return {
         ...state,
-        selectedEvent: action.payload.selectedEvent
+        selectedEventID: action.payload.selectedEventID
       };
     }
     /* CREATE_NEW_EVENT: Called when a new event is successfully created */
@@ -29,7 +29,7 @@ export default (state, action) => {
       return {
         ...state,
         events: updatedEvents,
-        selectedEvent: action.payload.event
+        selectedEventID: action.payload.eventID
       };
     }
     default: {
