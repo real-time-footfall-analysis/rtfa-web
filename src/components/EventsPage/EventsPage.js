@@ -4,36 +4,13 @@ import { Card } from "@blueprintjs/core";
 import Page from "../Page/Page";
 import Button from "../UI/Button/Button";
 import styles from "./EventsPage.module.scss";
+import store from "../../store";
+import _ from "lodash";
 
 export class EventsPage extends Component {
   /* TODO: Replace this to integrate with back-end */
   fetchEvents() {
-    return [
-      {
-        name: "Leeds Festival",
-        eventID: "312839",
-        location: "Leeds, United Kingdom",
-        startDate: "2018-08-25",
-        endDate: "2018-08-30",
-        maxAttendance: "150000"
-      },
-      {
-        name: "Reading Festival",
-        eventID: "312840",
-        location: "Reading, United Kingdom",
-        startDate: "2018-08-25",
-        endDate: "2018-08-30",
-        maxAttendance: "150000"
-      },
-      {
-        name: "Glastonbury",
-        eventID: "312841",
-        location: "Somerset, United Kingdom",
-        startDate: "2018-08-25",
-        endDate: "2018-08-30",
-        maxAttendance: "150000"
-      }
-    ];
+    return store.getState().events;
   }
 
   generateImage(eventName) {
@@ -93,7 +70,7 @@ export class EventsPage extends Component {
 
   render() {
     const eventData = this.fetchEvents();
-    const events = eventData.map(event => this.generateEventCard(event));
+    const events = _.map(eventData, event => this.generateEventCard(event));
     return (
       <Page title={this.generatePageTitle(this.props.name)}>
         <div className={styles.eventsWrapper}>{events}</div>

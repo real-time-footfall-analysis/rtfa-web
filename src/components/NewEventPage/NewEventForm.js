@@ -5,6 +5,8 @@ import TextField from "../UI/TextField/TextField";
 import NumberField from "../UI/NumberField/NumberField";
 import DateRangeField from "../UI/DateRangeField/DateRangeField";
 import FileField from "../UI/FileField/FileField";
+import store from "../../store";
+import { newEventMock } from "../../eventsMock";
 
 class NewEventForm extends Component {
   render() {
@@ -150,7 +152,12 @@ class NewEventForm extends Component {
 
   /* TODO: Actually submit the form and then redirect to the next page. */
   submitForm() {
-    alert("Submitted!");
+    store.dispatch({
+      type: "CREATE_NEW_EVENT",
+      payload: {
+        event: newEventMock
+      }
+    });
   }
 }
 
