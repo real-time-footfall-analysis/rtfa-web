@@ -1,14 +1,21 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./NewEventForm.module.scss";
 import TextField from "../UI/TextField/TextField";
 import NumberField from "../UI/NumberField/NumberField";
 import DateRangeField from "../UI/DateRangeField/DateRangeField";
 import FileField from "../UI/FileField/FileField";
-import store from "../../store";
 import { newEventMock } from "../../eventsMock";
 import NavigateButton from "../UI/NavigateButton/NavigateButton";
+import { createNewEvent } from "../../actions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 class NewEventForm extends Component {
+  constructor(props) {
+    super(props);
+    this.submitForm = this.submitForm.bind(this);
+  }
   render() {
     /*
     const indoorMappingDetails = (
@@ -152,13 +159,19 @@ class NewEventForm extends Component {
 
   /* TODO: Actually submit the form and then redirect to the next page. */
   submitForm() {
-    store.dispatch({
-      type: "CREATE_NEW_EVENT",
-      payload: {
-        event: newEventMock
-      }
-    });
+    this.props.createNewEvent(newEventMock);
   }
 }
 
-export default NewEventForm;
+NewEventForm.propTypes = {
+  createNewEvent: PropTypes.func
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ createNewEvent: createNewEvent }, dispatch);
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewEventForm);

@@ -7,11 +7,14 @@ import "./index.scss";
 import CrowdApp from "./CrowdApp";
 import * as serviceWorker from "./serviceWorker";
 import { store } from "./store";
+import { Provider } from "react-redux";
 
-const render = () =>
-  ReactDOM.render(<CrowdApp />, document.getElementById("root")); // eslint-disable-line
-store.subscribe(render);
-render();
+ReactDOM.render(
+  <Provider store={store}>
+    <CrowdApp />
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

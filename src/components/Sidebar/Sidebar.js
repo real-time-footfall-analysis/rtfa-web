@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import store from "../../store";
 import styles from "./Sidebar.module.scss";
 import Logo from "../Logo/Logo";
 import NavList from "./NavList/NavList";
@@ -10,20 +9,11 @@ import PhotoText from "../UI/PhotoText/PhotoText";
 import Button from "../UI/Button/Button";
 
 class Sidebar extends Component {
-  handleEventSelection(event) {
-    store.dispatch({
-      type: "SELECT_NEW_EVENT",
-      payload: {
-        selectedEventID: event.eventID
-      }
-    });
-  }
-
   render() {
-    const selectedEventID = store.getState().selectedEventID,
-      selectedEvent = store.getState().events[selectedEventID],
-      coverPhoto = selectedEvent ? selectedEvent.coverPhoto : "",
-      eventName = selectedEvent ? selectedEvent.name : "";
+    const coverPhoto = this.props.selectedEvent
+        ? this.props.selectedEvent.coverPhoto
+        : "",
+      eventName = this.props.selectedEvent ? this.props.selectedEvent.name : "";
     return (
       <nav className={styles.sidebar}>
         <Link to="/">
@@ -38,9 +28,9 @@ class Sidebar extends Component {
 
         <div className={styles.eventSelector}>
           <EventSelector
-            selectedEventID={selectedEventID}
+            selectedEventID={this.props.selectedEvent.eventID}
             events={this.props.events}
-            handleEventSelection={this.handleEventSelection}
+            handleEventSelection={this.props.handleEventSelection}
           />
         </div>
 

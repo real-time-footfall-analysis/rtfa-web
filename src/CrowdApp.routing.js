@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { EventsPage } from "./components/EventsPage/EventsPage";
+import EventsPage from "./components/EventsPage/EventsPage";
 import NewEventPage from "./components/NewEventPage/NewEventPage";
 import React from "react";
 import { AddRegionsPage } from "./components/AddRegionsPage/AddRegionsPage";

@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import Page from "../Page/Page";
 import AddRegionsMap from "./AddRegionsMap/AddRegionsMap";
 import styles from "./AddRegionsPage.module.scss";
-import { getSelectedEvent } from "../../store";
 
 export const AddRegionsPage = props => {
   const MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g",
     mapContainer = <div className={styles.mapContainer} />,
-    selectedEvent = getSelectedEvent(),
+    selectedEvent = props.selectedEvent ? props.selectedEvent : {},
     markers = selectedEvent.markers;
   return (
     <Page
@@ -29,7 +28,8 @@ export const AddRegionsPage = props => {
 
 AddRegionsPage.propTypes = {
   name: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
+  selectedEvent: PropTypes.object
 };
 
 export default AddRegionsPage;

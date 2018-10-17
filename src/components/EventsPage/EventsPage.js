@@ -3,15 +3,10 @@ import PropTypes from "prop-types";
 import { Card } from "@blueprintjs/core";
 import Page from "../Page/Page";
 import styles from "./EventsPage.module.scss";
-import store from "../../store";
 import _ from "lodash";
+import { connect } from "react-redux";
 
-export class EventsPage extends Component {
-  /* TODO: Replace this to integrate with back-end */
-  fetchEvents() {
-    return store.getState().events;
-  }
-
+class EventsPage extends Component {
   generateImage(eventName) {
     const salt = Math.floor(Math.random() * (1000 + 1));
     return (
@@ -63,8 +58,9 @@ export class EventsPage extends Component {
   }
 
   render() {
-    const eventData = this.fetchEvents();
-    const events = _.map(eventData, event => this.generateEventCard(event));
+    const events = _.map(this.props.events, event =>
+      this.generateEventCard(event)
+    );
     return (
       <Page title={this.generatePageTitle(this.props.name)}>
         <div className={styles.eventsWrapper}>{events}</div>
@@ -74,5 +70,8 @@ export class EventsPage extends Component {
 }
 
 EventsPage.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  events: PropTypes.object
 };
+
+export default connect(state => ({ events: state.events }))(EventsPage);
