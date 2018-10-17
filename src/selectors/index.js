@@ -23,3 +23,8 @@ export const getMarker = (state, id) => {
   const selectedMarker = selectedEvent.markers[id];
   return selectedMarker ? selectedMarker : {};
 };
+
+export const getMarkerName = (state, id) => {
+  const marker = getMarker(state, id);
+  return marker.name ? marker.name : "";
+};

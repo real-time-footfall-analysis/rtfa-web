@@ -9,6 +9,7 @@ const NumberField = props => {
       <NumericInput
         min={props.min}
         max={props.max}
+        value={props.value}
         large={true}
         fill={true}
         leftIcon={props.icon}
@@ -21,7 +22,8 @@ const NumberField = props => {
 NumberField.propTypes = {
   ...Field.propTypes,
   min: PropTypes.number,
-  max: PropTypes.number
+  max: PropTypes.number,
+  value: PropTypes.number
 };
 
 export default NumberField;

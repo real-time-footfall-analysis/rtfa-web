@@ -1,0 +1,46 @@
+@import "../../../../styles/_vars.scss";
+
+@mixin labelStyle {
+  font: {
+    family: $fontFamily;
+    size: 16px;
+    weight: 500;
+  }
+  margin-bottom: 15px;
+}
+
+$fieldMargin: 20px;
+
+.markerForm {
+  padding: 15px 3px 0 10px;
+
+  :global {
+    .bp3-form-group {
+      margin-bottom: $fieldMargin;
+
+      label.bp3-label {
+        @include labelStyle;
+      }
+    }
+  }
+
+  .radioGroup {
+    :global {
+      label.bp3-label {
+        @include labelStyle;
+      }
+
+      .bp3-control.bp3-inline {
+        margin-bottom: $fieldMargin;
+      }
+
+      .bp3-radio {
+        font: {
+          family: $fontFamily;
+          size: 16px;
+          weight: 400;
+        }
+      }
+    }
+  }
+}

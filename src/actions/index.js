@@ -59,3 +59,16 @@ export const toggleRegionMarkerBox = markerID => {
     }
   };
 };
+
+export const updateRegionName = (markerID, name) => {
+  if (markerID === null || markerID === undefined) {
+    throw TypeError("No markerID passed into updateRegionName");
+  }
+  return {
+    type: "UPDATE_REGION_NAME",
+    payload: {
+      markerID: markerID,
+      name: name
+    }
+  };
+};

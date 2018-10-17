@@ -18,6 +18,7 @@ export const RegionMarker = props => {
       <CreateRegionPopup
         isOpen={props.marker.isBoxOpen}
         onCloseClick={() => props.toggleBox(props.marker.markerID)}
+        marker={props.marker}
       />
     </Marker>
   );

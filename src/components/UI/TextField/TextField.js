@@ -9,6 +9,8 @@ const TextField = props => {
         large={true}
         leftIcon={props.icon}
         placeholder={props.placeholder}
+        onChange={props.onChange}
+        value={props.value}
       />
     </Field>
   );
