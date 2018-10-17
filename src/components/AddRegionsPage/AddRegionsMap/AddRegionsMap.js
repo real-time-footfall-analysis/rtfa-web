@@ -10,6 +10,7 @@ const AddRegionsMap = withScriptjs(
       <GoogleMap
         defaultZoom={9}
         defaultCenter={{ lat: 51.507441, lng: -0.127683 }}
+        onClick={props.onClick}
       >
         {markers}
       </GoogleMap>

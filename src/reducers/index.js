@@ -50,8 +50,11 @@ const markersReducer = (markers, action) => {
   }
   switch (action.type) {
     case "CREATE_NEW_REGION_MARKER": {
+      const hideExistingBoxMarkers = _.map(markers, marker =>
+        markerReducer(marker, action)
+      );
       return createUpdatedObject(
-        markers,
+        hideExistingBoxMarkers,
         action.payload.marker.markerID,
         action.payload.marker
       );
@@ -75,12 +78,18 @@ const markerReducer = (marker, action) => {
   if (!marker) {
     return {};
   }
+  const isTargetMarker = marker.markerID === action.payload.markerID;
   switch (action.type) {
     case "TOGGLE_REGION_MARKER_BOX": {
-      const isMarkerBeingToggled = marker.markerID === action.payload.markerID;
       return {
         ...marker,
-        isBoxOpen: isMarkerBeingToggled ? !marker.isBoxOpen : false
+        isBoxOpen: isTargetMarker ? !marker.isBoxOpen : false
+      };
+    }
+    case "CREATE_NEW_REGION_MARKER": {
+      return {
+        ...marker,
+        isBoxOpen: isTargetMarker
       };
     }
     default:
