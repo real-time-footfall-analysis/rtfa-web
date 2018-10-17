@@ -1,79 +1,83 @@
 import _ from "lodash";
+import { combineReducers } from "redux";
 
-export default (state, action) => {
+const eventsReducer = (events, action) => {
+  if (!events) {
+    return {};
+  }
   switch (action.type) {
-    /* LOAD_EVENTS: Called when the list of events is loaded from the server. */
-    case "LOAD_EVENTS": {
-      return {
-        ...state,
-        selectedEventID: _.isEmpty(action.payload.events)
-          ? {}
-          : _.values(action.payload.events)[0].eventID,
-        events: action.payload.events
-      };
-    }
-    /* SELECT_NEW_EVENT: Called when a different event is selected in the
-     * sidebar. */
-    case "SELECT_NEW_EVENT": {
-      return {
-        ...state,
-        selectedEventID: action.payload.selectedEventID
-      };
-    }
-    /* CREATE_NEW_EVENT: Called when a new event is successfully created */
-    case "CREATE_NEW_EVENT": {
-      const updatedEvents = createUpdatedObject(
-        state.events,
+    case "LOAD_EVENTS":
+      return action.payload.events;
+    case "CREATE_NEW_EVENT":
+      return createUpdatedObject(
+        events,
         action.payload.event.eventID,
         action.payload.event
       );
-      return {
-        ...state,
-        events: updatedEvents,
-        selectedEventID: action.payload.event.eventID
-      };
-    }
-    /* CREATE_NEW_REGION_MARKER: Called when the user adds a new marker to
-     * the map for the current event. */
-    case "CREATE_NEW_REGION_MARKER": {
-      const oldEvent = state.events[state.selectedEventID];
-      const updatedEvent = {
-        ...oldEvent,
-        markers: [...oldEvent.markers, { position: action.payload.position }]
-      };
-      const updatedEvents = createUpdatedObject(
-        state.events,
-        state.selectedEventID,
-        updatedEvent
+    case "CREATE_NEW_REGION_MARKER":
+      return _.map(events, event => eventReducer(event, action));
+    case "DELETE_REGION_MARKER":
+      return _.map(events, event => eventReducer(event, action));
+    default:
+      return events;
+  }
+};
+
+const eventReducer = (event, action) => {
+  if (!event) {
+    return {};
+  }
+  switch (action.type) {
+    case "CREATE_NEW_REGION_MARKER":
+      return createUpdatedObject(
+        event,
+        "markers",
+        markerReducer(event.markers, action)
       );
-      return {
-        ...state,
-        events: updatedEvents
-      };
-    }
-    /* DELETE_REGION_MARKER: Called when the user removes a marker from the map
-     * for the current event. */
-    case "DELETE_REGION_MARKER": {
-      const oldEvent = state.events[state.selectedEventID];
-      const updatedEvent = {
-        ...oldEvent,
-        markers: oldEvent.markers.filter(
-          marker => marker.position !== action.payload.position
-        )
-      };
-      const updatedEvents = createUpdatedObject(
-        state.events,
-        state.selectedEventID,
-        updatedEvent
+    case "DELETE_REGION_MARKER":
+      return createUpdatedObject(
+        event,
+        "markers",
+        markerReducer(event.markers, action)
       );
-      return {
-        ...state,
-        events: updatedEvents
-      };
-    }
-    default: {
-      return state;
-    }
+    default:
+      return event;
+  }
+};
+
+const markerReducer = (markers, action) => {
+  if (!markers) {
+    return {};
+  }
+  switch (action.type) {
+    case "CREATE_NEW_REGION_MARKER":
+      return createUpdatedObject(
+        markers,
+        action.payload.marker.id,
+        action.payload.marker
+      );
+    case "DELETE_REGION_MARKER":
+      return _.filter(markers, marker => marker.id !== action.payload.markerID);
+    default:
+      return markers;
+  }
+};
+
+const selectedEventIDReducer = (selectedEventID, action) => {
+  if (!selectedEventID) {
+    return "No Events Loaded";
+  }
+  switch (action.type) {
+    case "SELECT_NEW_EVENT":
+      return action.payload.selectedEventID;
+    case "LOAD_EVENTS":
+      return _.isEmpty(action.payload.events)
+        ? {}
+        : _.values(action.payload.events)[0].eventID;
+    case "CREATE_NEW_EVENT":
+      return action.payload.event.eventID;
+    default:
+      return selectedEventID;
   }
 };
 
@@ -84,3 +88,8 @@ const createUpdatedObject = (parentObject, keyToUpdate, updatedValue) => {
   updatedParent[keyToUpdate] = updatedValue;
   return updatedParent;
 };
+
+export const rootReducer = combineReducers({
+  events: eventsReducer,
+  selectedEventID: selectedEventIDReducer
+});

@@ -1,11 +1,11 @@
 import { createStore } from "redux";
-import reducer from "../reducers";
+import { rootReducer } from "../reducers";
 
 const initialState = {
   events: {},
   selectedEventID: ""
 };
-export const store = createStore(reducer, initialState);
+export const store = createStore(rootReducer, initialState);
 
 export const getSelectedEvent = () => {
   const selectedEvent = store.getState().events[

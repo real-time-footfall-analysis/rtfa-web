@@ -5,6 +5,7 @@ import {
   withGoogleMap,
   withScriptjs
 } from "react-google-maps";
+import _ from "lodash";
 
 const AddRegionsMap = withScriptjs(
   withGoogleMap(props => {
@@ -21,7 +22,7 @@ const AddRegionsMap = withScriptjs(
 );
 
 const generateMarkerElements = markers => {
-  return markers.map(marker => (
+  return _.map(markers, marker => (
     <Marker
       key={marker.position.lat + marker.position.lng}
       position={marker.position}
