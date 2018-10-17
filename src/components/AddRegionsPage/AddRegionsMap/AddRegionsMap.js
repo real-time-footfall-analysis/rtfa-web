@@ -1,11 +1,7 @@
 import React from "react";
-import {
-  GoogleMap,
-  Marker,
-  withGoogleMap,
-  withScriptjs
-} from "react-google-maps";
+import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
 import _ from "lodash";
+import RegionMarker from "./RegionMarker/RegionMarker";
 
 const AddRegionsMap = withScriptjs(
   withGoogleMap(props => {
@@ -22,13 +18,9 @@ const AddRegionsMap = withScriptjs(
 );
 
 const generateMarkerElements = markers => {
-  return _.map(markers, marker => (
-    <Marker
-      key={marker.position.lat + marker.position.lng}
-      position={marker.position}
-      draggable={true}
-    />
-  ));
+  return _.map(markers, marker => {
+    return <RegionMarker key={marker.markerID} marker={marker} />;
+  });
 };
 
 export default AddRegionsMap;

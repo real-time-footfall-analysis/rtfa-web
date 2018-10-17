@@ -15,9 +15,12 @@ const eventsReducer = (events, action) => {
         action.payload.event
       );
     case "CREATE_NEW_REGION_MARKER":
-      return _.map(events, event => eventReducer(event, action));
     case "DELETE_REGION_MARKER":
-      return _.map(events, event => eventReducer(event, action));
+    case "TOGGLE_REGION_MARKER_BOX":
+      return _.keyBy(
+        _.map(events, event => eventReducer(event, action)),
+        "eventID"
+      );
     default:
       return events;
   }
@@ -29,37 +32,59 @@ const eventReducer = (event, action) => {
   }
   switch (action.type) {
     case "CREATE_NEW_REGION_MARKER":
-      return createUpdatedObject(
-        event,
-        "markers",
-        markerReducer(event.markers, action)
-      );
     case "DELETE_REGION_MARKER":
+    case "TOGGLE_REGION_MARKER_BOX":
       return createUpdatedObject(
         event,
         "markers",
-        markerReducer(event.markers, action)
+        markersReducer(event.markers, action)
       );
     default:
       return event;
   }
 };
 
-const markerReducer = (markers, action) => {
+const markersReducer = (markers, action) => {
   if (!markers) {
     return {};
   }
   switch (action.type) {
-    case "CREATE_NEW_REGION_MARKER":
+    case "CREATE_NEW_REGION_MARKER": {
       return createUpdatedObject(
         markers,
-        action.payload.marker.id,
+        action.payload.marker.markerID,
         action.payload.marker
       );
-    case "DELETE_REGION_MARKER":
+    }
+    case "DELETE_REGION_MARKER": {
       return _.filter(markers, marker => marker.id !== action.payload.markerID);
-    default:
+    }
+    case "TOGGLE_REGION_MARKER_BOX": {
+      return _.keyBy(
+        _.map(markers, marker => markerReducer(marker, action)),
+        "markerID"
+      );
+    }
+    default: {
       return markers;
+    }
+  }
+};
+
+const markerReducer = (marker, action) => {
+  if (!marker) {
+    return {};
+  }
+  switch (action.type) {
+    case "TOGGLE_REGION_MARKER_BOX": {
+      const isMarkerBeingToggled = marker.markerID === action.payload.markerID;
+      return {
+        ...marker,
+        isBoxOpen: isMarkerBeingToggled ? !marker.isBoxOpen : false
+      };
+    }
+    default:
+      return marker;
   }
 };
 

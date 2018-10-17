@@ -9,9 +9,15 @@ const eventsMock = {
     coverPhoto:
       "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=400&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=b726b438e0a4089c1e028c11800f7098",
     markers: {
-      "51.507441,-0.127683": {
+      0: {
         position: { lat: 51.507441, lng: -0.127683 },
-        isBoxOpen: true
+        markerID: 0,
+        isBoxOpen: false
+      },
+      1: {
+        position: { lat: 51.707441, lng: -0.157683 },
+        markerID: 1,
+        isBoxOpen: false
       }
     }
   },

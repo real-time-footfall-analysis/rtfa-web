@@ -2,7 +2,7 @@
 import EventsPage from "./components/EventsPage/EventsPage";
 import NewEventPage from "./components/NewEventPage/NewEventPage";
 import React from "react";
-import { AddRegionsPage } from "./components/AddRegionsPage/AddRegionsPage";
+import AddRegionsPage from "./components/AddRegionsPage/AddRegionsPage";
 
 const routes = [
   {
