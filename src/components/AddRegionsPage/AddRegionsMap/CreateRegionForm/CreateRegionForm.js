@@ -6,8 +6,7 @@ import NumberField from "../../../UI/NumberField/NumberField";
 import styles from "./CreateRegionForm.module.scss";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { updateRegionName } from "../../../../actions";
-import { getMarkerName } from "../../../../selectors";
+import { updateRegionName, updateRegionType } from "../../../../actions";
 
 const CreateRegionForm = props => {
   return (
@@ -18,13 +17,15 @@ const CreateRegionForm = props => {
         onChange={event =>
           props.updateRegionName(props.marker.markerID, event.target.value)
         }
-        value={props.name}
+        value={props.marker.name}
       />
       <RadioGroup
-        onChange={() => alert("Not yet implemented.")}
+        onChange={event =>
+          props.updateRegionType(props.marker.markerID, event.target.value)
+        }
         inline={true}
         label="Region Type"
-        selectedValue="Beacon"
+        selectedValue={props.marker.type}
         className={styles.radioGroup}
       >
         <Radio label="Beacon" value="Beacon" />
@@ -42,25 +43,20 @@ const CreateRegionForm = props => {
 CreateRegionForm.propTypes = {
   marker: PropTypes.object,
   updateRegionName: PropTypes.func,
-  name: PropTypes.string
-};
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    name: getMarkerName(state, ownProps.marker.markerID)
-  };
+  updateRegionType: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      updateRegionName: updateRegionName
+      updateRegionName: updateRegionName,
+      updateRegionType: updateRegionType
     },
     dispatch
   );
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(CreateRegionForm);

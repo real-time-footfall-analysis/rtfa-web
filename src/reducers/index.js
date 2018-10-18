@@ -18,6 +18,7 @@ const eventsReducer = (events, action) => {
     case "DELETE_REGION_MARKER":
     case "TOGGLE_REGION_MARKER_BOX":
     case "UPDATE_REGION_NAME":
+    case "UPDATE_REGION_TYPE":
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -36,6 +37,7 @@ const eventReducer = (event, action) => {
     case "DELETE_REGION_MARKER":
     case "TOGGLE_REGION_MARKER_BOX":
     case "UPDATE_REGION_NAME":
+    case "UPDATE_REGION_TYPE":
       return createUpdatedObject(
         event,
         "markers",
@@ -65,7 +67,8 @@ const markersReducer = (markers, action) => {
       return _.filter(markers, marker => marker.id !== action.payload.markerID);
     }
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME": {
+    case "UPDATE_REGION_NAME":
+    case "UPDATE_REGION_TYPE": {
       return _.keyBy(
         _.map(markers, marker => markerReducer(marker, action)),
         "markerID"
@@ -102,6 +105,15 @@ const markerReducer = (marker, action) => {
       return {
         ...marker,
         name: action.payload.name
+      };
+    }
+    case "UPDATE_REGION_TYPE": {
+      if (!isTargetMarker) {
+        return marker;
+      }
+      return {
+        ...marker,
+        type: action.payload.type
       };
     }
     default:

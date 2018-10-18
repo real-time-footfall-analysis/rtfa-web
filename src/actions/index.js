@@ -27,6 +27,9 @@ export const createNewEvent = event => {
   };
 };
 
+/* Region Actions */
+
+// TODO: Refactor these to use a "generateRegionAction" function
 export const createNewRegionMarker = marker => {
   return {
     type: "CREATE_NEW_REGION_MARKER",
@@ -69,6 +72,19 @@ export const updateRegionName = (markerID, name) => {
     payload: {
       markerID: markerID,
       name: name
+    }
+  };
+};
+
+export const updateRegionType = (markerID, type) => {
+  if (markerID === null || markerID === undefined) {
+    throw TypeError("No markerID passed into updateRegionType");
+  }
+  return {
+    type: "UPDATE_REGION_TYPE",
+    payload: {
+      markerID: markerID,
+      type: type
     }
   };
 };
