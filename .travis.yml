@@ -1,10 +1,6 @@
-# Set language to latest stable version of NodeJS
 language: node_js
 node_js:
-  - "stable"
-
-# Cache the node_modules directory between builds instead of
-# re-compiling on every commit
+  - stable
 cache:
   directories:
     - node_modules
@@ -17,15 +13,11 @@ script:
 # Deployment to AWS S3
 deploy:
   provider: s3
-  # Don't delete build files
   skip_cleanup: true
-  access_key_id: AKIAJORQS5TWJFCY422Q
-  # Secret key is encrypted
+  access_key_id: AKIAI67HTZTVPWXR7AMA
   secret_access_key:
-    secure: noAGX7YtQgT/bMvF9Ssn1jyEGKCTJ3ESKhLLxAKHYFw36YvNLS5TU6vCG4tFuJ6nVQOhRvqdnB5Bj0pg+/Jyx9H+FJL3wugIRTm+kvRVQlsP5sP8E2ie4jQz8IyVUI/VKLsUjF1V43gHT28mMpM9nSwg1M1wYhWrhHFekBi02xUDQ/71dHR/DjlLfDAJj20huRxhpZYERIA357CuMW8v26jmF8WxhY60el9MqHdMWL3p8LUUkrxHX7Stb68qLZr3YngqHSaHTGFtxRmfeC8GidpuLCZyd767ngIeZAYZFZyng3PbwteSgvw8BwK7XxTVUrASb4wOh+fkojzCXJ+B2mhlEtkBtqbYvY929S4nFE3N2aa/MspVivIlOb0SUypEpo+BnJrYGuh8xTpg92TuUzKQMbw0iRYPhbpceNZRJVL0BJfKCSs0ip9HV8yS9LM2lhT3+l5TZVi9CGt6Vkl0lkhGknRemivh2WuoRkB9qSEuLLQF5n19ygP2AJINN/MjrTwdbh67oVTlSmBA8EtbV55EPsO/BHH324iNgwOYqH6v8znkpUXZgysufhdYzgGx4rUMvx8PeboTyUPgzWseAdBjgDSbqJpEOLboalZktpbwd4RLYBcqrGbWtHnJUudGv6amcz9hBeNLE9wRbeDypMz5BjdasRP0y7YImPiSosA=
-  bucket: rtfa-genesis
-  # Upload the 'build' directory for deployment
+    secure: klPhEB5JhfahYsVAG2tUoYsxKKQzWL9F91NixzBjHtzHwdQfLnflrkidtEQXZ61s/ez0bRwqR54TZF+SPpbvGxu1vQerFSlky6xBAIasoVy3wMkCLR6JShDUaQcgrPWzR6fvoRkMPNM3YSZVX/04eiQNx3XP2Fj+lKiudPUwEqAX3KWv4sN45Ehb/jE0GygbdrUAMle7Ynxrfw9y1kCzhrizhuXiF71+6H1x31seb5dK05pPDuHbh2EeAOpLEiu/zrffMm2bgf7uj6KXdeYrYYlUQrYoM/dSV2NZi+DT5X0Bc+dG+rHUH+K2pr+/zpyTSZv01duz8IkcqrRIhS1/oYT5P/SL5v8KWGen6bTk/zov1sl0G7bxUUWSSCHq8druXlkboVO47BfahkxX8RvxtSbKCklF0SJsDm8J1c1RNGCGK20JKU93xY/uTe4MQ2ITFrbQnIVrQzlYxnStXH4LDq0WLdXux9xFJhOj2hi3cs6OLTw7IMMIJe56Ya2GicG7SX6+dCiylvozba2UtnQROj7fYGrlVWDhgoV3xE058kFnpiTEIzf3CI4OTVl88ykMZUDA12cDLAGEOhIUuoHv8vmZrs/z9guCSYWnCRm6+cFU8dS5UaJDZ5HrevuAHPT4AKsQFnTp1U+uksCu/QR5ocF42zA890K+E0CIzt+Ha7w=
+  bucket: rtfa-web
   local-dir: build
-  # Only push on master branch
   on:
     branch: master

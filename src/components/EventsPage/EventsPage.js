@@ -2,40 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Card } from "@blueprintjs/core";
 import Page from "../Page/Page";
-import Button from "../UI/Button/Button";
 import styles from "./EventsPage.module.scss";
+import _ from "lodash";
+import { connect } from "react-redux";
 
-export class EventsPage extends Component {
-  /* TODO: Replace this to integrate with back-end */
-  fetchEvents() {
-    return [
-      {
-        name: "Leeds Festival",
-        eventID: "312839",
-        location: "Leeds, United Kingdom",
-        startDate: "2018-08-25",
-        endDate: "2018-08-30",
-        maxAttendance: "150000"
-      },
-      {
-        name: "Reading Festival",
-        eventID: "312840",
-        location: "Reading, United Kingdom",
-        startDate: "2018-08-25",
-        endDate: "2018-08-30",
-        maxAttendance: "150000"
-      },
-      {
-        name: "Glastonbury",
-        eventID: "312841",
-        location: "Somerset, United Kingdom",
-        startDate: "2018-08-25",
-        endDate: "2018-08-30",
-        maxAttendance: "150000"
-      }
-    ];
-  }
-
+class EventsPage extends Component {
   generateImage(eventName) {
     const salt = Math.floor(Math.random() * (1000 + 1));
     return (
@@ -82,18 +53,14 @@ export class EventsPage extends Component {
     return (
       <div>
         <div className={styles.pageTitle}>{pageName}</div>
-        <div className={styles.newEventLink}>
-          <Button leftIcon="calendar-plus" path="/events/new">
-            Create New Event
-          </Button>
-        </div>
       </div>
     );
   }
 
   render() {
-    const eventData = this.fetchEvents();
-    const events = eventData.map(event => this.generateEventCard(event));
+    const events = _.map(this.props.events, event =>
+      this.generateEventCard(event)
+    );
     return (
       <Page title={this.generatePageTitle(this.props.name)}>
         <div className={styles.eventsWrapper}>{events}</div>
@@ -103,5 +70,8 @@ export class EventsPage extends Component {
 }
 
 EventsPage.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  events: PropTypes.object
 };
+
+export default connect(state => ({ events: state.events }))(EventsPage);

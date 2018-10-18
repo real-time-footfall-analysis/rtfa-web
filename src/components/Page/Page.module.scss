@@ -1,1 +1,22 @@
 @import "../../styles/_vars.scss";
+
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .pageContent {
+    flex: 1;
+    padding-bottom: 25px;
+  }
+}
+
+.title {
+  color: $darkText;
+}
+
+.description {
+  color: $midText;
+  margin-bottom: 20px;
+  margin-top: -15px;
+}

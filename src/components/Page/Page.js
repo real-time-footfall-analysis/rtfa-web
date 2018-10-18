@@ -4,16 +4,23 @@ import styles from "./Page.module.scss";
 
 export const Page = props => {
   return (
-    <div>
+    <div className={props.flex ? styles.flexContainer : ""}>
       <h1 className={styles.title}>{props.title}</h1>
-      <div className="pageContent">{props.children}</div>
+      {props.description ? (
+        <p className={styles.description}>{props.description}</p>
+      ) : (
+        ""
+      )}
+      <div className={styles.pageContent}>{props.children}</div>
     </div>
   );
 };
 
 Page.propTypes = {
   title: PropTypes.element,
-  children: PropTypes.element
+  description: PropTypes.string,
+  children: PropTypes.element,
+  flex: PropTypes.bool
 };
 
 export default Page;
