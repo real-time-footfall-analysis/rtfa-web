@@ -11,6 +11,7 @@ import {
   updateRegionRadius,
   updateRegionType
 } from "../../../../actions";
+import { getSelectedEvent } from "../../../../selectors";
 
 const CreateRegionForm = props => {
   return (
@@ -20,13 +21,21 @@ const CreateRegionForm = props => {
         placeholder="e.g. The Union Bar"
         icon="edit"
         onChange={event =>
-          props.updateRegionName(props.marker.markerID, event.target.value)
+          props.updateRegionName(
+            props.selectedEvent.eventID,
+            props.marker.markerID,
+            event.target.value
+          )
         }
         value={props.marker.name}
       />
       <RadioGroup
         onChange={event =>
-          props.updateRegionType(props.marker.markerID, event.target.value)
+          props.updateRegionType(
+            props.selectedEvent.eventID,
+            props.marker.markerID,
+            event.target.value
+          )
         }
         inline={true}
         label="Region Type"
@@ -42,7 +51,11 @@ const CreateRegionForm = props => {
         icon="cell-tower"
         helperText="How wide do you want your region to be?"
         onChange={newValue =>
-          props.updateRegionRadius(props.marker.markerID, newValue)
+          props.updateRegionRadius(
+            props.selectedEvent.eventID,
+            props.marker.markerID,
+            newValue
+          )
         }
         value={props.marker.radius}
         min={1}
@@ -56,7 +69,8 @@ CreateRegionForm.propTypes = {
   marker: PropTypes.object,
   updateRegionName: PropTypes.func,
   updateRegionType: PropTypes.func,
-  updateRegionRadius: PropTypes.func
+  updateRegionRadius: PropTypes.func,
+  selectedEvent: PropTypes.object
 };
 
 const mapDispatchToProps = dispatch => {
@@ -71,6 +85,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  state => ({ selectedEvent: getSelectedEvent(state) }),
   mapDispatchToProps
 )(CreateRegionForm);

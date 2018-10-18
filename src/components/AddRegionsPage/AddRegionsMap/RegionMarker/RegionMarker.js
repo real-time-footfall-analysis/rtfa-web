@@ -5,6 +5,7 @@ import CreateRegionPopup from "../CreateRegionPopup/CreateRegionPopup";
 import { toggleRegionMarkerBox } from "../../../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { getSelectedEvent } from "../../../../selectors";
 
 export const RegionMarker = props => {
   return (
@@ -12,12 +13,14 @@ export const RegionMarker = props => {
       key={props.marker.markerID}
       position={props.marker.position}
       onClick={() => {
-        props.toggleBox(props.marker.markerID);
+        props.toggleBox(props.selectedEvent.eventID, props.marker.markerID);
       }}
     >
       <CreateRegionPopup
         isOpen={props.marker.isBoxOpen}
-        onCloseClick={() => props.toggleBox(props.marker.markerID)}
+        onCloseClick={() =>
+          props.toggleBox(props.selectedEvent.eventID, props.marker.markerID)
+        }
         marker={props.marker}
       />
     </Marker>
@@ -25,6 +28,7 @@ export const RegionMarker = props => {
 };
 
 RegionMarker.propTypes = {
+  selectedEvent: PropTypes.object,
   position: PropTypes.object,
   marker: PropTypes.object,
   toggleBox: PropTypes.func
@@ -40,6 +44,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  state => ({ selectedEvent: getSelectedEvent(state) }),
   mapDispatchToProps
 )(RegionMarker);

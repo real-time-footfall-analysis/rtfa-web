@@ -22,7 +22,13 @@ const AddRegionsPage = props => {
         containerElement={mapContainer}
         mapElement={<div style={{ height: "100%" }} />}
         markers={props.markers}
-        onClick={clickEvent => storeNewMarker(clickEvent, props.dispatch)}
+        onClick={clickEvent =>
+          storeNewMarker(
+            props.selectedEvent.eventID,
+            clickEvent,
+            props.dispatch
+          )
+        }
       />
     </Page>
   );
@@ -37,14 +43,14 @@ AddRegionsPage.propTypes = {
   dispatch: PropTypes.func
 };
 
-const storeNewMarker = (clickEvent, dispatch) => {
-  const marker = createNewMarker(clickEvent);
-  dispatch(createNewRegionMarker(marker));
+const storeNewMarker = (eventID, clickEvent, dispatch) => {
+  const marker = createNewMarker(eventID, clickEvent);
+  dispatch(createNewRegionMarker(eventID, marker));
 };
 
-const createNewMarker = event => {
-  const lat = event.latLng.lat(),
-    lng = event.latLng.lng();
+const createNewMarker = (eventID, clickEvent) => {
+  const lat = clickEvent.latLng.lat(),
+    lng = clickEvent.latLng.lng();
   return {
     name: "",
     type: "Beacon",

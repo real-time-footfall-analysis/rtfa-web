@@ -40,6 +40,9 @@ const eventReducer = (event, action) => {
     case "UPDATE_REGION_NAME":
     case "UPDATE_REGION_TYPE":
     case "UPDATE_REGION_RADIUS":
+      if (event.eventID !== action.payload.eventID) {
+        return event;
+      }
       return createUpdatedObject(
         event,
         "markers",
