@@ -88,3 +88,16 @@ export const updateRegionType = (markerID, type) => {
     }
   };
 };
+
+export const updateRegionRadius = (markerID, radius) => {
+  if (markerID === null || markerID === undefined) {
+    throw TypeError("No markerID passed into updateRegionRadius");
+  }
+  return {
+    type: "UPDATE_REGION_RADIUS",
+    payload: {
+      markerID: markerID,
+      radius: radius
+    }
+  };
+};

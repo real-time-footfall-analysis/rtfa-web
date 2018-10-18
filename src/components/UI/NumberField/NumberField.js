@@ -9,6 +9,7 @@ const NumberField = props => {
       <NumericInput
         min={props.min}
         max={props.max}
+        onValueChange={props.onChange}
         value={props.value}
         large={true}
         fill={true}

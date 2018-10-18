@@ -46,6 +46,9 @@ const createNewMarker = event => {
   const lat = event.latLng.lat(),
     lng = event.latLng.lng();
   return {
+    name: "",
+    type: "Beacon",
+    radius: 1,
     position: {
       lat: lat,
       lng: lng

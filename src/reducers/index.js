@@ -19,6 +19,7 @@ const eventsReducer = (events, action) => {
     case "TOGGLE_REGION_MARKER_BOX":
     case "UPDATE_REGION_NAME":
     case "UPDATE_REGION_TYPE":
+    case "UPDATE_REGION_RADIUS":
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -38,6 +39,7 @@ const eventReducer = (event, action) => {
     case "TOGGLE_REGION_MARKER_BOX":
     case "UPDATE_REGION_NAME":
     case "UPDATE_REGION_TYPE":
+    case "UPDATE_REGION_RADIUS":
       return createUpdatedObject(
         event,
         "markers",
@@ -68,7 +70,8 @@ const markersReducer = (markers, action) => {
     }
     case "TOGGLE_REGION_MARKER_BOX":
     case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE": {
+    case "UPDATE_REGION_TYPE":
+    case "UPDATE_REGION_RADIUS": {
       return _.keyBy(
         _.map(markers, marker => markerReducer(marker, action)),
         "markerID"
@@ -114,6 +117,15 @@ const markerReducer = (marker, action) => {
       return {
         ...marker,
         type: action.payload.type
+      };
+    }
+    case "UPDATE_REGION_RADIUS": {
+      if (!isTargetMarker) {
+        return marker;
+      }
+      return {
+        ...marker,
+        radius: action.payload.radius
       };
     }
     default:
