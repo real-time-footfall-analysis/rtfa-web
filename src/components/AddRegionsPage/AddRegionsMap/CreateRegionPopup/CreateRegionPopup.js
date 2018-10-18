@@ -9,7 +9,7 @@ const CreateRegionPopup = props => {
   }
   return (
     <InfoWindow onCloseClick={props.onCloseClick}>
-      <CreateRegionForm marker={props.marker} />
+      <CreateRegionForm marker={props.marker} save={props.onCloseClick} />
     </InfoWindow>
   );
 };

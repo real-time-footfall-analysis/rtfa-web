@@ -5,7 +5,10 @@ import styles from "./Button.module.scss";
 
 const Button = props => {
   let element = (
-    <button className={styles.button} onClick={props.onClick}>
+    <button
+      className={`${styles.button} ${props.fill ? styles.fill : ""}`}
+      onClick={props.onClick}
+    >
       {insertIconIfProvided(props.leftIcon, styles.leftIcon)}
       {props.children}
       {insertIconIfProvided(props.rightIcon, styles.rightIcon)}

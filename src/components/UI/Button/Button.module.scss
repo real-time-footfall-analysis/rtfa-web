@@ -10,6 +10,9 @@
     family: $fontFamily;
     size: 18px;
   }
+  &.fill {
+    width: 100%;
+  }
   @include clickable();
 }
 

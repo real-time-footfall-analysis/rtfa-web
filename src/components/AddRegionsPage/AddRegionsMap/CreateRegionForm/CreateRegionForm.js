@@ -12,6 +12,7 @@ import {
   updateRegionType
 } from "../../../../actions";
 import { getSelectedEvent } from "../../../../selectors";
+import Button from "../../../UI/Button/Button";
 
 const CreateRegionForm = props => {
   return (
@@ -61,6 +62,14 @@ const CreateRegionForm = props => {
         min={1}
         max={50000}
       />
+      <Button
+        className={styles.saveButton}
+        leftIcon="check-circle"
+        fill={true}
+        onClick={props.save}
+      >
+        Save
+      </Button>
     </div>
   );
 };
@@ -70,6 +79,7 @@ CreateRegionForm.propTypes = {
   updateRegionName: PropTypes.func,
   updateRegionType: PropTypes.func,
   updateRegionRadius: PropTypes.func,
+  save: PropTypes.func,
   selectedEvent: PropTypes.object
 };
 
