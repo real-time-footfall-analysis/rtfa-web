@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./NewEventForm.module.scss";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import TextField from "../UI/TextField/TextField";
 import NumberField from "../UI/NumberField/NumberField";
 import DateRangeField from "../UI/DateRangeField/DateRangeField";
 import FileField from "../UI/FileField/FileField";
-import { newEventMock } from "../../api/eventsMock";
 import NavigateButton from "../UI/NavigateButton/NavigateButton";
+import { newEventMock } from "../../api/eventsMock";
 import { createNewEvent } from "../../actions";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import api from "../../api";
+
+import styles from "./NewEventForm.module.scss";
 
 class NewEventForm extends Component {
   constructor(props) {
@@ -158,8 +161,9 @@ class NewEventForm extends Component {
   }
 
   /* TODO: Actually submit the form and then redirect to the next page. */
-  submitForm() {
-    this.props.createNewEvent(newEventMock);
+  async submitForm() {
+    let createdEvent = await api.events.create(newEventMock);
+    this.props.createNewEvent(createdEvent);
   }
 }
 

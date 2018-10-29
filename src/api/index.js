@@ -3,30 +3,25 @@ import _ from "lodash";
 
 export const BASE_URL =
   "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
+const eventsURL = `${BASE_URL}/events`;
 
 export default {
   events: {
     getAll: async organiserID => {
-      let eventsResponse = await axios.get(`${BASE_URL}/events`, {
+      const eventsResponse = axios.get(eventsURL, {
         params: {
           organiserId: organiserID
         }
       });
-
-      // /* Add coverPhoto field. */
-      // eventsResponse = _.map(eventsResponse.data, event => ({
-      //   ...event,
-      //   coverPhoto: event.coverPhotoUrl
-      // }));
-      //
-      // /* Remove coverPhotoUrl field. */
-      // eventsResponse = _.map(eventsResponse, event => {
-      //   delete event["coverPhotoUrl"];
-      //   return event;
-      // });
-
+      eventsResponse.catch(console.error);
+      const eventData = (await eventsResponse).data;
       /* Convert array into object keyed by eventID. */
-      return _.keyBy(eventsResponse.data, "eventID");
+      return _.keyBy(eventData, "eventID");
+    },
+    create: async newEvent => {
+      let newEventResponse = axios.post(eventsURL, newEvent);
+      newEventResponse.catch(console.error);
+      return (await newEventResponse).data;
     }
   }
 };

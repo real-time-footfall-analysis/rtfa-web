@@ -148,6 +148,12 @@ const selectedEventIDReducer = (selectedEventID, action) => {
         ? {}
         : _.values(action.payload.events)[0].eventID;
     case "CREATE_NEW_EVENT":
+      if (!action.payload.event.eventID) {
+        console.error(
+          "CREATE_NEW_EVENT failed due to: undefined eventID. See action object below:"
+        );
+        console.error(action);
+      }
       return action.payload.event.eventID;
     default:
       return selectedEventID;

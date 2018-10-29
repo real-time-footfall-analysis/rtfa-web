@@ -51,11 +51,12 @@ export const eventsMock = {
 
 export const newEventMock = {
   name: "Latitude Festival",
-  eventID: 312842,
   location: "Suffolk, United Kingdom",
-  startDate: "2019-07-18",
-  endDate: "2019-07-21",
+  startDate: new Date("2019-07-18").toISOString(),
+  endDate: new Date("2019-07-21").toISOString(),
   maxAttendance: 150000,
   coverPhotoUrl:
-    "https://www.latitudefestival.com/sites/live.inviqa.latitudefestival.com/files/images/news/kennerdeigh_scott_-_latitude_festival_2016_-_01f666ea-4db3-11e6-b71f-3645563dd1ea_-_api.jpg"
+    "https://www.latitudefestival.com/sites/live.inviqa.latitudefestival.com/files/images/news/kennerdeigh_scott_-_latitude_festival_2016_-_01f666ea-4db3-11e6-b71f-3645563dd1ea_-_api.jpg",
+  organiserID: 1,
+  indoorOutdoor: "outdoor"
 };
