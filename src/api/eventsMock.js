@@ -1,11 +1,11 @@
-const eventsMock = {
+export const eventsMock = {
   312839: {
     name: "Leeds Festival",
-    eventID: "312839",
+    eventID: 312839,
     location: "Leeds, United Kingdom",
     startDate: "2018-08-25",
     endDate: "2018-08-30",
-    maxAttendance: "150000",
+    maxAttendance: 150000,
     coverPhoto:
       "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=400&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=b726b438e0a4089c1e028c11800f7098",
     markers: {
@@ -29,11 +29,11 @@ const eventsMock = {
   },
   312840: {
     name: "Reading Festival",
-    eventID: "312840",
+    eventID: 312840,
     location: "Reading, United Kingdom",
     startDate: "2018-08-25",
     endDate: "2018-08-30",
-    maxAttendance: "150000",
+    maxAttendance: 150000,
     coverPhoto:
       "https://images.unsplash.com/photo-1508481722335-1b8051aad92f?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=400&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=cbe9eab442aaf41cf28855e58dc41905"
   },
@@ -51,13 +51,11 @@ const eventsMock = {
 
 export const newEventMock = {
   name: "Latitude Festival",
-  eventID: "312842",
+  eventID: 312842,
   location: "Suffolk, United Kingdom",
   startDate: "2019-07-18",
   endDate: "2019-07-21",
-  maxAttendance: "150000",
+  maxAttendance: 150000,
   coverPhoto:
     "https://www.latitudefestival.com/sites/live.inviqa.latitudefestival.com/files/images/news/kennerdeigh_scott_-_latitude_festival_2016_-_01f666ea-4db3-11e6-b71f-3645563dd1ea_-_api.jpg"
 };
-
-export default eventsMock;

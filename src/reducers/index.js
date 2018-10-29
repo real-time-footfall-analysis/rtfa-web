@@ -138,7 +138,7 @@ const markerReducer = (marker, action) => {
 
 const selectedEventIDReducer = (selectedEventID, action) => {
   if (!selectedEventID) {
-    return "No Events Loaded";
+    return -1;
   }
   switch (action.type) {
     case "SELECT_NEW_EVENT":
@@ -164,5 +164,9 @@ const createUpdatedObject = (parentObject, keyToUpdate, updatedValue) => {
 
 export const rootReducer = combineReducers({
   events: eventsReducer,
-  selectedEventID: selectedEventIDReducer
+  selectedEventID: selectedEventIDReducer,
+  /* There's a bug with importing the initialState and using
+   * that to set this constant, so the organiserID value needs to
+   * be set here, and in the initialStore. */
+  organiserID: () => 1
 });

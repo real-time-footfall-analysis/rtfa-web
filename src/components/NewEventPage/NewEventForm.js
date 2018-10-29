@@ -5,7 +5,7 @@ import TextField from "../UI/TextField/TextField";
 import NumberField from "../UI/NumberField/NumberField";
 import DateRangeField from "../UI/DateRangeField/DateRangeField";
 import FileField from "../UI/FileField/FileField";
-import { newEventMock } from "../../eventsMock";
+import { newEventMock } from "../../api/eventsMock";
 import NavigateButton from "../UI/NavigateButton/NavigateButton";
 import { createNewEvent } from "../../actions";
 import { bindActionCreators } from "redux";

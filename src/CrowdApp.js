@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import routes from "./CrowdApp.routing";
-import eventsMock from "./eventsMock";
 import styles from "./CrowdApp.module.scss";
 import { connect } from "react-redux";
+import api from "./api";
 import { getSelectedEvent } from "./selectors";
 import { eventsLoaded, selectEvent } from "./actions";
 import { bindActionCreators } from "redux";
@@ -30,7 +30,7 @@ class CrowdApp extends Component {
   }
 
   componentDidMount() {
-    fetchEvents(this.props.eventsLoaded);
+    fetchEvents(this.props.organiserID, this.props.eventsLoaded);
   }
 
   render() {
@@ -57,17 +57,20 @@ CrowdApp.propTypes = {
   events: PropTypes.object,
   selectedEvent: PropTypes.object,
   handleEventSelection: PropTypes.func,
-  eventsLoaded: PropTypes.func
+  eventsLoaded: PropTypes.func,
+  organiserID: PropTypes.number
 };
 
-const fetchEvents = eventsLoaded => {
-  eventsLoaded(eventsMock);
+const fetchEvents = async (organiserID, eventsLoaded) => {
+  const eventsResponse = await api.events.getAll(organiserID);
+  eventsLoaded(eventsResponse);
 };
 
 const mapStateToProps = state => {
   return {
     events: state.events,
-    selectedEvent: getSelectedEvent(state)
+    selectedEvent: getSelectedEvent(state),
+    organiserID: state.organiserID
   };
 };
 

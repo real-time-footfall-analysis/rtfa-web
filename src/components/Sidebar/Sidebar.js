@@ -11,7 +11,7 @@ import Button from "../UI/Button/Button";
 class Sidebar extends Component {
   render() {
     const coverPhoto = this.props.selectedEvent
-        ? this.props.selectedEvent.coverPhoto
+        ? this.props.selectedEvent.coverPhotoUrl
         : "",
       eventName = this.props.selectedEvent ? this.props.selectedEvent.name : "";
     return (
@@ -47,7 +47,8 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  events: PropTypes.object
+  events: PropTypes.object,
+  selectedEvent: PropTypes.object
 };
 
 export default Sidebar;
