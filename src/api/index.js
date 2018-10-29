@@ -5,49 +5,57 @@ export const BASE_URL =
   "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
 const eventsURL = `${BASE_URL}/events`;
 
-export default {
-  events: {
-    getAll: async organiserID => {
-      const eventData = await request.get(eventsURL, {
-        organiserId: organiserID
-      });
-      /* Convert array into object keyed by eventID. */
-      return _.keyBy(eventData, "eventID");
-    },
-    create: async newEvent => {
-      return request.post(eventsURL, newEvent);
-    }
-  }
-};
-
-const request = {
-  get: async (url, params) => {
-    return executeRequest("GET", url, {
+class RequestUtils {
+  static async get(url, params) {
+    return this.executeRequest("GET", url, {
       params: {
         ...params
       }
     });
-  },
-  post: async (url, payload) => {
-    return executeRequest("POST", url, payload);
   }
-};
 
-const executeRequest = async (type, url, payload) => {
-  let response;
-  switch (type) {
-    case "GET":
-      response = axios.get(url, payload);
-      break;
-    case "POST":
-      response = axios.post(url, payload);
-      break;
-    default:
-      response = {};
-      console.error(
-        `You are trying to execute the following invalid type of request: ${type}`
-      );
+  static async post(url, payload) {
+    return this.executeRequest("POST", url, payload);
   }
-  response.catch(console.error);
-  return (await response).data;
-};
+
+  static async executeRequest(type, url, payload) {
+    let response = this.fetchResponse(type, url, payload);
+    response.catch(console.error);
+    return (await response).data;
+  }
+
+  static fetchResponse(type, url, payload) {
+    switch (type) {
+      case "GET":
+        return axios.get(url, payload);
+      case "POST":
+        return axios.post(url, payload);
+      default:
+        console.error(
+          `You are trying to execute the following type of request, which doesn't exist: ${type}`
+        );
+        return {};
+    }
+  }
+}
+
+class EventsAPI {
+  static request = RequestUtils;
+  static async getAll(organiserID) {
+    const eventData = await this.request.get(eventsURL, {
+      organiserId: organiserID
+    });
+    /* Convert array into object keyed by eventID. */
+    return _.keyBy(eventData, "eventID");
+  }
+
+  static async create(newEvent) {
+    return this.request.post(eventsURL, newEvent);
+  }
+}
+
+class API {
+  static events = EventsAPI;
+}
+
+export default API;
