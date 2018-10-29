@@ -56,6 +56,6 @@ export const newEventMock = {
   startDate: "2019-07-18",
   endDate: "2019-07-21",
   maxAttendance: 150000,
-  coverPhoto:
+  coverPhotoUrl:
     "https://www.latitudefestival.com/sites/live.inviqa.latitudefestival.com/files/images/news/kennerdeigh_scott_-_latitude_festival_2016_-_01f666ea-4db3-11e6-b71f-3645563dd1ea_-_api.jpg"
 };
