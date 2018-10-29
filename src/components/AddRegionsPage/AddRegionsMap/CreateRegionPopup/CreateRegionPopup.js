@@ -9,7 +9,7 @@ const CreateRegionPopup = props => {
   }
   return (
     <InfoWindow onCloseClick={props.onCloseClick}>
-      <CreateRegionForm marker={props.marker} save={props.onCloseClick} />
+      <CreateRegionForm region={props.region} save={props.onCloseClick} />
     </InfoWindow>
   );
 };
@@ -17,7 +17,7 @@ const CreateRegionPopup = props => {
 CreateRegionPopup.propTypes = {
   isOpen: PropTypes.bool,
   onCloseClick: PropTypes.func,
-  marker: PropTypes.object
+  region: PropTypes.object
 };
 
 export default CreateRegionPopup;

@@ -30,79 +30,79 @@ export const createNewEvent = event => {
 /* Region Actions */
 
 // TODO: Refactor these to use a "generateRegionAction" function
-export const createNewRegionMarker = (eventID, marker) => {
+export const createNewRegion = (eventID, region) => {
   return {
-    type: "CREATE_NEW_REGION_MARKER",
+    type: "CREATE_NEW_REGION",
     payload: {
       eventID: eventID,
-      marker: {
-        ...marker,
-        markerID: _.uniqueId("marker_")
+      region: {
+        ...region,
+        regionID: _.uniqueId("region_")
       }
     }
   };
 };
 
-export const deleteRegionMarker = (eventID, markerID) => {
+export const deleteRegion = (eventID, regionID) => {
   return {
-    type: "DELETE_REGION_MARKER",
+    type: "DELETE_REGION",
     payload: {
       eventID: eventID,
-      markerID: markerID
+      regionID: regionID
     }
   };
 };
 
-export const toggleRegionMarkerBox = (eventID, markerID) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into toggleRegionMarkerBox");
+export const toggleRegionMarkerBox = (eventID, regionID) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into toggleRegionMarkerBox");
   }
   return {
     type: "TOGGLE_REGION_MARKER_BOX",
     payload: {
       eventID: eventID,
-      markerID: markerID
+      regionID: regionID
     }
   };
 };
 
-export const updateRegionName = (eventID, markerID, name) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into updateRegionName");
+export const updateRegionName = (eventID, regionID, name) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into updateRegionName");
   }
   return {
     type: "UPDATE_REGION_NAME",
     payload: {
       eventID: eventID,
-      markerID: markerID,
+      regionID: regionID,
       name: name
     }
   };
 };
 
-export const updateRegionType = (eventID, markerID, type) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into updateRegionType");
+export const updateRegionType = (eventID, regionID, type) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into updateRegionType");
   }
   return {
     type: "UPDATE_REGION_TYPE",
     payload: {
       eventID: eventID,
-      markerID: markerID,
+      regionID: regionID,
       type: type
     }
   };
 };
 
-export const updateRegionRadius = (eventID, markerID, radius) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into updateRegionRadius");
+export const updateRegionRadius = (eventID, regionID, radius) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into updateRegionRadius");
   }
   return {
     type: "UPDATE_REGION_RADIUS",
     payload: {
       eventID: eventID,
-      markerID: markerID,
+      regionID: regionID,
       radius: radius
     }
   };

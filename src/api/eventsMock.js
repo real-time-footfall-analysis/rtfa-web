@@ -8,13 +8,13 @@ export const eventsMock = {
     maxAttendance: 150000,
     coverPhoto:
       "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=600&h=400&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=b726b438e0a4089c1e028c11800f7098",
-    markers: {
+    regions: {
       0: {
         name: "FiveSixEight Bar",
         type: "Beacon",
         radius: 20,
         position: { lat: 51.507441, lng: -0.127683 },
-        markerID: 0,
+        regionID: 0,
         isBoxOpen: false
       },
       1: {
@@ -22,7 +22,7 @@ export const eventsMock = {
         type: "Beacon",
         radius: 10,
         position: { lat: 51.707441, lng: -0.157683 },
-        markerID: 1,
+        regionID: 1,
         isBoxOpen: false
       }
     }

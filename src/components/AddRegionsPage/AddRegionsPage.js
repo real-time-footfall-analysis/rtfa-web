@@ -4,8 +4,8 @@ import Page from "../Page/Page";
 import AddRegionsMap from "./AddRegionsMap/AddRegionsMap";
 import styles from "./AddRegionsPage.module.scss";
 import { connect } from "react-redux";
-import { getMarkers, getSelectedEvent } from "../../selectors";
-import { createNewRegionMarker } from "../../actions";
+import { getRegions, getSelectedEvent } from "../../selectors";
+import { createNewRegion } from "../../actions";
 
 const AddRegionsPage = props => {
   const MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g",
@@ -21,9 +21,9 @@ const AddRegionsPage = props => {
         loadingElement={<div />}
         containerElement={mapContainer}
         mapElement={<div style={{ height: "100%" }} />}
-        markers={props.markers}
+        regions={props.regions}
         onClick={clickEvent =>
-          storeNewMarker(
+          storeNewRegion(
             props.selectedEvent.eventID,
             clickEvent,
             props.dispatch
@@ -38,17 +38,17 @@ AddRegionsPage.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   selectedEvent: PropTypes.object,
-  markers: PropTypes.object,
-  storeNewMarker: PropTypes.func,
+  regions: PropTypes.object,
+  storeNewRegion: PropTypes.func,
   dispatch: PropTypes.func
 };
 
-const storeNewMarker = (eventID, clickEvent, dispatch) => {
-  const marker = createNewMarker(eventID, clickEvent);
-  dispatch(createNewRegionMarker(eventID, marker));
+const storeNewRegion = (eventID, clickEvent, dispatch) => {
+  const region = generateRegionObject(eventID, clickEvent);
+  dispatch(createNewRegion(eventID, region));
 };
 
-const createNewMarker = (eventID, clickEvent) => {
+const generateRegionObject = (eventID, clickEvent) => {
   const lat = clickEvent.latLng.lat(),
     lng = clickEvent.latLng.lng();
   return {
@@ -65,7 +65,7 @@ const createNewMarker = (eventID, clickEvent) => {
 
 const mapStateToProps = state => ({
   selectedEvent: getSelectedEvent(state),
-  markers: getMarkers(state)
+  regions: getRegions(state)
 });
 
 export default connect(

@@ -41,16 +41,54 @@ class RequestUtils {
 
 class EventsAPI {
   static request = RequestUtils;
+
+  /* Returns all events for the given organiserID. */
   static async getAll(organiserID) {
     const eventData = await this.request.get(eventsURL, {
       organiserId: organiserID
     });
-    /* Convert array into object keyed by eventID. */
-    return _.keyBy(eventData, "eventID");
+
+    /* Fetch regions and inject them into the event objects. */
+    const eventDataWithRegions = eventData.map(this._injectRegions);
+
+    /* Resolve promises array and convert array of Events into an
+     * object keyed by eventID. */
+    return Promise.all(eventDataWithRegions).then(eventData =>
+      _.keyBy(eventData, "eventID")
+    );
   }
 
   static async create(newEvent) {
     return this.request.post(eventsURL, newEvent);
+  }
+
+  static async getRegions(eventID) {
+    return this.request.get(`${eventsURL}/${eventID}/regions`);
+  }
+
+  /* Fetches the regions for the given event and returns a new
+   * event object with the regions inserted. */
+  static async _injectRegions(event) {
+    let regions = await EventsAPI.getRegions(event.eventID);
+    regions = regions.map(EventsAPI._reformatRegion);
+    return {
+      ...event,
+      regions: _.keyBy(regions, "regionID")
+    };
+  }
+
+  /* Reformats the region object returned by the backend
+   * to store lat/lng under a "position" key, instead of
+   * naked keys on the object.*/
+  static _reformatRegion(region) {
+    const regionWithoutLatLng = _.omit(region, ["lat", "lng"]);
+    return {
+      ...regionWithoutLatLng,
+      position: {
+        lat: region.lat,
+        lng: region.lng
+      }
+    };
   }
 }
 
