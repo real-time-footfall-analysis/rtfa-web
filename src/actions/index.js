@@ -1,4 +1,6 @@
 import api from "../api";
+import { store } from "../store";
+import { getRegion } from "../selectors";
 
 export const loadEvents = organiserID => {
   return async dispatch =>
@@ -102,4 +104,31 @@ export const updateRegionType = (eventID, regionID, type) => {
 
 export const updateRegionRadius = (eventID, regionID, radius) => {
   return updateRegion(eventID, regionID, "radius", radius);
+};
+
+export const updateRegionOnServer = (eventID, regionID) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into updateRegionOnServer");
+  }
+  return async dispatch => {
+    const updatedRegion = await processRegionUpdate(eventID, regionID);
+    return dispatch({
+      type: "UPDATE_REGION",
+      payload: {
+        eventID: eventID,
+        regionID: updatedRegion.regionID,
+        updatedRegion: updatedRegion
+      }
+    });
+  };
+};
+
+const processRegionUpdate = async (eventID, regionID) => {
+  const oldRegion = getRegion(store.getState(), regionID),
+    formattedRegion = api.events._reformatOutgoingRegion(oldRegion, eventID),
+    updatedRegion = await api.events.updateRegion(eventID, formattedRegion);
+  return api.events._reformatIncomingRegion({
+    ...updatedRegion,
+    isBoxOpen: true
+  });
 };

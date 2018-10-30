@@ -7,6 +7,7 @@ import styles from "./CreateRegionForm.module.scss";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
+  updateRegionOnServer,
   updateRegionName,
   updateRegionRadius,
   updateRegionType
@@ -66,7 +67,13 @@ const CreateRegionForm = props => {
         className={styles.saveButton}
         leftIcon="check-circle"
         fill={true}
-        onClick={props.save}
+        onClick={() => {
+          props.save();
+          props.updateRegionOnServer(
+            props.selectedEvent.eventID,
+            props.region.regionID
+          );
+        }}
       >
         Save
       </Button>
@@ -79,6 +86,7 @@ CreateRegionForm.propTypes = {
   updateRegionName: PropTypes.func,
   updateRegionType: PropTypes.func,
   updateRegionRadius: PropTypes.func,
+  updateRegionOnServer: PropTypes.func,
   save: PropTypes.func,
   selectedEvent: PropTypes.object
 };
@@ -88,7 +96,8 @@ const mapDispatchToProps = dispatch => {
     {
       updateRegionName: updateRegionName,
       updateRegionType: updateRegionType,
-      updateRegionRadius: updateRegionRadius
+      updateRegionRadius: updateRegionRadius,
+      updateRegionOnServer: updateRegionOnServer
     },
     dispatch
   );

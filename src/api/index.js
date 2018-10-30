@@ -18,6 +18,10 @@ class RequestUtils {
     return this.executeRequest("POST", url, payload);
   }
 
+  static async put(url, payload) {
+    return this.executeRequest("PUT", url, payload);
+  }
+
   static async executeRequest(type, url, payload) {
     let response = this.fetchResponse(type, url, payload);
     response.catch(console.error);
@@ -70,7 +74,8 @@ class EventsAPI {
 
   static async updateRegion(eventID, newRegion) {
     return this.request.put(
-      `${eventsURL}/${eventID}/regions/${newRegion.regionID}`
+      `${eventsURL}/${eventID}/regions/${newRegion.regionID}`,
+      newRegion
     );
   }
 
