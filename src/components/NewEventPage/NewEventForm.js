@@ -14,9 +14,6 @@ import { createNewEvent } from "../../actions";
 import styles from "./NewEventForm.module.scss";
 
 class NewEventForm extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     /*
     const indoorMappingDetails = (
