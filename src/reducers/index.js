@@ -17,9 +17,7 @@ const eventsReducer = (events, action) => {
     case "CREATE_NEW_REGION":
     case "DELETE_REGION":
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE":
-    case "UPDATE_REGION_RADIUS":
+    case "UPDATE_REGION":
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -37,9 +35,7 @@ const eventReducer = (event, action) => {
     case "CREATE_NEW_REGION":
     case "DELETE_REGION":
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE":
-    case "UPDATE_REGION_RADIUS":
+    case "UPDATE_REGION":
       if (event.eventID !== action.payload.eventID) {
         return event;
       }
@@ -75,9 +71,7 @@ const regionsReducer = (regions, action) => {
       );
     }
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE":
-    case "UPDATE_REGION_RADIUS": {
+    case "UPDATE_REGION": {
       return _.keyBy(
         _.map(regions, region => regionReducer(region, action)),
         "regionID"
@@ -107,31 +101,13 @@ const regionReducer = (region, action) => {
         isBoxOpen: isTargetRegion ? !region.isBoxOpen : false
       };
     }
-    case "UPDATE_REGION_NAME": {
+    case "UPDATE_REGION": {
       if (!isTargetRegion) {
         return region;
       }
       return {
         ...region,
-        name: action.payload.name
-      };
-    }
-    case "UPDATE_REGION_TYPE": {
-      if (!isTargetRegion) {
-        return region;
-      }
-      return {
-        ...region,
-        type: action.payload.type
-      };
-    }
-    case "UPDATE_REGION_RADIUS": {
-      if (!isTargetRegion) {
-        return region;
-      }
-      return {
-        ...region,
-        radius: action.payload.radius
+        [action.payload.fieldToUpdate]: action.payload.updatedValue
       };
     }
     default:

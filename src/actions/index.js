@@ -66,44 +66,34 @@ export const toggleRegionMarkerBox = (eventID, regionID) => {
   };
 };
 
-export const updateRegionName = (eventID, regionID, name) => {
+export const updateRegion = (
+  eventID,
+  regionID,
+  fieldToUpdate,
+  updatedValue
+) => {
   if (regionID === null || regionID === undefined) {
     throw TypeError("No regionID passed into updateRegionName");
   }
   return {
-    type: "UPDATE_REGION_NAME",
+    type: "UPDATE_REGION",
     payload: {
       eventID: eventID,
       regionID: regionID,
-      name: name
+      fieldToUpdate: fieldToUpdate,
+      updatedValue: updatedValue
     }
   };
+};
+
+export const updateRegionName = (eventID, regionID, name) => {
+  return updateRegion(eventID, regionID, "name", name);
 };
 
 export const updateRegionType = (eventID, regionID, type) => {
-  if (regionID === null || regionID === undefined) {
-    throw TypeError("No regionID passed into updateRegionType");
-  }
-  return {
-    type: "UPDATE_REGION_TYPE",
-    payload: {
-      eventID: eventID,
-      regionID: regionID,
-      type: type
-    }
-  };
+  return updateRegion(eventID, regionID, "type", type);
 };
 
 export const updateRegionRadius = (eventID, regionID, radius) => {
-  if (regionID === null || regionID === undefined) {
-    throw TypeError("No regionID passed into updateRegionRadius");
-  }
-  return {
-    type: "UPDATE_REGION_RADIUS",
-    payload: {
-      eventID: eventID,
-      regionID: regionID,
-      radius: radius
-    }
-  };
+  return updateRegion(eventID, regionID, "radius", radius);
 };
