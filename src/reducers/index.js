@@ -14,12 +14,10 @@ const eventsReducer = (events, action) => {
         action.payload.event.eventID,
         action.payload.event
       );
-    case "CREATE_NEW_REGION_MARKER":
-    case "DELETE_REGION_MARKER":
+    case "CREATE_NEW_REGION":
+    case "DELETE_REGION":
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE":
-    case "UPDATE_REGION_RADIUS":
+    case "UPDATE_REGION":
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -34,111 +32,92 @@ const eventReducer = (event, action) => {
     return {};
   }
   switch (action.type) {
-    case "CREATE_NEW_REGION_MARKER":
-    case "DELETE_REGION_MARKER":
+    case "CREATE_NEW_REGION":
+    case "DELETE_REGION":
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE":
-    case "UPDATE_REGION_RADIUS":
+    case "UPDATE_REGION":
       if (event.eventID !== action.payload.eventID) {
         return event;
       }
       return createUpdatedObject(
         event,
-        "markers",
-        markersReducer(event.markers, action)
+        "regions",
+        regionsReducer(event.regions, action)
       );
     default:
       return event;
   }
 };
 
-const markersReducer = (markers, action) => {
-  if (!markers) {
+const regionsReducer = (regions, action) => {
+  if (!regions) {
     return {};
   }
   switch (action.type) {
-    case "CREATE_NEW_REGION_MARKER": {
-      const hideExistingBoxMarkers = _.map(markers, marker =>
-        markerReducer(marker, action)
+    case "CREATE_NEW_REGION": {
+      const existingBoxesHidden = _.map(regions, region =>
+        regionReducer(region, action)
       );
       return createUpdatedObject(
-        hideExistingBoxMarkers,
-        action.payload.marker.markerID,
-        action.payload.marker
+        existingBoxesHidden,
+        action.payload.region.regionID,
+        action.payload.region
       );
     }
-    case "DELETE_REGION_MARKER": {
-      return _.filter(markers, marker => marker.id !== action.payload.markerID);
+    case "DELETE_REGION": {
+      return _.filter(
+        regions,
+        region => region.regionID !== action.payload.regionID
+      );
     }
     case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION_NAME":
-    case "UPDATE_REGION_TYPE":
-    case "UPDATE_REGION_RADIUS": {
+    case "UPDATE_REGION": {
       return _.keyBy(
-        _.map(markers, marker => markerReducer(marker, action)),
-        "markerID"
+        _.map(regions, region => regionReducer(region, action)),
+        "regionID"
       );
     }
     default: {
-      return markers;
+      return regions;
     }
   }
 };
 
-const markerReducer = (marker, action) => {
-  if (!marker) {
+const regionReducer = (region, action) => {
+  if (!region) {
     return {};
   }
-  const isTargetMarker = marker.markerID === action.payload.markerID;
+  const isTargetRegion = region.regionID === action.payload.regionID;
   switch (action.type) {
-    case "CREATE_NEW_REGION_MARKER": {
+    case "CREATE_NEW_REGION": {
       return {
-        ...marker,
-        isBoxOpen: isTargetMarker
+        ...region,
+        isBoxOpen: isTargetRegion
       };
     }
     case "TOGGLE_REGION_MARKER_BOX": {
       return {
-        ...marker,
-        isBoxOpen: isTargetMarker ? !marker.isBoxOpen : false
+        ...region,
+        isBoxOpen: isTargetRegion ? !region.isBoxOpen : false
       };
     }
-    case "UPDATE_REGION_NAME": {
-      if (!isTargetMarker) {
-        return marker;
+    case "UPDATE_REGION": {
+      if (!isTargetRegion) {
+        return region;
       }
       return {
-        ...marker,
-        name: action.payload.name
-      };
-    }
-    case "UPDATE_REGION_TYPE": {
-      if (!isTargetMarker) {
-        return marker;
-      }
-      return {
-        ...marker,
-        type: action.payload.type
-      };
-    }
-    case "UPDATE_REGION_RADIUS": {
-      if (!isTargetMarker) {
-        return marker;
-      }
-      return {
-        ...marker,
-        radius: action.payload.radius
+        ...region,
+        [action.payload.fieldToUpdate]: action.payload.updatedValue
       };
     }
     default:
-      return marker;
+      return region;
   }
 };
 
 const selectedEventIDReducer = (selectedEventID, action) => {
   if (!selectedEventID) {
-    return "No Events Loaded";
+    return -1;
   }
   switch (action.type) {
     case "SELECT_NEW_EVENT":
@@ -148,6 +127,12 @@ const selectedEventIDReducer = (selectedEventID, action) => {
         ? {}
         : _.values(action.payload.events)[0].eventID;
     case "CREATE_NEW_EVENT":
+      if (!action.payload.event.eventID) {
+        console.error(
+          "CREATE_NEW_EVENT failed due to: undefined eventID. See action object below:"
+        );
+        console.error(action);
+      }
       return action.payload.event.eventID;
     default:
       return selectedEventID;
@@ -164,5 +149,9 @@ const createUpdatedObject = (parentObject, keyToUpdate, updatedValue) => {
 
 export const rootReducer = combineReducers({
   events: eventsReducer,
-  selectedEventID: selectedEventIDReducer
+  selectedEventID: selectedEventIDReducer,
+  /* There's a bug with importing the initialState and using
+   * that to set this constant, so the organiserID value needs to
+   * be set here, and in the initialStore. */
+  organiserID: () => 1
 });

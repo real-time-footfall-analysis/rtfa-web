@@ -42,7 +42,7 @@ class EventSelector extends Component {
 
 EventSelector.propTypes = {
   events: PropTypes.object,
-  selectedEventID: PropTypes.string,
+  selectedEventID: PropTypes.number,
   handleEventSelection: PropTypes.func
 };
 

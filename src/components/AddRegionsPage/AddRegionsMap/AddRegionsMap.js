@@ -5,7 +5,7 @@ import RegionMarker from "./RegionMarker/RegionMarker";
 
 const AddRegionsMap = withScriptjs(
   withGoogleMap(props => {
-    const markers = generateMarkerElements(props.markers);
+    const markers = generateRegionMarkers(props.regions);
     return (
       <GoogleMap
         defaultZoom={9}
@@ -18,10 +18,16 @@ const AddRegionsMap = withScriptjs(
   })
 );
 
-const generateMarkerElements = markers => {
-  return _.map(markers, marker => {
-    return <RegionMarker key={marker.markerID} marker={marker} />;
+/* Creates <RegionMarker/> React Elements for the given array of regions. */
+const generateRegionMarkers = regions => {
+  const regionElements = _.map(regions, region => {
+    if (!region.position.lat || !region.position.lng) {
+      return null;
+    }
+    return <RegionMarker key={region.regionID} region={region} />;
   });
+  /* Filter out any null objects from above (that had no lat/lng info). */
+  return regionElements.filter(_.identity);
 };
 
 export default AddRegionsMap;

@@ -1,12 +1,15 @@
-import _ from "lodash";
+import api from "../api";
+import { store } from "../store";
+import { getRegion } from "../selectors";
 
-export const eventsLoaded = events => {
-  return {
-    type: "LOAD_EVENTS",
-    payload: {
-      events: events
-    }
-  };
+export const loadEvents = organiserID => {
+  return async dispatch =>
+    dispatch({
+      type: "LOAD_EVENTS",
+      payload: {
+        events: await api.events.getAll(organiserID)
+      }
+    });
 };
 
 export const selectEvent = event => {
@@ -18,92 +21,114 @@ export const selectEvent = event => {
   };
 };
 
-export const createNewEvent = event => {
-  return {
-    type: "CREATE_NEW_EVENT",
-    payload: {
-      event: event
-    }
-  };
+export const createNewEvent = newEvent => {
+  return async dispatch =>
+    dispatch({
+      type: "CREATE_NEW_EVENT",
+      payload: {
+        event: await api.events.create(newEvent)
+      }
+    });
 };
 
 /* Region Actions */
 
-// TODO: Refactor these to use a "generateRegionAction" function
-export const createNewRegionMarker = (eventID, marker) => {
-  return {
-    type: "CREATE_NEW_REGION_MARKER",
-    payload: {
-      eventID: eventID,
-      marker: {
-        ...marker,
-        markerID: _.uniqueId("marker_")
+export const createNewRegion = (organiserID, eventID, region) => {
+  return async dispatch => {
+    /* This could technically handle multiple regions being added
+     * simultaneously, but just take the first item for now. */
+    const responseRegion = (await api.events.addRegions(eventID, region))[0];
+    return dispatch({
+      type: "CREATE_NEW_REGION",
+      payload: {
+        eventID: eventID,
+        region: {
+          ...responseRegion,
+          isBoxOpen: true
+        }
       }
-    }
+    });
   };
 };
 
-export const deleteRegionMarker = (eventID, markerID) => {
+export const deleteRegion = (eventID, regionID) => {
   return {
-    type: "DELETE_REGION_MARKER",
+    type: "DELETE_REGION",
     payload: {
       eventID: eventID,
-      markerID: markerID
+      regionID: regionID
     }
   };
 };
 
-export const toggleRegionMarkerBox = (eventID, markerID) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into toggleRegionMarkerBox");
+export const toggleRegionMarkerBox = (eventID, regionID) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into toggleRegionMarkerBox");
   }
   return {
     type: "TOGGLE_REGION_MARKER_BOX",
     payload: {
       eventID: eventID,
-      markerID: markerID
+      regionID: regionID
     }
   };
 };
 
-export const updateRegionName = (eventID, markerID, name) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into updateRegionName");
+export const updateRegion = (
+  eventID,
+  regionID,
+  fieldToUpdate,
+  updatedValue
+) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into updateRegionName");
   }
   return {
-    type: "UPDATE_REGION_NAME",
+    type: "UPDATE_REGION",
     payload: {
       eventID: eventID,
-      markerID: markerID,
-      name: name
+      regionID: regionID,
+      fieldToUpdate: fieldToUpdate,
+      updatedValue: updatedValue
     }
   };
 };
 
-export const updateRegionType = (eventID, markerID, type) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into updateRegionType");
+export const updateRegionName = (eventID, regionID, name) => {
+  return updateRegion(eventID, regionID, "name", name);
+};
+
+export const updateRegionType = (eventID, regionID, type) => {
+  return updateRegion(eventID, regionID, "type", type);
+};
+
+export const updateRegionRadius = (eventID, regionID, radius) => {
+  return updateRegion(eventID, regionID, "radius", radius);
+};
+
+export const updateRegionOnServer = (eventID, regionID) => {
+  if (regionID === null || regionID === undefined) {
+    throw TypeError("No regionID passed into updateRegionOnServer");
   }
-  return {
-    type: "UPDATE_REGION_TYPE",
-    payload: {
-      eventID: eventID,
-      markerID: markerID,
-      type: type
-    }
+  return async dispatch => {
+    const updatedRegion = await processRegionUpdate(eventID, regionID);
+    return dispatch({
+      type: "UPDATE_REGION",
+      payload: {
+        eventID: eventID,
+        regionID: updatedRegion.regionID,
+        updatedRegion: updatedRegion
+      }
+    });
   };
 };
 
-export const updateRegionRadius = (eventID, markerID, radius) => {
-  if (markerID === null || markerID === undefined) {
-    throw TypeError("No markerID passed into updateRegionRadius");
-  }
-  return {
-    type: "UPDATE_REGION_RADIUS",
-    payload: {
-      eventID: eventID,
-      markerID: markerID,
-      radius: radius
-    }
-  };
+const processRegionUpdate = async (eventID, regionID) => {
+  const oldRegion = getRegion(store.getState(), regionID),
+    formattedRegion = api.events._reformatOutgoingRegion(oldRegion, eventID),
+    updatedRegion = await api.events.updateRegion(eventID, formattedRegion);
+  return api.events._reformatIncomingRegion({
+    ...updatedRegion,
+    isBoxOpen: true
+  });
 };

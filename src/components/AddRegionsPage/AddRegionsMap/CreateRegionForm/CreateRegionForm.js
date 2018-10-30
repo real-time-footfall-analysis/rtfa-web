@@ -7,6 +7,7 @@ import styles from "./CreateRegionForm.module.scss";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
+  updateRegionOnServer,
   updateRegionName,
   updateRegionRadius,
   updateRegionType
@@ -16,7 +17,7 @@ import Button from "../../../UI/Button/Button";
 
 const CreateRegionForm = props => {
   return (
-    <div className={styles.markerForm}>
+    <div className={styles.regionForm}>
       <TextField
         label="Region Name"
         placeholder="e.g. The Union Bar"
@@ -24,27 +25,27 @@ const CreateRegionForm = props => {
         onChange={event =>
           props.updateRegionName(
             props.selectedEvent.eventID,
-            props.marker.markerID,
+            props.region.regionID,
             event.target.value
           )
         }
-        value={props.marker.name}
+        value={props.region.name}
       />
       <RadioGroup
         onChange={event =>
           props.updateRegionType(
             props.selectedEvent.eventID,
-            props.marker.markerID,
+            props.region.regionID,
             event.target.value
           )
         }
         inline={true}
         label="Region Type"
-        selectedValue={props.marker.type}
+        selectedValue={props.region.type}
         className={styles.radioGroup}
       >
-        <Radio label="Beacon" value="Beacon" />
-        <Radio label="GPS" value="GPS" />
+        <Radio label="Beacon" value="beacon" />
+        <Radio label="GPS" value="gps" />
       </RadioGroup>
       <NumberField
         label="Region Radius (metres)"
@@ -54,11 +55,11 @@ const CreateRegionForm = props => {
         onChange={newValue =>
           props.updateRegionRadius(
             props.selectedEvent.eventID,
-            props.marker.markerID,
+            props.region.regionID,
             newValue
           )
         }
-        value={props.marker.radius}
+        value={props.region.radius}
         min={1}
         max={50000}
       />
@@ -66,7 +67,13 @@ const CreateRegionForm = props => {
         className={styles.saveButton}
         leftIcon="check-circle"
         fill={true}
-        onClick={props.save}
+        onClick={() => {
+          props.save();
+          props.updateRegionOnServer(
+            props.selectedEvent.eventID,
+            props.region.regionID
+          );
+        }}
       >
         Save
       </Button>
@@ -75,10 +82,11 @@ const CreateRegionForm = props => {
 };
 
 CreateRegionForm.propTypes = {
-  marker: PropTypes.object,
+  region: PropTypes.object,
   updateRegionName: PropTypes.func,
   updateRegionType: PropTypes.func,
   updateRegionRadius: PropTypes.func,
+  updateRegionOnServer: PropTypes.func,
   save: PropTypes.func,
   selectedEvent: PropTypes.object
 };
@@ -88,7 +96,8 @@ const mapDispatchToProps = dispatch => {
     {
       updateRegionName: updateRegionName,
       updateRegionType: updateRegionType,
-      updateRegionRadius: updateRegionRadius
+      updateRegionRadius: updateRegionRadius,
+      updateRegionOnServer: updateRegionOnServer
     },
     dispatch
   );

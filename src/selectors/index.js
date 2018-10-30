@@ -6,20 +6,20 @@ export const getSelectedEvent = state => {
   return selectedEvent ? selectedEvent : {};
 };
 
-export const getMarkers = state => {
+export const getRegions = state => {
   const selectedEvent = getSelectedEvent(state);
   if (!selectedEvent) {
     return {};
   }
-  const markers = selectedEvent.markers;
-  return markers ? markers : {};
+  const regions = selectedEvent.regions;
+  return regions ? regions : {};
 };
 
-export const getMarker = (state, id) => {
+export const getRegion = (state, id) => {
   const selectedEvent = getSelectedEvent(state);
   if (!selectedEvent) {
     return {};
   }
-  const selectedMarker = selectedEvent.markers[id];
-  return selectedMarker ? selectedMarker : {};
+  const selectedRegion = selectedEvent.regions[id];
+  return selectedRegion ? selectedRegion : {};
 };

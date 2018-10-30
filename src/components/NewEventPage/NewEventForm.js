@@ -1,21 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./NewEventForm.module.scss";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import TextField from "../UI/TextField/TextField";
 import NumberField from "../UI/NumberField/NumberField";
 import DateRangeField from "../UI/DateRangeField/DateRangeField";
 import FileField from "../UI/FileField/FileField";
-import { newEventMock } from "../../eventsMock";
 import NavigateButton from "../UI/NavigateButton/NavigateButton";
+import { newEventMock } from "../../api/eventsMock";
 import { createNewEvent } from "../../actions";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+
+import styles from "./NewEventForm.module.scss";
 
 class NewEventForm extends Component {
-  constructor(props) {
-    super(props);
-    this.submitForm = this.submitForm.bind(this);
-  }
   render() {
     /*
     const indoorMappingDetails = (
@@ -149,17 +147,12 @@ class NewEventForm extends Component {
         <NavigateButton
           className={styles.submitButton}
           rightIcon="chevron-right"
-          onClick={this.submitForm}
+          onClick={() => this.props.createNewEvent(newEventMock)}
           navigateToRoute={"/event/addRegions"}
           text="Create Event"
         />
       </div>
     );
-  }
-
-  /* TODO: Actually submit the form and then redirect to the next page. */
-  submitForm() {
-    this.props.createNewEvent(newEventMock);
   }
 }
 

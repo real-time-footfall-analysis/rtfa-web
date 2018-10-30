@@ -10,18 +10,18 @@ import { getSelectedEvent } from "../../../../selectors";
 export const RegionMarker = props => {
   return (
     <Marker
-      key={props.marker.markerID}
-      position={props.marker.position}
+      key={props.region.regionID}
+      position={props.region.position}
       onClick={() => {
-        props.toggleBox(props.selectedEvent.eventID, props.marker.markerID);
+        props.toggleBox(props.selectedEvent.eventID, props.region.regionID);
       }}
     >
       <CreateRegionPopup
-        isOpen={props.marker.isBoxOpen}
+        isOpen={props.region.isBoxOpen}
         onCloseClick={() =>
-          props.toggleBox(props.selectedEvent.eventID, props.marker.markerID)
+          props.toggleBox(props.selectedEvent.eventID, props.region.regionID)
         }
-        marker={props.marker}
+        region={props.region}
       />
     </Marker>
   );
@@ -30,7 +30,7 @@ export const RegionMarker = props => {
 RegionMarker.propTypes = {
   selectedEvent: PropTypes.object,
   position: PropTypes.object,
-  marker: PropTypes.object,
+  region: PropTypes.object,
   toggleBox: PropTypes.func
 };
 

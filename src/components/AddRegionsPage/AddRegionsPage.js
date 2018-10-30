@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import Page from "../Page/Page";
 import AddRegionsMap from "./AddRegionsMap/AddRegionsMap";
 import styles from "./AddRegionsPage.module.scss";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { getMarkers, getSelectedEvent } from "../../selectors";
-import { createNewRegionMarker } from "../../actions";
+import { getRegions, getSelectedEvent } from "../../selectors";
+import { createNewRegion } from "../../actions";
 
 const AddRegionsPage = props => {
   const MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g",
@@ -21,12 +22,13 @@ const AddRegionsPage = props => {
         loadingElement={<div />}
         containerElement={mapContainer}
         mapElement={<div style={{ height: "100%" }} />}
-        markers={props.markers}
+        regions={props.regions}
         onClick={clickEvent =>
-          storeNewMarker(
+          storeNewRegion(
+            props.organiserID,
             props.selectedEvent.eventID,
             clickEvent,
-            props.dispatch
+            props.createNewRegion
           )
         }
       />
@@ -38,37 +40,47 @@ AddRegionsPage.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   selectedEvent: PropTypes.object,
-  markers: PropTypes.object,
-  storeNewMarker: PropTypes.func,
+  organiserID: PropTypes.number,
+  regions: PropTypes.object,
+  createNewRegion: PropTypes.func,
   dispatch: PropTypes.func
 };
 
-const storeNewMarker = (eventID, clickEvent, dispatch) => {
-  const marker = createNewMarker(eventID, clickEvent);
-  dispatch(createNewRegionMarker(eventID, marker));
+const storeNewRegion = (
+  organiserID,
+  eventID,
+  clickEvent,
+  createNewRegionAction
+) => {
+  const region = generateRegionObject(eventID, clickEvent);
+  createNewRegionAction(organiserID, eventID, region);
 };
 
-const createNewMarker = (eventID, clickEvent) => {
+const generateRegionObject = (eventID, clickEvent) => {
   const lat = clickEvent.latLng.lat(),
     lng = clickEvent.latLng.lng();
   return {
     name: "",
-    type: "Beacon",
+    type: "beacon",
     radius: 1,
     position: {
       lat: lat,
       lng: lng
-    },
-    isBoxOpen: true
+    }
   };
 };
 
 const mapStateToProps = state => ({
+  organiserID: state.organiserID,
   selectedEvent: getSelectedEvent(state),
-  markers: getMarkers(state)
+  regions: getRegions(state)
 });
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ createNewRegion: createNewRegion }, dispatch);
+};
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AddRegionsPage);
