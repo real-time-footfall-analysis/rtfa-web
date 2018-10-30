@@ -30,6 +30,8 @@ class RequestUtils {
         return axios.get(url, payload);
       case "POST":
         return axios.post(url, payload);
+      case "PUT":
+        return axios.put(url, payload);
       default:
         console.error(
           `You are trying to execute the following type of request, which doesn't exist: ${type}`
@@ -64,6 +66,16 @@ class EventsAPI {
 
   static async getRegions(eventID) {
     return this.request.get(`${eventsURL}/${eventID}/regions`);
+  }
+
+  static async updateRegion(eventID, newRegion) {
+    return this.request.put(
+      `${eventsURL}/${eventID}/regions/${newRegion.regionID}`
+    );
+  }
+
+  static async addRegions(eventID, newRegions) {
+    return this.request.post(`${eventsURL}/${eventID}/regions`, newRegions);
   }
 
   /* Fetches the regions for the given event and returns a new
