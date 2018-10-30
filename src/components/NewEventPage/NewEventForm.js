@@ -10,14 +10,12 @@ import FileField from "../UI/FileField/FileField";
 import NavigateButton from "../UI/NavigateButton/NavigateButton";
 import { newEventMock } from "../../api/eventsMock";
 import { createNewEvent } from "../../actions";
-import api from "../../api";
 
 import styles from "./NewEventForm.module.scss";
 
 class NewEventForm extends Component {
   constructor(props) {
     super(props);
-    this.submitForm = this.submitForm.bind(this);
   }
   render() {
     /*
@@ -152,18 +150,12 @@ class NewEventForm extends Component {
         <NavigateButton
           className={styles.submitButton}
           rightIcon="chevron-right"
-          onClick={this.submitForm}
+          onClick={() => this.props.createNewEvent(newEventMock)}
           navigateToRoute={"/event/addRegions"}
           text="Create Event"
         />
       </div>
     );
-  }
-
-  /* TODO: Actually submit the form and then redirect to the next page. */
-  async submitForm() {
-    let createdEvent = await api.events.create(newEventMock);
-    this.props.createNewEvent(createdEvent);
   }
 }
 

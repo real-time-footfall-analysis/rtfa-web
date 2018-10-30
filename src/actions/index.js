@@ -20,13 +20,14 @@ export const selectEvent = event => {
   };
 };
 
-export const createNewEvent = event => {
-  return {
-    type: "CREATE_NEW_EVENT",
-    payload: {
-      event: event
-    }
-  };
+export const createNewEvent = newEvent => {
+  return async dispatch =>
+    dispatch({
+      type: "CREATE_NEW_EVENT",
+      payload: {
+        event: await api.events.create(newEvent)
+      }
+    });
 };
 
 /* Region Actions */
