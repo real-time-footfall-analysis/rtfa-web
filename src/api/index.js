@@ -74,15 +74,22 @@ class EventsAPI {
     );
   }
 
-  static async addRegions(eventID, newRegions) {
-    return this.request.post(`${eventsURL}/${eventID}/regions`, newRegions);
+  static async addRegions(eventID, ...newRegions) {
+    const formattedRegions = newRegions.map(region =>
+      EventsAPI._reformatOutgoingRegion(region, eventID)
+    );
+    const response = await this.request.post(
+      `${eventsURL}/${eventID}/regions`,
+      formattedRegions
+    );
+    return response.map(EventsAPI._reformatIncomingRegion);
   }
 
   /* Fetches the regions for the given event and returns a new
    * event object with the regions inserted. */
   static async _injectRegions(event) {
     let regions = await EventsAPI.getRegions(event.eventID);
-    regions = regions.map(EventsAPI._reformatRegion);
+    regions = regions.map(EventsAPI._reformatIncomingRegion);
     return {
       ...event,
       regions: _.keyBy(regions, "regionID")
@@ -92,7 +99,7 @@ class EventsAPI {
   /* Reformats the region object returned by the backend
    * to store lat/lng under a "position" key, instead of
    * naked keys on the object.*/
-  static _reformatRegion(region) {
+  static _reformatIncomingRegion(region) {
     const regionWithoutLatLng = _.omit(region, ["lat", "lng"]);
     return {
       ...regionWithoutLatLng,
@@ -100,6 +107,20 @@ class EventsAPI {
         lat: region.lat,
         lng: region.lng
       }
+    };
+  }
+
+  /* Reformats the region object returned by the backend
+   * to store lat/lng under a "position" key, instead of
+   * naked keys on the object.*/
+  static _reformatOutgoingRegion(region, eventID) {
+    const regionWithoutLatLng = _.omit(region, ["position", "isBoxOpen"]);
+    return {
+      ...regionWithoutLatLng,
+      name: region.name ? region.name : "Unnamed Region",
+      lat: region.position.lat,
+      lng: region.position.lng,
+      eventID: eventID
     };
   }
 }

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import api from "../api";
 
 export const loadEvents = organiserID => {
@@ -32,17 +31,21 @@ export const createNewEvent = newEvent => {
 
 /* Region Actions */
 
-// TODO: Refactor these to use a "generateRegionAction" function
-export const createNewRegion = (eventID, region) => {
-  return {
-    type: "CREATE_NEW_REGION",
-    payload: {
-      eventID: eventID,
-      region: {
-        ...region,
-        regionID: _.uniqueId("region_")
+export const createNewRegion = (organiserID, eventID, region) => {
+  return async dispatch => {
+    /* This could technically handle multiple regions being added
+     * simultaneously, but just take the first item for now. */
+    const responseRegion = (await api.events.addRegions(eventID, region))[0];
+    return dispatch({
+      type: "CREATE_NEW_REGION",
+      payload: {
+        eventID: eventID,
+        region: {
+          ...responseRegion,
+          isBoxOpen: true
+        }
       }
-    }
+    });
   };
 };
 

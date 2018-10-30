@@ -11,7 +11,7 @@ export const eventsMock = {
     regions: {
       0: {
         name: "FiveSixEight Bar",
-        type: "Beacon",
+        type: "beacon",
         radius: 20,
         position: { lat: 51.507441, lng: -0.127683 },
         regionID: 0,
@@ -19,7 +19,7 @@ export const eventsMock = {
       },
       1: {
         name: "Metric",
-        type: "Beacon",
+        type: "beacon",
         radius: 10,
         position: { lat: 51.707441, lng: -0.157683 },
         regionID: 1,

@@ -43,8 +43,8 @@ const CreateRegionForm = props => {
         selectedValue={props.region.type}
         className={styles.radioGroup}
       >
-        <Radio label="Beacon" value="Beacon" />
-        <Radio label="GPS" value="GPS" />
+        <Radio label="Beacon" value="beacon" />
+        <Radio label="GPS" value="gps" />
       </RadioGroup>
       <NumberField
         label="Region Radius (metres)"
