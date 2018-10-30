@@ -1,12 +1,14 @@
 import _ from "lodash";
+import api from "../api";
 
-export const eventsLoaded = events => {
-  return {
-    type: "LOAD_EVENTS",
-    payload: {
-      events: events
-    }
-  };
+export const loadEvents = organiserID => {
+  return async dispatch =>
+    dispatch({
+      type: "LOAD_EVENTS",
+      payload: {
+        events: await api.events.getAll(organiserID)
+      }
+    });
 };
 
 export const selectEvent = event => {

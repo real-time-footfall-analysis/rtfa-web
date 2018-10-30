@@ -5,9 +5,8 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import routes from "./CrowdApp.routing";
 import styles from "./CrowdApp.module.scss";
 import { connect } from "react-redux";
-import api from "./api";
 import { getSelectedEvent } from "./selectors";
-import { eventsLoaded, selectEvent } from "./actions";
+import { loadEvents, selectEvent } from "./actions";
 import { bindActionCreators } from "redux";
 
 class CrowdApp extends Component {
@@ -30,7 +29,7 @@ class CrowdApp extends Component {
   }
 
   componentDidMount() {
-    fetchEvents(this.props.organiserID, this.props.eventsLoaded);
+    this.props.loadEvents(this.props.organiserID);
   }
 
   render() {
@@ -57,13 +56,8 @@ CrowdApp.propTypes = {
   events: PropTypes.object,
   selectedEvent: PropTypes.object,
   handleEventSelection: PropTypes.func,
-  eventsLoaded: PropTypes.func,
+  loadEvents: PropTypes.func,
   organiserID: PropTypes.number
-};
-
-const fetchEvents = async (organiserID, eventsLoaded) => {
-  const eventsResponse = await api.events.getAll(organiserID);
-  eventsLoaded(eventsResponse);
 };
 
 const mapStateToProps = state => {
@@ -78,7 +72,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       handleEventSelection: selectEvent,
-      eventsLoaded: eventsLoaded
+      loadEvents: loadEvents
     },
     dispatch
   );
