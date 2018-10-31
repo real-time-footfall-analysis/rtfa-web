@@ -1,14 +1,14 @@
 import React from "react";
 import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
-import _ from "lodash";
-import RegionMarker from "./RegionMarker/RegionMarker";
+import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generators";
 
 const AddRegionsMap = withScriptjs(
   withGoogleMap(props => {
-    const markers = generateRegionMarkers(props.regions);
+    const markers = generateRegionMarkersWithPopup(props.regions);
     return (
       <GoogleMap
         defaultZoom={9}
+        /* TODO: Calculate center based on center of regions */
         defaultCenter={{ lat: 51.507441, lng: -0.127683 }}
         onClick={props.onClick}
       >
@@ -17,17 +17,5 @@ const AddRegionsMap = withScriptjs(
     );
   })
 );
-
-/* Creates <RegionMarker/> React Elements for the given array of regions. */
-const generateRegionMarkers = regions => {
-  const regionElements = _.map(regions, region => {
-    if (!region.position.lat || !region.position.lng) {
-      return null;
-    }
-    return <RegionMarker key={region.regionID} region={region} />;
-  });
-  /* Filter out any null objects from above (that had no lat/lng info). */
-  return regionElements.filter(_.identity);
-};
 
 export default AddRegionsMap;

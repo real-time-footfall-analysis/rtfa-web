@@ -4,10 +4,11 @@ import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
 import HeatmapLayer from "react-google-maps/lib/components/visualization/HeatmapLayer";
 import _ from "lodash";
 import { DARK_GOOGLE_MAPS_STYLES } from "../../../../constants";
+import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generators";
 
 const HeatMap = withScriptjs(
   withGoogleMap(props => {
-    generateHeatMapPoints(props.regions, props.heatMapData);
+    const markers = generateRegionMarkersWithPopup(props.regions);
     return (
       <GoogleMap
         defaultZoom={9}
@@ -19,6 +20,7 @@ const HeatMap = withScriptjs(
           data={generateHeatMapPoints(props.regions, props.heatMapData)}
           options={{ opacity: 1 }}
         />
+        {markers}
       </GoogleMap>
     );
   })
@@ -29,6 +31,7 @@ const generateHeatMapPoints = (regions, heatMapData) => {
   _.forEach(heatMapData, (count, regionID) => {
     const region = regions[regionID];
     if (!region) {
+      console.warn(`There is no region with ID ${regionID} for this event.`);
       return;
     }
     /* Generate n random points around the centre, within the radius. */

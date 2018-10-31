@@ -1,6 +1,6 @@
+export const HEATMAP_REFRESH_INTERVAL = 10000;
 export const GOOGLE_MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g";
 export const GOOGLE_MAPS_URL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places,visualization&key=${GOOGLE_MAPS_API_KEY}`;
-
 export const DARK_GOOGLE_MAPS_STYLES = [
   {
     elementType: "geometry",

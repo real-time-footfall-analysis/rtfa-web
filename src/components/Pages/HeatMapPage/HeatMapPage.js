@@ -4,7 +4,7 @@ import Page from "../../UI/Page/Page";
 import styles from "./HeatMapPage.module.scss";
 import { connect } from "react-redux";
 import HeatMap from "./HeatMap/HeatMap";
-import { GOOGLE_MAPS_URL } from "../../../constants";
+import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
 import { loadHeatMap } from "../../../actions";
 import { bindActionCreators } from "redux";
 import { getRegions, getSelectedEvent } from "../../../selectors";
@@ -19,9 +19,10 @@ class HeatMapPage extends Component {
   }
 
   componentDidMount() {
+    this.props.loadHeatMap(this.props.selectedEventID);
     this.dataFetcher = setInterval(
       () => this.props.loadHeatMap(this.props.selectedEventID),
-      10000
+      HEATMAP_REFRESH_INTERVAL
     );
   }
 
@@ -59,12 +60,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      loadHeatMap: loadHeatMap
-    },
-    dispatch
-  );
+  return bindActionCreators({ loadHeatMap: loadHeatMap }, dispatch);
 };
 
 export default connect(
