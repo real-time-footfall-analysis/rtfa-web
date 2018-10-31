@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Marker } from "react-google-maps";
 import CreateRegionPopup from "../CreateRegionPopup/CreateRegionPopup";
-import { toggleRegionMarkerBox } from "../../../../actions";
+import { toggleRegionMarkerBox } from "../../../../../actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { getSelectedEvent } from "../../../../selectors";
+import { getSelectedEvent } from "../../../../../selectors";
 
 export const RegionMarker = props => {
   return (

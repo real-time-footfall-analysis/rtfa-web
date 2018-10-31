@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TextField from "../../../UI/TextField/TextField";
+import TextField from "../../../../UI/TextField/TextField";
 import { Radio, RadioGroup } from "@blueprintjs/core";
-import NumberField from "../../../UI/NumberField/NumberField";
+import NumberField from "../../../../UI/NumberField/NumberField";
 import styles from "./CreateRegionForm.module.scss";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -11,9 +11,9 @@ import {
   updateRegionName,
   updateRegionRadius,
   updateRegionType
-} from "../../../../actions";
-import { getSelectedEvent } from "../../../../selectors";
-import Button from "../../../UI/Button/Button";
+} from "../../../../../actions";
+import { getSelectedEvent } from "../../../../../selectors";
+import Button from "../../../../UI/Button/Button";
 
 const CreateRegionForm = props => {
   return (

@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Page from "../Page/Page";
+import Page from "../../UI/Page/Page";
 import AddRegionsMap from "./AddRegionsMap/AddRegionsMap";
 import styles from "./AddRegionsPage.module.scss";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { getRegions, getSelectedEvent } from "../../selectors";
-import { createNewRegion } from "../../actions";
+import { getRegions, getSelectedEvent } from "../../../selectors";
+import { createNewRegion } from "../../../actions";
 
 const AddRegionsPage = props => {
   const MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g",

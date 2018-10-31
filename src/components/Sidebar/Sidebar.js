@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styles from "./Sidebar.module.scss";
-import Logo from "../Logo/Logo";
+import Logo from "../UI/Logo/Logo";
 import NavList from "./NavList/NavList";
 import EventSelector from "./EventSelector/EventSelector";
 import PhotoText from "../UI/PhotoText/PhotoText";

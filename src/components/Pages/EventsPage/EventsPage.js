@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Card } from "@blueprintjs/core";
-import Page from "../Page/Page";
+import Page from "../../UI/Page/Page";
 import styles from "./EventsPage.module.scss";
 import _ from "lodash";
 import { connect } from "react-redux";

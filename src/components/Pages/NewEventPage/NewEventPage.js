@@ -1,5 +1,5 @@
 import React from "react";
-import Page from "../Page/Page";
+import Page from "../../UI/Page/Page";
 import NewEventForm from "./NewEventForm";
 
 const NewEventPage = () => {
