@@ -7,6 +7,7 @@ import HeatMap from "./HeatMap/HeatMap";
 import { GOOGLE_MAPS_URL } from "../../../constants";
 import { loadHeatMap } from "../../../actions";
 import { bindActionCreators } from "redux";
+import { getRegions, getSelectedEvent } from "../../../selectors";
 
 class HeatMapPage extends Component {
   render() {
@@ -36,6 +37,8 @@ class HeatMapPage extends Component {
         loadingElement={<div />}
         containerElement={mapContainer}
         mapElement={<div style={{ height: "100%" }} />}
+        regions={this.props.regions}
+        heatMapData={this.props.heatMapData}
       />
     );
   }
@@ -43,9 +46,17 @@ class HeatMapPage extends Component {
 
 HeatMapPage.propTypes = {
   name: PropTypes.string,
+  heatMapData: PropTypes.object,
   selectedEventID: PropTypes.number,
-  loadHeatMap: PropTypes.func
+  loadHeatMap: PropTypes.func,
+  regions: PropTypes.object
 };
+
+const mapStateToProps = state => ({
+  selectedEventID: state.selectedEventID,
+  heatMapData: getSelectedEvent(state).heatMapData,
+  regions: getRegions(state)
+});
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -57,6 +68,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  state => ({ selectedEventID: state.selectedEventID }),
+  mapStateToProps,
   mapDispatchToProps
 )(HeatMapPage);
