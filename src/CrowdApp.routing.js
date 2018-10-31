@@ -48,6 +48,13 @@ const routes = [
     iconName: "object-ungroup",
     content: () => <h1>Regions</h1>,
     inSidebar: true
+  },
+  {
+    path: "/heatMap",
+    name: "Heat Map",
+    iconName: "fire",
+    content: () => <h1>HeatMap</h1>,
+    inSidebar: true
   }
 ];
 
