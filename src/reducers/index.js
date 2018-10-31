@@ -22,6 +22,12 @@ const eventsReducer = (events, action) => {
         _.map(events, event => eventReducer(event, action)),
         "eventID"
       );
+    case "LOAD_HEATMAP_DATA": {
+      return _.keyBy(
+        _.map(events, event => eventReducer(event, action)),
+        "eventID"
+      );
+    }
     default:
       return events;
   }
@@ -30,20 +36,24 @@ const eventsReducer = (events, action) => {
 const eventReducer = (event, action) => {
   if (!event) {
     return {};
+  } else if (event.eventID !== action.payload.eventID) {
+    return event;
   }
   switch (action.type) {
     case "CREATE_NEW_REGION":
     case "DELETE_REGION":
     case "TOGGLE_REGION_MARKER_BOX":
     case "UPDATE_REGION":
-      if (event.eventID !== action.payload.eventID) {
-        return event;
-      }
       return createUpdatedObject(
         event,
         "regions",
         regionsReducer(event.regions, action)
       );
+    case "LOAD_HEATMAP_DATA":
+      return {
+        ...event,
+        heatMapData: action.payload.heatMapData
+      };
     default:
       return event;
   }
