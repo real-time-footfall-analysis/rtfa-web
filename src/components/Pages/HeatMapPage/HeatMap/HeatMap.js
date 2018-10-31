@@ -1,30 +1,61 @@
 /* global google*/
-import React from "react";
+import React, { Component } from "react";
 import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
 import HeatmapLayer from "react-google-maps/lib/components/visualization/HeatmapLayer";
 import _ from "lodash";
-import { DARK_GOOGLE_MAPS_STYLES } from "../../../../constants";
+import {
+  DARK_GOOGLE_MAPS_STYLES,
+  GOOGLE_MAPS_DEFAULT_CENTRE,
+  HEATMAP_USERS_SCALE_FACTOR
+} from "../../../../constants";
 import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generators";
+import { calculateMidpointOfRegions } from "../../../../utils";
+import PropTypes from "prop-types";
 
-const HeatMap = withScriptjs(
-  withGoogleMap(props => {
-    const markers = generateRegionMarkersWithPopup(props.regions);
+/* TODO: Refactor this and AddRegionsMap to use Redux to update centre. */
+let centreSet = false;
+
+class HeatMapSubcomponent extends Component {
+  componentWillUnmount() {
+    centreSet = false;
+  }
+  render() {
+    const markers = generateRegionMarkersWithPopup(this.props.regions);
     return (
       <GoogleMap
-        defaultZoom={9}
-        defaultCenter={{ lat: 51.507441, lng: -0.127683 }}
-        onClick={props.onClick}
+        defaultZoom={15}
+        defaultCenter={GOOGLE_MAPS_DEFAULT_CENTRE}
+        ref={ref => setCentre(ref, this.props.regions)}
         options={{ styles: DARK_GOOGLE_MAPS_STYLES }}
       >
         <HeatmapLayer
-          data={generateHeatMapPoints(props.regions, props.heatMapData)}
-          options={{ opacity: 1 }}
+          data={generateHeatMapPoints(
+            this.props.regions,
+            this.props.heatMapData
+          )}
+          options={{ opacity: 1, radius: 5 }}
         />
         {markers}
       </GoogleMap>
     );
-  })
-);
+  }
+}
+
+HeatMapSubcomponent.propTypes = {
+  regions: PropTypes.object,
+  heatMapData: PropTypes.object
+};
+
+export const HeatMap = withScriptjs(withGoogleMap(HeatMapSubcomponent));
+
+const setCentre = (ref, regions) => {
+  if (_.size(regions) !== 0 && !centreSet && ref) {
+    centreSet = true;
+    ref.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.setCenter(
+      calculateMidpointOfRegions(regions)
+    );
+  }
+};
 
 const generateHeatMapPoints = (regions, heatMapData) => {
   const points = [];
@@ -35,7 +66,7 @@ const generateHeatMapPoints = (regions, heatMapData) => {
       return;
     }
     /* Generate n random points around the centre, within the radius. */
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count * HEATMAP_USERS_SCALE_FACTOR; i++) {
       points.push(createRandomisedPoint(region.position, region.radius));
     }
   });
