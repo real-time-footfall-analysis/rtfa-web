@@ -4,6 +4,7 @@ import _ from "lodash";
 export const BASE_URL =
   "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
 const eventsURL = `${BASE_URL}/events`;
+const heatmapURL = `${BASE_URL}/live/heatmap`;
 
 class RequestUtils {
   static async get(url, params) {
@@ -130,8 +131,20 @@ class EventsAPI {
   }
 }
 
+class HeatMapAPI {
+  static request = RequestUtils;
+
+  static async getHeatMapData(eventID) {
+    if (!eventID) {
+      console.error("You didn't pass an eventID into getHeatMapData");
+    }
+    return await this.request.get(`${heatmapURL}/${eventID}`);
+  }
+}
+
 class API {
   static events = EventsAPI;
+  static heatMap = HeatMapAPI;
 }
 
 export default API;
