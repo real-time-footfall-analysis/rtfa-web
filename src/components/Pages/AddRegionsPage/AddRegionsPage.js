@@ -7,34 +7,37 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getRegions, getSelectedEvent } from "../../../selectors";
 import { createNewRegion } from "../../../actions";
+import { GOOGLE_MAPS_URL } from "../../../constants";
 
 const AddRegionsPage = props => {
-  const MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g",
-    mapContainer = <div className={styles.mapContainer} />;
   return (
     <Page
       title={<span>{props.name}</span>}
       description={props.description}
       flex={true}
     >
-      <AddRegionsMap
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${MAPS_API_KEY}`}
-        loadingElement={<div />}
-        containerElement={mapContainer}
-        mapElement={<div style={{ height: "100%" }} />}
-        regions={props.regions}
-        onClick={clickEvent =>
-          storeNewRegion(
-            props.organiserID,
-            props.selectedEvent.eventID,
-            clickEvent,
-            props.createNewRegion
-          )
-        }
-      />
+      {generateMapElement(props)}
     </Page>
   );
 };
+
+const generateMapElement = props => (
+  <AddRegionsMap
+    googleMapURL={GOOGLE_MAPS_URL}
+    loadingElement={<div />}
+    containerElement={<div className={styles.mapContainer} />}
+    mapElement={<div style={{ height: "100%" }} />}
+    regions={props.regions}
+    onClick={clickEvent =>
+      storeNewRegion(
+        props.organiserID,
+        props.selectedEvent.eventID,
+        clickEvent,
+        props.createNewRegion
+      )
+    }
+  />
+);
 
 AddRegionsPage.propTypes = {
   name: PropTypes.string,
@@ -45,6 +48,8 @@ AddRegionsPage.propTypes = {
   createNewRegion: PropTypes.func,
   dispatch: PropTypes.func
 };
+
+generateMapElement.propTypes = AddRegionsPage.propTypes;
 
 const storeNewRegion = (
   organiserID,

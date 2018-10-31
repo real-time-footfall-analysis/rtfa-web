@@ -3,6 +3,7 @@ import EventsPage from "./components/Pages/EventsPage/EventsPage";
 import NewEventPage from "./components/Pages/NewEventPage/NewEventPage";
 import React from "react";
 import AddRegionsPage from "./components/Pages/AddRegionsPage/AddRegionsPage";
+import HeatMapPage from "./components/Pages/HeatMapPage/HeatMapPage";
 
 const routes = [
   {
@@ -54,7 +55,7 @@ const routes = [
     path: "/heatMap",
     name: "Heat Map",
     iconName: "fire",
-    content: () => <h1>HeatMap</h1>,
+    content: HeatMapPage,
     inSidebar: true
   }
 ];
