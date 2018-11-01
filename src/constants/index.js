@@ -1,5 +1,6 @@
 export const HEATMAP_REFRESH_INTERVAL = 10000;
 export const HEATMAP_USERS_SCALE_FACTOR = 1;
+export const HEATMAP_POINT_RADIUS = 10;
 export const GOOGLE_MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g";
 export const GOOGLE_MAPS_URL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places,visualization&key=${GOOGLE_MAPS_API_KEY}`;
 export const GOOGLE_MAPS_DEFAULT_CENTRE = { lat: 51.507441, lng: -0.127683 };

@@ -6,6 +6,7 @@ import _ from "lodash";
 import {
   DARK_GOOGLE_MAPS_STYLES,
   GOOGLE_MAPS_DEFAULT_CENTRE,
+  HEATMAP_POINT_RADIUS,
   HEATMAP_USERS_SCALE_FACTOR
 } from "../../../../constants";
 import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generators";
@@ -33,7 +34,7 @@ class HeatMapSubcomponent extends Component {
             this.props.regions,
             this.props.heatMapData
           )}
-          options={{ opacity: 1, radius: 5 }}
+          options={{ opacity: 1, radius: HEATMAP_POINT_RADIUS }}
         />
         {markers}
       </GoogleMap>
