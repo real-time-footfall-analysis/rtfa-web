@@ -21,7 +21,9 @@ class HeatMapSubcomponent extends Component {
     centreSet = false;
   }
   render() {
-    const markers = generateRegionMarkersWithPopup(this.props.regions);
+    const markers = generateRegionMarkersWithPopup(this.props.regions, () => (
+      <h1>Hello!</h1>
+    ));
     return (
       <GoogleMap
         defaultZoom={15}
