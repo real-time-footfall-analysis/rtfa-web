@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import TextField from "../UI/TextField/TextField";
-import NumberField from "../UI/NumberField/NumberField";
-import DateRangeField from "../UI/DateRangeField/DateRangeField";
-import FileField from "../UI/FileField/FileField";
-import NavigateButton from "../UI/NavigateButton/NavigateButton";
-import { newEventMock } from "../../api/eventsMock";
-import { createNewEvent } from "../../actions";
+import TextField from "../../UI/TextField/TextField";
+import NumberField from "../../UI/NumberField/NumberField";
+import DateRangeField from "../../UI/DateRangeField/DateRangeField";
+import FileField from "../../UI/FileField/FileField";
+import NavigateButton from "../../UI/NavigateButton/NavigateButton";
+import { newEventMock } from "../../../api/eventsMock";
+import { createNewEvent } from "../../../actions";
 
 import styles from "./NewEventForm.module.scss";
 

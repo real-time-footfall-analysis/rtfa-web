@@ -23,3 +23,7 @@ export const getRegion = (state, id) => {
   const selectedRegion = selectedEvent.regions[id];
   return selectedRegion ? selectedRegion : {};
 };
+
+export const eventsAreLoaded = state => {
+  return state.selectedEventID !== -1;
+};

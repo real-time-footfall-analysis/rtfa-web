@@ -1,8 +1,9 @@
 /* eslint-disable react/display-name */
-import EventsPage from "./components/EventsPage/EventsPage";
-import NewEventPage from "./components/NewEventPage/NewEventPage";
+import EventsPage from "./components/Pages/EventsPage/EventsPage";
+import NewEventPage from "./components/Pages/NewEventPage/NewEventPage";
 import React from "react";
-import AddRegionsPage from "./components/AddRegionsPage/AddRegionsPage";
+import AddRegionsPage from "./components/Pages/AddRegionsPage/AddRegionsPage";
+import HeatMapPage from "./components/Pages/HeatMapPage/HeatMapPage";
 
 const routes = [
   {
@@ -45,8 +46,16 @@ const routes = [
   {
     path: "/regions",
     name: "Regions",
+    description: "Edit your region names, type and radii.",
     iconName: "object-ungroup",
-    content: () => <h1>Regions</h1>,
+    content: AddRegionsPage,
+    inSidebar: true
+  },
+  {
+    path: "/heatMap",
+    name: "Heat Map",
+    iconName: "fire",
+    content: HeatMapPage,
     inSidebar: true
   }
 ];
