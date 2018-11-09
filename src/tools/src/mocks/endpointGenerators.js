@@ -8,7 +8,7 @@ export const generateSubresourceEndpoints = (
   resourceIDProperty
 ) => {
   return _.reduce(
-    _.map(resources, _.id),
+    _.map(resources, _.identity),
     (endpoints, resourcesForEvent) => {
       const endpointsForCurrentEvent = generateSingleEventSubresourceEndpoints(
         resourcesForEvent,

@@ -165,7 +165,7 @@ class TasksAPI {
     const results = this.taskIDs.map(taskID => {
       return this.request.get(`${eventsURL}/${eventID}/tasks/${taskID}`);
     });
-    return Promise.all(results);
+    return Promise.all(results.map(p => p.catch(() => undefined)));
   }
 }
 

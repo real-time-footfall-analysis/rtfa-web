@@ -1,4 +1,5 @@
 import { matchPath } from "react-router-dom";
+import _ from "lodash";
 import api from "../api";
 import { store } from "../store";
 import { eventsAreLoaded } from "../selectors";
@@ -43,11 +44,12 @@ export const loadTasksData = eventID => {
     };
   }
   return async dispatch => {
+    const tasks = await api.tasks.getDataForAllTasks(eventID);
     return dispatch({
       type: "LOAD_TASKS_DATA",
       payload: {
         eventID: eventID,
-        tasksData: await api.tasks.getDataForAllTasks(eventID)
+        tasksData: tasks.filter(_.identity)
       }
     });
   };
