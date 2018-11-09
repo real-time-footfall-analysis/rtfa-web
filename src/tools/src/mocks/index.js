@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { generateSubresourceEndpoints } from "./endpointGenerators";
-import { events, regions, tasks } from "./data";
+import { events, regions, tasks, heatMaps } from "./data";
 
 const fs = require("fs");
 
@@ -44,12 +44,22 @@ const individualTaskEndpoints = generateSubresourceEndpoints(
   "taskID"
 );
 
+const heatMapEndpoints = _.reduce(
+  heatMaps,
+  (endpoints, heatMap, eventID) => ({
+    ...endpoints,
+    [`/live/heatmap/${eventID}`]: { get: heatMap }
+  }),
+  {}
+);
+
 const allEndpoints = {
   ...allEventsEndpoint,
   ...individualEventEndpoints,
   ...allRegionsEndpoint,
   ...individualRegionEndpoints,
-  ...individualTaskEndpoints
+  ...individualTaskEndpoints,
+  ...heatMapEndpoints
 };
 
 fs.writeFile("dist/mocks/data.json", JSON.stringify(allEndpoints), err => {

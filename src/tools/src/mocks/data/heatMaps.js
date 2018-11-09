@@ -1,4 +1,4 @@
-export const heatmaps = {
+export const heatMaps = {
   1: {
     "39": 300,
     "40": 20,
