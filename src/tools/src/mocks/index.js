@@ -1,12 +1,13 @@
 import _ from "lodash";
 import { generateSubresourceEndpoints } from "./endpointGenerators";
-import { events, regions, tasks, heatMaps } from "./data";
+import { events, newEvent, regions, tasks, heatMaps } from "./data";
 
 const fs = require("fs");
 
 const allEventsEndpoint = {
   "/events": {
-    get: events
+    get: events,
+    post: newEvent
   }
 };
 
