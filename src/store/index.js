@@ -1,6 +1,5 @@
 import { applyMiddleware, createStore } from "redux";
 import { rootReducer } from "../reducers";
-import logger from "redux-logger";
 import thunk from "redux-thunk";
 
 export const initialState = {
@@ -9,8 +8,9 @@ export const initialState = {
   organiserID: 1
 };
 
+/* const logger = createLogger({ collapsed: true }); */
 export const store = createStore(
   rootReducer,
   initialState,
-  applyMiddleware(logger, thunk)
+  applyMiddleware(thunk)
 );

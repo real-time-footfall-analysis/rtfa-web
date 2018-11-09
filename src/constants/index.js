@@ -1,9 +1,29 @@
 /* API Constants */
+import { KeyValueTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/KeyValueTask/KeyValueTask";
+
 const USE_MOCK_ENDPOINTS = process.env.REACT_APP_USE_MOCK_SERVER === "true";
 
 export const BASE_URL = USE_MOCK_ENDPOINTS
   ? "http://localhost:8000"
   : "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
+
+/* Tasks Constants */
+export const TASKS_METADATA = {
+  1: {
+    props: {
+      taskName: "Average Stay Time",
+      taskUnits: "minutes"
+    },
+    component: KeyValueTask
+  },
+  2: {
+    props: {
+      taskName: "Bounce Time",
+      taskUnits: "minutes"
+    },
+    component: KeyValueTask
+  }
+};
 
 /* Heat Map Constants */
 export const HEATMAP_REFRESH_INTERVAL = 10000;

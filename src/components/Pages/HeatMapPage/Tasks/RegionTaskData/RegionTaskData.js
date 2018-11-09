@@ -1,47 +1,31 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styles from "./RegionTaskData.module.scss";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {
-  updateRegionOnServer,
-  updateRegionName,
-  updateRegionRadius,
-  updateRegionType
-} from "../../../../../actions";
 import { getSelectedEvent } from "../../../../../selectors";
+import { renderTask } from "../TaskRenderers";
 
-const RegionTaskData = props => {
-  return (
-    <div className={styles.taskForm}>
-      <h1>{props.region.name}</h1>
-    </div>
-  );
-};
+export class RegionTaskData extends Component {
+  render() {
+    return (
+      <div className={styles.taskForm}>
+        <h1 className={styles.regionName}>{this.props.region.name}</h1>
+        {this.props.tasksData.map(task =>
+          renderTask(task, this.props.region.regionID)
+        )}
+      </div>
+    );
+  }
+}
 
 RegionTaskData.propTypes = {
   region: PropTypes.object,
-  updateRegionName: PropTypes.func,
-  updateRegionType: PropTypes.func,
-  updateRegionRadius: PropTypes.func,
-  updateRegionOnServer: PropTypes.func,
   onClose: PropTypes.func,
-  selectedEvent: PropTypes.object
-};
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      updateRegionName: updateRegionName,
-      updateRegionType: updateRegionType,
-      updateRegionRadius: updateRegionRadius,
-      updateRegionOnServer: updateRegionOnServer
-    },
-    dispatch
-  );
+  selectedEvent: PropTypes.object,
+  tasksData: PropTypes.array
 };
 
 export default connect(
   state => ({ selectedEvent: getSelectedEvent(state) }),
-  mapDispatchToProps
+  null
 )(RegionTaskData);

@@ -20,7 +20,7 @@ RegionPopup.propTypes = {
   region: PropTypes.object,
   selectedEventID: PropTypes.number,
   toggleBox: PropTypes.func,
-  childType: PropTypes.element
+  childType: PropTypes.any
 };
 
 const mapDispatchToProps = dispatch => {

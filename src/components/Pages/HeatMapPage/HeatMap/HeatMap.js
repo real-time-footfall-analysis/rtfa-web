@@ -24,7 +24,8 @@ class HeatMapSubcomponent extends Component {
   render() {
     const markers = generateRegionMarkersWithPopup(
       this.props.regions,
-      RegionTaskData
+      RegionTaskData,
+      { tasksData: this.props.tasksData }
     );
     return (
       <GoogleMap
@@ -48,7 +49,8 @@ class HeatMapSubcomponent extends Component {
 
 HeatMapSubcomponent.propTypes = {
   regions: PropTypes.object,
-  heatMapData: PropTypes.object
+  heatMapData: PropTypes.object,
+  tasksData: PropTypes.array
 };
 
 export const HeatMap = withScriptjs(withGoogleMap(HeatMapSubcomponent));

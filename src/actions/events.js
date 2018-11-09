@@ -1,5 +1,5 @@
 import api from "../api";
-import { loadHeatMapIfNeeded } from "./heatMap";
+import { loadHeatMapPageDataIfNeeded } from "./heatMap";
 
 export const loadEvents = organiserID => {
   return async dispatch => {
@@ -10,12 +10,12 @@ export const loadEvents = organiserID => {
         events: events
       }
     });
-    loadHeatMapIfNeeded();
+    loadHeatMapPageDataIfNeeded();
   };
 };
 
 export const selectEvent = event => {
-  loadHeatMapIfNeeded(event.eventID);
+  loadHeatMapPageDataIfNeeded(event.eventID);
   return {
     type: "SELECT_NEW_EVENT",
     payload: {

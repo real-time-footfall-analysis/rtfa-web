@@ -22,7 +22,8 @@ const eventsReducer = (events, action) => {
         _.map(events, event => eventReducer(event, action)),
         "eventID"
       );
-    case "LOAD_HEATMAP_DATA": {
+    case "LOAD_HEATMAP_DATA":
+    case "LOAD_TASKS_DATA": {
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -53,6 +54,11 @@ const eventReducer = (event, action) => {
       return {
         ...event,
         heatMapData: action.payload.heatMapData
+      };
+    case "LOAD_TASKS_DATA":
+      return {
+        ...event,
+        tasksData: action.payload.tasksData
       };
     default:
       return event;

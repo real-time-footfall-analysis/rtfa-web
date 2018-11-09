@@ -6,10 +6,17 @@ import RegionMarker from "./RegionMarker";
 export const generateRegionMarkers = regions =>
   generateGenericRegionMarkers(regions, null);
 
-export const generateRegionMarkersWithPopup = (regions, popupElementClass) =>
-  generateGenericRegionMarkers(regions, popupElementClass);
+export const generateRegionMarkersWithPopup = (
+  regions,
+  popupElementClass,
+  props
+) => generateGenericRegionMarkers(regions, popupElementClass, props);
 
-export const generateGenericRegionMarkers = (regions, popupElementClass) => {
+export const generateGenericRegionMarkers = (
+  regions,
+  popupElementClass,
+  props
+) => {
   const regionElements = _.map(regions, region => {
     if (!region.position.lat || !region.position.lng) {
       return null;
@@ -19,6 +26,7 @@ export const generateGenericRegionMarkers = (regions, popupElementClass) => {
         isOpen={region.isBoxOpen}
         region={region}
         childType={popupElementClass}
+        {...props}
       />
     );
     return (

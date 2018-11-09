@@ -5,7 +5,7 @@ import styles from "./HeatMapPage.module.scss";
 import { connect } from "react-redux";
 import HeatMap from "./HeatMap/HeatMap";
 import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
-import { loadHeatMap } from "../../../actions";
+import { loadHeatMap, loadTasksData } from "../../../actions";
 import { bindActionCreators } from "redux";
 import { getRegions, getSelectedEvent } from "../../../selectors";
 
@@ -20,6 +20,7 @@ class HeatMapPage extends Component {
 
   componentDidMount() {
     this.props.loadHeatMap(this.props.selectedEventID);
+    this.props.loadTasksData(this.props.selectedEventID);
     this.dataFetcher = setInterval(
       () => this.props.loadHeatMap(this.props.selectedEventID),
       HEATMAP_REFRESH_INTERVAL
@@ -40,6 +41,7 @@ class HeatMapPage extends Component {
         mapElement={<div style={{ height: "100%" }} />}
         regions={this.props.regions}
         heatMapData={this.props.heatMapData}
+        tasksData={this.props.tasksData}
       />
     );
   }
@@ -50,17 +52,23 @@ HeatMapPage.propTypes = {
   heatMapData: PropTypes.object,
   selectedEventID: PropTypes.number,
   loadHeatMap: PropTypes.func,
-  regions: PropTypes.object
+  loadTasksData: PropTypes.func,
+  regions: PropTypes.object,
+  tasksData: PropTypes.array
 };
 
 const mapStateToProps = state => ({
   selectedEventID: state.selectedEventID,
   heatMapData: getSelectedEvent(state).heatMapData,
+  tasksData: getSelectedEvent(state).tasksData,
   regions: getRegions(state)
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ loadHeatMap: loadHeatMap }, dispatch);
+  return bindActionCreators(
+    { loadHeatMap: loadHeatMap, loadTasksData: loadTasksData },
+    dispatch
+  );
 };
 
 export default connect(

@@ -1,8 +1,7 @@
 import axios from "axios";
 import _ from "lodash";
+import { BASE_URL, TASKS_METADATA } from "../constants";
 
-export const BASE_URL =
-  "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
 const eventsURL = `${BASE_URL}/events`;
 const heatmapURL = `${BASE_URL}/live/heatmap`;
 
@@ -94,12 +93,25 @@ class EventsAPI {
   /* Fetches the regions for the given event and returns a new
    * event object with the regions inserted. */
   static async _injectRegions(event) {
-    let regions = await EventsAPI.getRegions(event.eventID);
-    regions = regions.map(EventsAPI._reformatIncomingRegion);
-    return {
-      ...event,
-      regions: _.keyBy(regions, "regionID")
-    };
+    try {
+      let regions = await EventsAPI.getRegions(event.eventID);
+      regions = regions.map(EventsAPI._reformatIncomingRegion);
+      return {
+        ...event,
+        regions: _.keyBy(regions, "regionID")
+      };
+    } catch (err) {
+      console.error(
+        `Failed to fetch regions for ${event.name} (eventID: ${
+          event.eventID
+        }). Check the EventsAPI._injectRegions function in 'api/index.js'`,
+        err
+      );
+      return {
+        ...event,
+        regions: {}
+      };
+    }
   }
 
   /* Reformats the region object returned by the backend
@@ -142,9 +154,25 @@ class HeatMapAPI {
   }
 }
 
+class TasksAPI {
+  static request = RequestUtils;
+  static taskIDs = Object.keys(TASKS_METADATA);
+
+  static async getDataForAllTasks(eventID) {
+    if (!eventID) {
+      console.error("You didn't pass an eventID into getDataForAllTasks");
+    }
+    const results = this.taskIDs.map(taskID => {
+      return this.request.get(`${eventsURL}/${eventID}/tasks/${taskID}`);
+    });
+    return Promise.all(results);
+  }
+}
+
 class API {
   static events = EventsAPI;
   static heatMap = HeatMapAPI;
+  static tasks = TasksAPI;
 }
 
 export default API;
