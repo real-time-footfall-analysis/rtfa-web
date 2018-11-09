@@ -1,6 +1,16 @@
+/* API Constants */
+const USE_MOCK_ENDPOINTS = process.env.REACT_APP_USE_MOCK_SERVER === "true";
+
+export const BASE_URL = USE_MOCK_ENDPOINTS
+  ? "http://localhost:8000"
+  : "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
+
+/* Heat Map Constants */
 export const HEATMAP_REFRESH_INTERVAL = 10000;
 export const HEATMAP_USERS_SCALE_FACTOR = 1;
 export const HEATMAP_POINT_RADIUS = 10;
+
+/* Google Maps Constants */
 export const GOOGLE_MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g";
 export const GOOGLE_MAPS_URL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places,visualization&key=${GOOGLE_MAPS_API_KEY}`;
 export const GOOGLE_MAPS_DEFAULT_CENTRE = { lat: 51.507441, lng: -0.127683 };
