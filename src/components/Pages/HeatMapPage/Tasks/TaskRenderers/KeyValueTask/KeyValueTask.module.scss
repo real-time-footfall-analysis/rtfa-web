@@ -2,12 +2,17 @@
 
 .taskName {
   color: $midText;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font: {
     size: 16px;
-    style: italic;
     weight: normal;
   }
+}
+
+.icon {
+  margin-right: 7px;
+  text-align: center;
+  width: 16px;
 }
 
 .taskValue {

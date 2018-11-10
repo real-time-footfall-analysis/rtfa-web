@@ -12,14 +12,16 @@ export const TASKS_METADATA = {
   1: {
     props: {
       taskName: "Average Stay Time",
-      taskUnits: "minutes"
+      taskUnits: "minutes",
+      taskIcon: "clock"
     },
     component: KeyValueTask
   },
   2: {
     props: {
-      taskName: "Bounce Time",
-      taskUnits: "minutes"
+      taskName: "Bounce Rate",
+      taskUnits: "percent",
+      taskIcon: "arrows-v"
     },
     component: KeyValueTask
   }
