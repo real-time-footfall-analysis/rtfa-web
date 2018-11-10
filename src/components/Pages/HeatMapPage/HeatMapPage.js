@@ -4,7 +4,7 @@ import Page from "../../UI/Page/Page";
 import styles from "./HeatMapPage.module.scss";
 import { connect } from "react-redux";
 import HeatMap from "./HeatMap/HeatMap";
-import { TimeSelector } from "./TimeSelector/TimeSelector";
+import { TimeSelector } from "../../UI/TimeSelector/TimeSelector";
 import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
 import {
   loadHeatMap,
