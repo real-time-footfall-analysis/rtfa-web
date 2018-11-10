@@ -37,9 +37,15 @@ class HeatMapSubcomponent extends Component {
         <HeatmapLayer
           data={generateHeatMapPoints(
             this.props.regions,
-            this.props.heatMapData
+            this.props.heatMapData,
+            this.props.randomise
           )}
-          options={{ opacity: 1, radius: HEATMAP_POINT_RADIUS }}
+          options={{
+            opacity: 1,
+            radius: this.props.randomise
+              ? HEATMAP_POINT_RADIUS
+              : HEATMAP_POINT_RADIUS * 2
+          }}
         />
         {markers}
       </GoogleMap>
@@ -50,7 +56,8 @@ class HeatMapSubcomponent extends Component {
 HeatMapSubcomponent.propTypes = {
   regions: PropTypes.object,
   heatMapData: PropTypes.object,
-  tasksData: PropTypes.array
+  tasksData: PropTypes.array,
+  randomise: PropTypes.bool
 };
 
 export const HeatMap = withScriptjs(withGoogleMap(HeatMapSubcomponent));
@@ -64,7 +71,7 @@ const setCentre = (ref, regions) => {
   }
 };
 
-const generateHeatMapPoints = (regions, heatMapData) => {
+const generateHeatMapPoints = (regions, heatMapData, randomise) => {
   const points = [];
   _.forEach(heatMapData, (count, regionID) => {
     const region = regions[regionID];
@@ -74,7 +81,10 @@ const generateHeatMapPoints = (regions, heatMapData) => {
     }
     /* Generate n random points around the centre, within the radius. */
     for (let i = 0; i < count * HEATMAP_USERS_SCALE_FACTOR; i++) {
-      points.push(createRandomisedPoint(region.position, region.radius));
+      const point = randomise
+        ? createRandomisedPoint(region.position, region.radius)
+        : region.position;
+      points.push(point);
     }
   });
   return points.map(point => new google.maps.LatLng(point.lat, point.lng));

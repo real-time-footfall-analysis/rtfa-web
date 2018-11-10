@@ -23,8 +23,10 @@ const eventsReducer = (events, action) => {
         "eventID"
       );
     case "LOAD_HEATMAP_DATA":
+    case "LOAD_HISTORICAL_HEATMAP_DATA":
     case "LOAD_TASKS_DATA":
-    case "SET_HEATMAP_SLIDER_VALUE": {
+    case "SET_HEATMAP_SLIDER_VALUE":
+    case "TOGGLE_HEATMAP_HISTORICAL_MODE": {
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -51,20 +53,37 @@ const eventReducer = (event, action) => {
         "regions",
         regionsReducer(event.regions, action)
       );
+    /* TODO: Refactor these into a generic reducer. */
     case "LOAD_HEATMAP_DATA":
       return {
         ...event,
         heatMapData: action.payload.heatMapData
+      };
+    case "LOAD_HISTORICAL_HEATMAP_DATA":
+      return {
+        ...event,
+        historicalHeatMapData: action.payload.historicalHeatMapData
       };
     case "LOAD_TASKS_DATA":
       return {
         ...event,
         tasksData: action.payload.tasksData
       };
-    case "SET_HEATMAP_SLIDER_VALUE":
+    case "SET_HEATMAP_SLIDER_VALUE": {
+      const index = action.payload.sliderValue;
+      const selectedTimestamp = event.historicalHeatMapData.timestamps[index];
+      const selectedHeatMapData =
+        event.historicalHeatMapData.data[selectedTimestamp];
       return {
         ...event,
+        heatMapData: selectedHeatMapData,
         heatMapSliderValue: action.payload.sliderValue
+      };
+    }
+    case "TOGGLE_HEATMAP_HISTORICAL_MODE":
+      return {
+        ...event,
+        historicalModeEnabled: action.payload.historicalModeEnabled
       };
     default:
       return event;

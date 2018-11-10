@@ -1,6 +1,7 @@
 import { applyMiddleware, createStore } from "redux";
 import { rootReducer } from "../reducers";
 import thunk from "redux-thunk";
+/* import { createLogger } from "redux-logger"; */
 
 export const initialState = {
   events: {},
@@ -12,5 +13,5 @@ export const initialState = {
 export const store = createStore(
   rootReducer,
   initialState,
-  applyMiddleware(thunk)
+  applyMiddleware(/*logger,*/ thunk)
 );
