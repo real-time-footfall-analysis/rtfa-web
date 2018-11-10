@@ -6,11 +6,13 @@ import _ from "lodash";
 import {
   DARK_GOOGLE_MAPS_STYLES,
   GOOGLE_MAPS_DEFAULT_CENTRE,
+  HEATMAP_POINT_RADIUS,
   HEATMAP_USERS_SCALE_FACTOR
 } from "../../../../constants";
 import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generators";
 import { calculateMidpointOfRegions } from "../../../../utils";
 import PropTypes from "prop-types";
+import RegionTaskData from "../Tasks/RegionTaskData/RegionTaskData";
 
 /* TODO: Refactor this and AddRegionsMap to use Redux to update centre. */
 let centreSet = false;
@@ -20,7 +22,11 @@ class HeatMapSubcomponent extends Component {
     centreSet = false;
   }
   render() {
-    const markers = generateRegionMarkersWithPopup(this.props.regions);
+    const markers = generateRegionMarkersWithPopup(
+      this.props.regions,
+      RegionTaskData,
+      { tasksData: this.props.tasksData }
+    );
     return (
       <GoogleMap
         defaultZoom={15}
@@ -33,7 +39,7 @@ class HeatMapSubcomponent extends Component {
             this.props.regions,
             this.props.heatMapData
           )}
-          options={{ opacity: 1, radius: 5 }}
+          options={{ opacity: 1, radius: HEATMAP_POINT_RADIUS }}
         />
         {markers}
       </GoogleMap>
@@ -43,7 +49,8 @@ class HeatMapSubcomponent extends Component {
 
 HeatMapSubcomponent.propTypes = {
   regions: PropTypes.object,
-  heatMapData: PropTypes.object
+  heatMapData: PropTypes.object,
+  tasksData: PropTypes.array
 };
 
 export const HeatMap = withScriptjs(withGoogleMap(HeatMapSubcomponent));

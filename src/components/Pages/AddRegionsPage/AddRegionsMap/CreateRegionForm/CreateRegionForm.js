@@ -68,7 +68,7 @@ const CreateRegionForm = props => {
         leftIcon="check-circle"
         fill={true}
         onClick={() => {
-          props.save();
+          props.onClose();
           props.updateRegionOnServer(
             props.selectedEvent.eventID,
             props.region.regionID
@@ -87,7 +87,7 @@ CreateRegionForm.propTypes = {
   updateRegionType: PropTypes.func,
   updateRegionRadius: PropTypes.func,
   updateRegionOnServer: PropTypes.func,
-  save: PropTypes.func,
+  onClose: PropTypes.func,
   selectedEvent: PropTypes.object
 };
 

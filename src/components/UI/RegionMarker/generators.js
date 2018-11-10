@@ -1,25 +1,37 @@
 import _ from "lodash";
-import CreateRegionPopup from "../../Pages/AddRegionsPage/AddRegionsMap/CreateRegionPopup/CreateRegionPopup";
+import RegionPopup from "../../UI/RegionPopup/RegionPopup";
 import React from "react";
 import RegionMarker from "./RegionMarker";
 
 export const generateRegionMarkers = regions =>
-  generateGenericRegionMarkers(regions, false);
+  generateGenericRegionMarkers(regions, null);
 
-export const generateRegionMarkersWithPopup = regions =>
-  generateGenericRegionMarkers(regions, true);
+export const generateRegionMarkersWithPopup = (
+  regions,
+  popupElementClass,
+  props
+) => generateGenericRegionMarkers(regions, popupElementClass, props);
 
-export const generateGenericRegionMarkers = (regions, withPopup) => {
+export const generateGenericRegionMarkers = (
+  regions,
+  popupElementClass,
+  props
+) => {
   const regionElements = _.map(regions, region => {
     if (!region.position.lat || !region.position.lng) {
       return null;
     }
     const popup = (
-      <CreateRegionPopup isOpen={region.isBoxOpen} region={region} />
+      <RegionPopup
+        isOpen={region.isBoxOpen}
+        region={region}
+        childType={popupElementClass}
+        {...props}
+      />
     );
     return (
       <RegionMarker key={region.regionID} region={region}>
-        {withPopup ? popup : null}
+        {popupElementClass !== null ? popup : null}
       </RegionMarker>
     );
   });

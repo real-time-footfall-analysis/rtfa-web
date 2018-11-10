@@ -6,20 +6,27 @@
 }
 
 .eventsWrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  transition: all $transitionDuration $transitionFunction;
+
+  @media screen and (max-width: 1380px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 1060px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .eventCard {
   margin: 0 20px 20px 0;
-  min-width: 400px;
+  min-width: 300px;
   transition: all $transitionDuration $transitionFunction;
 
   img {
     background: #e0e0e0;
-    height: 240px;
-    max-width: 100%;
-    width: 360px;
+    width: 100%;
   }
   .eventName {
     margin: 13px 0 10px 0;

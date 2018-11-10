@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+  withRouter
+} from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import routes from "./CrowdApp.routing";
 import styles from "./CrowdApp.module.scss";
@@ -10,24 +16,6 @@ import { loadEvents, selectEvent } from "./actions";
 import { bindActionCreators } from "redux";
 
 class CrowdApp extends Component {
-  constructor(props) {
-    super(props);
-    this.redirectHomeRoute = (
-      <Route exact path="/" render={() => <Redirect to="/events" />} />
-    );
-    this.routes = routes.map(route => (
-      <Route
-        key={route.path}
-        name={route.name}
-        path={route.path}
-        exact={route.exact}
-        render={() => (
-          <route.content name={route.name} description={route.description} />
-        )}
-      />
-    ));
-  }
-
   componentDidMount() {
     this.props.loadEvents(this.props.organiserID);
   }
@@ -42,10 +30,7 @@ class CrowdApp extends Component {
             selectedEvent={this.props.selectedEvent}
             handleEventSelection={this.props.handleEventSelection}
           />
-          <div className={styles.main}>
-            {this.redirectHomeRoute}
-            {this.routes}
-          </div>
+          <Routes />
         </div>
       </Router>
     );
@@ -77,6 +62,31 @@ const mapDispatchToProps = dispatch => {
     dispatch
   );
 };
+
+const Routes = withRouter(({ location }) => (
+  <div className={styles.main}>
+    <Switch location={location}>
+      {redirectHomeRoute}
+      {routeElements}
+    </Switch>
+  </div>
+));
+
+const redirectHomeRoute = (
+  <Route exact path="/" render={() => <Redirect to="/events" />} />
+);
+
+const routeElements = routes.map(route => (
+  <Route
+    key={route.path}
+    name={route.name}
+    path={route.path}
+    exact={route.exact}
+    render={() => (
+      <route.content name={route.name} description={route.description} />
+    )}
+  />
+));
 
 export default connect(
   mapStateToProps,

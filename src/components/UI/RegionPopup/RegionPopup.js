@@ -1,29 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { InfoWindow } from "react-google-maps";
-import CreateRegionForm from "../CreateRegionForm/CreateRegionForm";
 import { bindActionCreators } from "redux";
-import { toggleRegionMarkerBox } from "../../../../../actions";
+import { toggleRegionMarkerBox } from "../../../actions";
 import { connect } from "react-redux";
 
-const CreateRegionPopup = props => {
+const RegionPopup = props => {
   if (!props.isOpen) {
     return null;
   }
   const onClose = () =>
     props.toggleBox(props.selectedEventID, props.region.regionID);
-  return (
-    <InfoWindow onCloseClick={onClose}>
-      <CreateRegionForm region={props.region} save={onClose} />
-    </InfoWindow>
-  );
+  const popupContent = React.createElement(props.childType, props);
+  return <InfoWindow onCloseClick={onClose}>{popupContent}</InfoWindow>;
 };
 
-CreateRegionPopup.propTypes = {
+RegionPopup.propTypes = {
   isOpen: PropTypes.bool,
   region: PropTypes.object,
   selectedEventID: PropTypes.number,
-  toggleBox: PropTypes.func
+  toggleBox: PropTypes.func,
+  childType: PropTypes.any
 };
 
 const mapDispatchToProps = dispatch => {
@@ -38,4 +35,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   state => ({ selectedEventID: state.selectedEventID }),
   mapDispatchToProps
-)(CreateRegionPopup);
+)(RegionPopup);

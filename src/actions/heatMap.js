@@ -1,13 +1,21 @@
+import { matchPath } from "react-router-dom";
+import _ from "lodash";
 import api from "../api";
 import { store } from "../store";
 import { eventsAreLoaded } from "../selectors";
 
-export const loadHeatMapIfNeeded = eventID => {
+const isHeatMapPageActive = () => {
+  const isActive = matchPath(window.location.pathname, "/heatMap");
+  return !!isActive;
+};
+
+export const loadHeatMapPageDataIfNeeded = eventID => {
   if (!eventID) {
     eventID = store.getState().selectedEventID;
   }
-  if (window.location.pathname === "/heatMap") {
+  if (isHeatMapPageActive()) {
     store.dispatch(loadHeatMap(eventID));
+    store.dispatch(loadTasksData(eventID));
   }
 };
 
@@ -26,4 +34,33 @@ export const loadHeatMap = eventID => {
         heatMapData: await api.heatMap.getHeatMapData(eventID)
       }
     });
+};
+
+export const loadTasksData = eventID => {
+  const eventsLoaded = eventsAreLoaded(store.getState());
+  if (!eventsLoaded) {
+    return {
+      type: "NOT_READY_TO_LOAD_TASKS"
+    };
+  }
+  return async dispatch => {
+    const tasks = await api.tasks.getDataForAllTasks(eventID);
+    return dispatch({
+      type: "LOAD_TASKS_DATA",
+      payload: {
+        eventID: eventID,
+        tasksData: tasks.filter(_.identity)
+      }
+    });
+  };
+};
+
+export const setHeatMapSliderValue = (eventID, sliderValue) => {
+  return {
+    type: "SET_HEATMAP_SLIDER_VALUE",
+    payload: {
+      eventID: eventID,
+      sliderValue: sliderValue
+    }
+  };
 };

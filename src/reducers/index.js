@@ -22,7 +22,9 @@ const eventsReducer = (events, action) => {
         _.map(events, event => eventReducer(event, action)),
         "eventID"
       );
-    case "LOAD_HEATMAP_DATA": {
+    case "LOAD_HEATMAP_DATA":
+    case "LOAD_TASKS_DATA":
+    case "SET_HEATMAP_SLIDER_VALUE": {
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -53,6 +55,16 @@ const eventReducer = (event, action) => {
       return {
         ...event,
         heatMapData: action.payload.heatMapData
+      };
+    case "LOAD_TASKS_DATA":
+      return {
+        ...event,
+        tasksData: action.payload.tasksData
+      };
+    case "SET_HEATMAP_SLIDER_VALUE":
+      return {
+        ...event,
+        heatMapSliderValue: action.payload.sliderValue
       };
     default:
       return event;

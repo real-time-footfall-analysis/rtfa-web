@@ -5,6 +5,7 @@ import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generat
 import { calculateMidpointOfRegions } from "../../../../utils";
 import { GOOGLE_MAPS_DEFAULT_CENTRE } from "../../../../constants";
 import _ from "lodash";
+import CreateRegionForm from "./CreateRegionForm/CreateRegionForm";
 
 /* TODO: Refactor this and HeatMap to use Redux to update centre. */
 class AddRegionsMapSubcomponent extends Component {
@@ -12,7 +13,10 @@ class AddRegionsMapSubcomponent extends Component {
     centreSet = false;
   }
   render() {
-    const markers = generateRegionMarkersWithPopup(this.props.regions);
+    const markers = generateRegionMarkersWithPopup(
+      this.props.regions,
+      CreateRegionForm
+    );
     return (
       <GoogleMap
         defaultZoom={15}
@@ -28,7 +32,7 @@ class AddRegionsMapSubcomponent extends Component {
 
 AddRegionsMapSubcomponent.propTypes = {
   regions: PropTypes.object,
-  onClick: PropTypes.object
+  onClick: PropTypes.func
 };
 
 export const AddRegionsMap = withScriptjs(

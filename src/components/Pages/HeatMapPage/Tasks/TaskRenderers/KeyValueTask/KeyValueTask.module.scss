@@ -1,0 +1,30 @@
+@import "../../../../../../styles/_vars.scss";
+
+.taskName {
+  color: $midText;
+  margin-bottom: 10px;
+  font: {
+    size: 16px;
+    weight: normal;
+  }
+}
+
+.icon {
+  margin-right: 7px;
+  text-align: center;
+  width: 16px;
+}
+
+.taskValue {
+  color: $midText;
+  font: {
+    size: 30px;
+  }
+}
+
+.units {
+  margin-left: 4px;
+  font: {
+    size: 18px;
+  }
+}
