@@ -4,8 +4,13 @@ import Page from "../../UI/Page/Page";
 import styles from "./HeatMapPage.module.scss";
 import { connect } from "react-redux";
 import HeatMap from "./HeatMap/HeatMap";
+import { TimeSelector } from "./TimeSelector/TimeSelector";
 import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
-import { loadHeatMap, loadTasksData } from "../../../actions";
+import {
+  loadHeatMap,
+  loadTasksData,
+  setHeatMapSliderValue
+} from "../../../actions";
 import { bindActionCreators } from "redux";
 import { getRegions, getSelectedEvent } from "../../../selectors";
 
@@ -13,7 +18,18 @@ class HeatMapPage extends Component {
   render() {
     return (
       <Page title={<span>{this.props.name}</span>} flex={true}>
-        {this.generateMapElement()}
+        <div style={{ height: "100%" }}>
+          {this.generateMapElement()}
+          <TimeSelector
+            value={this.props.sliderValue}
+            onChange={newValue =>
+              this.props.setHeatMapSliderValue(
+                this.props.selectedEventID,
+                newValue
+              )
+            }
+          />
+        </div>
       </Page>
     );
   }
@@ -53,6 +69,8 @@ HeatMapPage.propTypes = {
   selectedEventID: PropTypes.number,
   loadHeatMap: PropTypes.func,
   loadTasksData: PropTypes.func,
+  setHeatMapSliderValue: PropTypes.func,
+  sliderValue: PropTypes.number,
   regions: PropTypes.object,
   tasksData: PropTypes.array
 };
@@ -61,12 +79,17 @@ const mapStateToProps = state => ({
   selectedEventID: state.selectedEventID,
   heatMapData: getSelectedEvent(state).heatMapData,
   tasksData: getSelectedEvent(state).tasksData,
-  regions: getRegions(state)
+  regions: getRegions(state),
+  sliderValue: getSelectedEvent(state).heatMapSliderValue
 });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
-    { loadHeatMap: loadHeatMap, loadTasksData: loadTasksData },
+    {
+      loadHeatMap: loadHeatMap,
+      loadTasksData: loadTasksData,
+      setHeatMapSliderValue: setHeatMapSliderValue
+    },
     dispatch
   );
 };

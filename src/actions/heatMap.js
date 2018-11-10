@@ -54,3 +54,13 @@ export const loadTasksData = eventID => {
     });
   };
 };
+
+export const setHeatMapSliderValue = (eventID, sliderValue) => {
+  return {
+    type: "SET_HEATMAP_SLIDER_VALUE",
+    payload: {
+      eventID: eventID,
+      sliderValue: sliderValue
+    }
+  };
+};
