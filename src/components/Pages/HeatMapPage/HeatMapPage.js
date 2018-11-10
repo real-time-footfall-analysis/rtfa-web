@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Page from "../../UI/Page/Page";
-import styles from "./HeatMapPage.module.scss";
 import { connect } from "react-redux";
-import HeatMap from "./HeatMap/HeatMap";
-import { TimeSelector } from "../../UI/TimeSelector/TimeSelector";
+import { bindActionCreators } from "redux";
+import PropTypes from "prop-types";
+import _ from "lodash";
+
 import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
 import {
   loadHeatMap,
@@ -12,15 +11,21 @@ import {
   setHeatMapSliderValue,
   toggleHeatMapHistoricalMode
 } from "../../../actions";
-import { bindActionCreators } from "redux";
 import { getRegions, getSelectedEvent } from "../../../selectors";
+import { timestampToDateString } from "../../../utils";
+import Page from "../../UI/Page/Page";
+import { TimeSelector } from "../../UI/TimeSelector/TimeSelector";
+import HeatMap from "./HeatMap/HeatMap";
 import { HistoricalModeToggle } from "./HistoricalModeToggle/HistoricalModeToggle";
+
+import styles from "./HeatMapPage.module.scss";
 
 class HeatMapPage extends Component {
   constructor(props) {
     super(props);
-    this.enableHistoricalMode = this.enableHistoricalMode.bind(this);
-    this.disableHistoricalMode = this.disableHistoricalMode.bind(this);
+    /* Bind callbacks. */
+    this.timeSelectLabelRenderer = this.timeSelectLabelRenderer.bind(this);
+    this.onTimeSelection = this.onTimeSelection.bind(this);
   }
 
   render() {
@@ -38,6 +43,8 @@ class HeatMapPage extends Component {
   componentDidMount() {
     this.props.loadHeatMap(this.props.selectedEventID);
     this.props.loadTasksData(this.props.selectedEventID);
+    window.a = () => this.props.loadHeatMap(this.props.selectedEventID);
+    /* Poll for live heat map data every N seconds. */
     this.dataFetcher = setInterval(
       () => this.props.loadHeatMap(this.props.selectedEventID),
       HEATMAP_REFRESH_INTERVAL
@@ -45,10 +52,12 @@ class HeatMapPage extends Component {
   }
 
   componentWillUnmount() {
+    /* Stop polling for live heatmap data. */
     clearInterval(this.dataFetcher);
   }
 
   generateMapElement() {
+    /* Make room for time slider if needed. */
     const shrinkMap = this.props.historicalModeEnabled ? styles.shrink : "";
     const mapContainer = (
       <div className={`${styles.mapContainer} ${shrinkMap}`} />
@@ -66,38 +75,45 @@ class HeatMapPage extends Component {
     );
   }
 
-  enableHistoricalMode() {
-    this.props.toggleHistoricalMode(this.props.selectedEventID, true);
-  }
-
-  disableHistoricalMode() {
-    this.props.toggleHistoricalMode(this.props.selectedEventID, false);
-  }
-
   generateHistoricalToggle() {
     return (
       <HistoricalModeToggle
         historicalModeEnabled={this.props.historicalModeEnabled}
-        enableHistoricalMode={this.enableHistoricalMode}
-        disableHistoricalMode={this.disableHistoricalMode}
+        toggleHistoricalMode={this.props.toggleHistoricalMode}
+        selectedEventID={this.props.selectedEventID}
       />
     );
   }
 
+  /* Update historical heat map date value when user interacts with slider. */
+  onTimeSelection(newValue) {
+    this.props.setHeatMapSliderValue(this.props.selectedEventID, newValue);
+  }
+
+  /* Fetches timestamp for the index selected on the slider and converts the
+   * timestamp to a date string. */
+  timeSelectLabelRenderer(index) {
+    return timestampToDateString(
+      this.props.historicalHeatMapData.timestamps[index]
+    );
+  }
+
+  /* Returns true if the time selector is ready for use. */
+  shouldDisplayTimeSelector() {
+    return this.props.historicalModeEnabled && this.props.historicalHeatMapData;
+  }
+
   generateTimeSelector() {
-    if (!this.props.historicalModeEnabled) {
+    if (!this.shouldDisplayTimeSelector()) {
       return;
     }
     return (
       <div className={styles.timeSelector}>
         <TimeSelector
           value={this.props.sliderValue}
-          onChange={newValue =>
-            this.props.setHeatMapSliderValue(
-              this.props.selectedEventID,
-              newValue
-            )
-          }
+          onChange={this.onTimeSelection}
+          max={_.size(this.props.historicalHeatMapData.data) - 1}
+          labelRenderer={this.timeSelectLabelRenderer}
         />
       </div>
     );
@@ -115,6 +131,7 @@ HeatMapPage.propTypes = {
   regions: PropTypes.object,
   tasksData: PropTypes.array,
   historicalModeEnabled: PropTypes.bool,
+  historicalHeatMapData: PropTypes.object,
   toggleHistoricalMode: PropTypes.func
 };
 
