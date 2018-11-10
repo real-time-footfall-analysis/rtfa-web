@@ -44,7 +44,6 @@ class HeatMapPage extends Component {
   componentDidMount() {
     this.props.loadHeatMap(this.props.selectedEventID);
     this.props.loadTasksData(this.props.selectedEventID);
-    window.a = () => this.props.loadHeatMap(this.props.selectedEventID);
     /* Poll for live heat map data every N seconds. */
     this.enableDataPolling();
   }
