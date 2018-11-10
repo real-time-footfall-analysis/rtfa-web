@@ -4,12 +4,38 @@
   height: 100%;
 }
 
-.mapContainer {
+.content {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  transition: all $transitionDuration $transitionFunction;
+  justify-content: space-between;
+}
 
-  &.shrink {
-    height: 95%;
-    margin-bottom: 25px;
-  }
+.mapContainer {
+  flex-grow: 1;
+  position: relative;
+  transition: all $transitionDuration $transitionFunction;
+}
+
+.mapElement {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.tools {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  width: 100%;
+}
+
+.timeSelectorWrapper {
+  flex-grow: 1;
+}
+
+.playButton {
+  margin-left: 50px;
+  width: 60px;
 }

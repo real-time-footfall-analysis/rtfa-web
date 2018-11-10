@@ -4,7 +4,11 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import _ from "lodash";
 
-import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
+import {
+  GOOGLE_MAPS_URL,
+  HEATMAP_ANIMATION_FRAME_DELAY,
+  HEATMAP_REFRESH_INTERVAL
+} from "../../../constants";
 import {
   loadHeatMap,
   loadTasksData,
@@ -12,13 +16,14 @@ import {
   toggleHeatMapHistoricalMode
 } from "../../../actions";
 import { getRegions, getSelectedEvent } from "../../../selectors";
-import { timestampToDateString } from "../../../utils";
+import { sleep, timestampToDateString } from "../../../utils";
 import Page from "../../UI/Page/Page";
 import { TimeSelector } from "../../UI/TimeSelector/TimeSelector";
 import HeatMap from "./HeatMap/HeatMap";
 import { HistoricalModeToggle } from "./HistoricalModeToggle/HistoricalModeToggle";
 
 import styles from "./HeatMapPage.module.scss";
+import Button from "../../UI/Button/Button";
 
 class HeatMapPage extends Component {
   constructor(props) {
@@ -27,6 +32,7 @@ class HeatMapPage extends Component {
     this.timeSelectLabelRenderer = this.timeSelectLabelRenderer.bind(this);
     this.onTimeSelection = this.onTimeSelection.bind(this);
     this.historicalModeChange = this.historicalModeChange.bind(this);
+    this.playHeatMap = this.playHeatMap.bind(this);
   }
 
   render() {
@@ -34,8 +40,10 @@ class HeatMapPage extends Component {
       <Page title={<span>{this.props.name}</span>} flex={true}>
         <div className={styles.heatMapPage}>
           {this.generateHistoricalToggle()}
-          {this.generateMapElement()}
-          {this.generateTimeSelector()}
+          <div className={styles.content}>
+            {this.generateMapElement()}
+            {this.generateHistoricalTools()}
+          </div>
         </div>
       </Page>
     );
@@ -54,17 +62,13 @@ class HeatMapPage extends Component {
   }
 
   generateMapElement() {
-    /* Make room for time slider if needed. */
-    const shrinkMap = this.props.historicalModeEnabled ? styles.shrink : "";
-    const mapContainer = (
-      <div className={`${styles.mapContainer} ${shrinkMap}`} />
-    );
+    const mapContainer = <div className={`${styles.mapContainer}`} />;
     return (
       <HeatMap
         googleMapURL={GOOGLE_MAPS_URL}
         loadingElement={<div />}
         containerElement={mapContainer}
-        mapElement={<div style={{ height: "100%" }} />}
+        mapElement={<div className={styles.mapElement} />}
         regions={this.props.regions}
         heatMapData={this.props.heatMapData}
         randomise={!this.props.historicalModeEnabled}
@@ -73,6 +77,35 @@ class HeatMapPage extends Component {
     );
   }
 
+  /* Creates the historical view toolbar, containing the TimeSelector and
+   * play button. */
+  generateHistoricalTools() {
+    if (!this.shouldDisplayHistoricalTools()) {
+      return;
+    }
+    return (
+      <div className={styles.tools}>
+        <div className={styles.timeSelectorWrapper}>
+          {this.generateTimeSelector()}
+        </div>
+        <Button className={styles.playButton} onClick={this.playHeatMap}>
+          <i className="far fa-play-circle" />
+        </Button>
+      </div>
+    );
+  }
+
+  /* Loops through available timestamps and displays the heatmap at each one,
+   * for X seconds before moving to the next point in time. */
+  async playHeatMap() {
+    const timestamps = this.props.historicalHeatMapData.timestamps;
+    for (let index = 0; index < timestamps.length; index++) {
+      this.onTimeSelection(index);
+      await sleep(HEATMAP_ANIMATION_FRAME_DELAY);
+    }
+  }
+
+  /* Creates a toggle allowing you to select "Live" and "Historical" views. */
   generateHistoricalToggle() {
     return (
       <HistoricalModeToggle
@@ -107,8 +140,8 @@ class HeatMapPage extends Component {
   }
 
   /* Update historical heat map date value when user interacts with slider. */
-  onTimeSelection(newValue) {
-    this.props.setHeatMapSliderValue(this.props.selectedEventID, newValue);
+  onTimeSelection(newIndex) {
+    this.props.setHeatMapSliderValue(this.props.selectedEventID, newIndex);
   }
 
   /* Fetches timestamp for the index selected on the slider and converts the
@@ -119,16 +152,13 @@ class HeatMapPage extends Component {
     );
   }
 
-  /* Returns true if the time selector is ready for use. */
-  shouldDisplayTimeSelector() {
+  /* Returns true if the historical tools should be rendered. */
+  shouldDisplayHistoricalTools() {
     return this.props.historicalModeEnabled && this.props.historicalHeatMapData;
   }
 
   /* Creates + returns a TimeSelector element if historical mode is enabled. */
   generateTimeSelector() {
-    if (!this.shouldDisplayTimeSelector()) {
-      return;
-    }
     return (
       <div className={styles.timeSelector}>
         <TimeSelector

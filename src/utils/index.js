@@ -10,6 +10,11 @@ export const timestampToDateString = timestamp => {
   return `${date.getDate()}/${date.getMonth() + 1}/${shortYear}`;
 };
 
+/* `await sleep(someMilliseconds)` is equivalent to sleep in other languages. */
+export const sleep = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
 export const calculateMidpointOfRegions = regions => {
   if (_.size(regions) === 0) {
     return { lat: 51.507441, lng: -0.127683 };
