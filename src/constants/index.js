@@ -31,6 +31,7 @@ export const TASKS_METADATA = {
 export const HEATMAP_REFRESH_INTERVAL = 10000;
 export const HEATMAP_USERS_SCALE_FACTOR = 1;
 export const HEATMAP_POINT_RADIUS = 10;
+export const HISTORICAL_HEATMAP_TASK_ID = 4;
 
 /* Google Maps Constants */
 export const GOOGLE_MAPS_API_KEY = "AIzaSyDaIck1_kxNWiyEQetkb_DH78bV6T7Lz-g";

@@ -1,6 +1,10 @@
 import axios from "axios";
 import _ from "lodash";
-import { BASE_URL, TASKS_METADATA } from "../constants";
+import {
+  BASE_URL,
+  HISTORICAL_HEATMAP_TASK_ID,
+  TASKS_METADATA
+} from "../constants";
 
 const eventsURL = `${BASE_URL}/events`;
 const heatmapURL = `${BASE_URL}/live/heatmap`;
@@ -151,6 +155,17 @@ class HeatMapAPI {
       console.error("You didn't pass an eventID into getHeatMapData");
     }
     return await this.request.get(`${heatmapURL}/${eventID}`);
+  }
+
+  static async getHistoricalHeatMapData(eventID) {
+    if (!eventID) {
+      console.error("You didn't pass an eventID into getHistoricalHeatMapData");
+    }
+    const data = await this.request.get(
+      `${eventsURL}/${eventID}/tasks/${HISTORICAL_HEATMAP_TASK_ID}`
+    );
+    console.log(data);
+    return data;
   }
 }
 

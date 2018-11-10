@@ -36,6 +36,25 @@ export const loadHeatMap = eventID => {
     });
 };
 
+export const loadHistoricalHeatMap = eventID => {
+  const eventsLoaded = eventsAreLoaded(store.getState());
+  if (!eventsLoaded) {
+    return {
+      type: "NOT_READY_TO_LOAD_HISTORICAL_HEATMAP"
+    };
+  }
+  return async dispatch =>
+    dispatch({
+      type: "LOAD_HISTORICAL_HEATMAP_DATA",
+      payload: {
+        eventID: eventID,
+        historicalHeatMapData: await api.heatMap.getHistoricalHeatMapData(
+          eventID
+        )
+      }
+    });
+};
+
 export const loadTasksData = eventID => {
   const eventsLoaded = eventsAreLoaded(store.getState());
   if (!eventsLoaded) {
@@ -66,6 +85,9 @@ export const setHeatMapSliderValue = (eventID, sliderValue) => {
 };
 
 export const toggleHeatMapHistoricalMode = (eventID, historicalModeEnabled) => {
+  if (historicalModeEnabled) {
+    store.dispatch(loadHistoricalHeatMap(eventID));
+  }
   return {
     type: "TOGGLE_HEATMAP_HISTORICAL_MODE",
     payload: {

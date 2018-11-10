@@ -67,7 +67,6 @@ class HeatMapPage extends Component {
   }
 
   enableHistoricalMode() {
-    console.log("ENABLING");
     this.props.toggleHistoricalMode(this.props.selectedEventID, true);
   }
 
@@ -125,6 +124,7 @@ const mapStateToProps = state => ({
   tasksData: getSelectedEvent(state).tasksData,
   regions: getRegions(state),
   sliderValue: getSelectedEvent(state).heatMapSliderValue,
+  historicalHeatMapData: getSelectedEvent(state).historicalHeatMapData,
   historicalModeEnabled: getSelectedEvent(state).historicalModeEnabled
 });
 

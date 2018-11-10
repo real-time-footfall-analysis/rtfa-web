@@ -23,6 +23,7 @@ const eventsReducer = (events, action) => {
         "eventID"
       );
     case "LOAD_HEATMAP_DATA":
+    case "LOAD_HISTORICAL_HEATMAP_DATA":
     case "LOAD_TASKS_DATA":
     case "SET_HEATMAP_SLIDER_VALUE":
     case "TOGGLE_HEATMAP_HISTORICAL_MODE": {
@@ -57,6 +58,11 @@ const eventReducer = (event, action) => {
       return {
         ...event,
         heatMapData: action.payload.heatMapData
+      };
+    case "LOAD_HISTORICAL_HEATMAP_DATA":
+      return {
+        ...event,
+        historicalHeatMapData: action.payload.historicalHeatMapData
       };
     case "LOAD_TASKS_DATA":
       return {
