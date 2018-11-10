@@ -1,5 +1,15 @@
 @import "../../../styles/_vars.scss";
 
+.heatMapPage {
+  height: 100%;
+}
+
 .mapContainer {
   height: 100%;
+  transition: all $transitionDuration $transitionFunction;
+
+  &.shrink {
+    height: 95%;
+    margin-bottom: 25px;
+  }
 }

@@ -26,7 +26,7 @@ class HeatMapPage extends Component {
   render() {
     return (
       <Page title={<span>{this.props.name}</span>} flex={true}>
-        <div style={{ height: "100%" }}>
+        <div className={styles.heatMapPage}>
           {this.generateHistoricalToggle()}
           {this.generateMapElement()}
           {this.generateTimeSelector()}
@@ -49,7 +49,10 @@ class HeatMapPage extends Component {
   }
 
   generateMapElement() {
-    const mapContainer = <div className={styles.mapContainer} />;
+    const shrinkMap = this.props.historicalModeEnabled ? styles.shrink : "";
+    const mapContainer = (
+      <div className={`${styles.mapContainer} ${shrinkMap}`} />
+    );
     return (
       <HeatMap
         googleMapURL={GOOGLE_MAPS_URL}
@@ -83,13 +86,21 @@ class HeatMapPage extends Component {
   }
 
   generateTimeSelector() {
+    if (!this.props.historicalModeEnabled) {
+      return;
+    }
     return (
-      <TimeSelector
-        value={this.props.sliderValue}
-        onChange={newValue =>
-          this.props.setHeatMapSliderValue(this.props.selectedEventID, newValue)
-        }
-      />
+      <div className={styles.timeSelector}>
+        <TimeSelector
+          value={this.props.sliderValue}
+          onChange={newValue =>
+            this.props.setHeatMapSliderValue(
+              this.props.selectedEventID,
+              newValue
+            )
+          }
+        />
+      </div>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./HistoricalModeToggle.scss";
+import styles from "./HistoricalModeToggle.module.scss";
 import Toggle from "../../../UI/Toggle/Toggle";
 
 export const HistoricalModeToggle = props => {
