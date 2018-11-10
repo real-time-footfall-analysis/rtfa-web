@@ -5,3 +5,13 @@
   right: 50px;
   top: 45px;
 }
+
+.icon {
+  margin-right: 8px;
+  text-align: right;
+  width: 12px;
+
+  &.fire {
+    margin-right: 4px;
+  }
+}

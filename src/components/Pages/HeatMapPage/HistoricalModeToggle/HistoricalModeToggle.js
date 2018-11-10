@@ -12,7 +12,7 @@ export const HistoricalModeToggle = props => {
         leftClicked={props.disableHistoricalMode}
       >
         <span>
-          <i className={`far fa-fire ${styles.icon}`} /> Live
+          <i className={`far fa-fire ${styles.icon} ${styles.fire}`} /> Live
         </span>
         <span>
           <i className={`far fa-clock ${styles.icon}`} />
