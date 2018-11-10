@@ -69,11 +69,17 @@ const eventReducer = (event, action) => {
         ...event,
         tasksData: action.payload.tasksData
       };
-    case "SET_HEATMAP_SLIDER_VALUE":
+    case "SET_HEATMAP_SLIDER_VALUE": {
+      const index = action.payload.sliderValue;
+      const selectedTimestamp = event.historicalHeatMapData.timestamps[index];
+      const selectedHeatMapData =
+        event.historicalHeatMapData.data[selectedTimestamp];
       return {
         ...event,
+        heatMapData: selectedHeatMapData,
         heatMapSliderValue: action.payload.sliderValue
       };
+    }
     case "TOGGLE_HEATMAP_HISTORICAL_MODE":
       return {
         ...event,

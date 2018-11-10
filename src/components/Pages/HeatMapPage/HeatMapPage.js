@@ -26,6 +26,7 @@ class HeatMapPage extends Component {
     /* Bind callbacks. */
     this.timeSelectLabelRenderer = this.timeSelectLabelRenderer.bind(this);
     this.onTimeSelection = this.onTimeSelection.bind(this);
+    this.historicalModeChange = this.historicalModeChange.bind(this);
   }
 
   render() {
@@ -45,10 +46,7 @@ class HeatMapPage extends Component {
     this.props.loadTasksData(this.props.selectedEventID);
     window.a = () => this.props.loadHeatMap(this.props.selectedEventID);
     /* Poll for live heat map data every N seconds. */
-    this.dataFetcher = setInterval(
-      () => this.props.loadHeatMap(this.props.selectedEventID),
-      HEATMAP_REFRESH_INTERVAL
-    );
+    this.enableDataPolling();
   }
 
   componentWillUnmount() {
@@ -70,6 +68,7 @@ class HeatMapPage extends Component {
         mapElement={<div style={{ height: "100%" }} />}
         regions={this.props.regions}
         heatMapData={this.props.heatMapData}
+        randomise={!this.props.historicalModeEnabled}
         tasksData={this.props.tasksData}
       />
     );
@@ -79,10 +78,33 @@ class HeatMapPage extends Component {
     return (
       <HistoricalModeToggle
         historicalModeEnabled={this.props.historicalModeEnabled}
-        toggleHistoricalMode={this.props.toggleHistoricalMode}
+        toggleHistoricalMode={this.historicalModeChange}
         selectedEventID={this.props.selectedEventID}
       />
     );
+  }
+
+  /* Refreshes live data from the backend every few seconds. */
+  enableDataPolling() {
+    this.dataFetcher = setInterval(
+      () => this.props.loadHeatMap(this.props.selectedEventID),
+      HEATMAP_REFRESH_INTERVAL
+    );
+  }
+
+  /* Stops fetching live data (prevents historical view data from being
+   * overwritten). */
+  disableDataPolling() {
+    clearInterval(this.dataFetcher);
+  }
+
+  /* Toggles data polling as needed and then dispatches a Redux action to toggle
+   * the historical mode property in the store. */
+  historicalModeChange(eventID, historicalModeEnabled) {
+    historicalModeEnabled
+      ? this.disableDataPolling()
+      : this.enableDataPolling();
+    this.props.toggleHistoricalMode(eventID, historicalModeEnabled);
   }
 
   /* Update historical heat map date value when user interacts with slider. */
@@ -103,6 +125,7 @@ class HeatMapPage extends Component {
     return this.props.historicalModeEnabled && this.props.historicalHeatMapData;
   }
 
+  /* Creates + returns a TimeSelector element if historical mode is enabled. */
   generateTimeSelector() {
     if (!this.shouldDisplayTimeSelector()) {
       return;
