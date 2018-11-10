@@ -9,26 +9,27 @@ import { GOOGLE_MAPS_URL, HEATMAP_REFRESH_INTERVAL } from "../../../constants";
 import {
   loadHeatMap,
   loadTasksData,
-  setHeatMapSliderValue
+  setHeatMapSliderValue,
+  toggleHeatMapHistoricalMode
 } from "../../../actions";
 import { bindActionCreators } from "redux";
 import { getRegions, getSelectedEvent } from "../../../selectors";
+import { HistoricalModeToggle } from "./HistoricalModeToggle/HistoricalModeToggle";
 
 class HeatMapPage extends Component {
+  constructor(props) {
+    super(props);
+    this.enableHistoricalMode = this.enableHistoricalMode.bind(this);
+    this.disableHistoricalMode = this.disableHistoricalMode.bind(this);
+  }
+
   render() {
     return (
       <Page title={<span>{this.props.name}</span>} flex={true}>
         <div style={{ height: "100%" }}>
+          {this.generateHistoricalToggle()}
           {this.generateMapElement()}
-          <TimeSelector
-            value={this.props.sliderValue}
-            onChange={newValue =>
-              this.props.setHeatMapSliderValue(
-                this.props.selectedEventID,
-                newValue
-              )
-            }
-          />
+          {this.generateTimeSelector()}
         </div>
       </Page>
     );
@@ -61,6 +62,36 @@ class HeatMapPage extends Component {
       />
     );
   }
+
+  enableHistoricalMode() {
+    console.log("ENABLING");
+    this.props.toggleHistoricalMode(this.props.selectedEventID, true);
+  }
+
+  disableHistoricalMode() {
+    this.props.toggleHistoricalMode(this.props.selectedEventID, false);
+  }
+
+  generateHistoricalToggle() {
+    return (
+      <HistoricalModeToggle
+        historicalModeEnabled={this.props.historicalModeEnabled}
+        enableHistoricalMode={this.enableHistoricalMode}
+        disableHistoricalMode={this.disableHistoricalMode}
+      />
+    );
+  }
+
+  generateTimeSelector() {
+    return (
+      <TimeSelector
+        value={this.props.sliderValue}
+        onChange={newValue =>
+          this.props.setHeatMapSliderValue(this.props.selectedEventID, newValue)
+        }
+      />
+    );
+  }
 }
 
 HeatMapPage.propTypes = {
@@ -72,7 +103,9 @@ HeatMapPage.propTypes = {
   setHeatMapSliderValue: PropTypes.func,
   sliderValue: PropTypes.number,
   regions: PropTypes.object,
-  tasksData: PropTypes.array
+  tasksData: PropTypes.array,
+  historicalModeEnabled: PropTypes.bool,
+  toggleHistoricalMode: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -80,7 +113,8 @@ const mapStateToProps = state => ({
   heatMapData: getSelectedEvent(state).heatMapData,
   tasksData: getSelectedEvent(state).tasksData,
   regions: getRegions(state),
-  sliderValue: getSelectedEvent(state).heatMapSliderValue
+  sliderValue: getSelectedEvent(state).heatMapSliderValue,
+  historicalModeEnabled: getSelectedEvent(state).historicalModeEnabled
 });
 
 const mapDispatchToProps = dispatch => {
@@ -88,7 +122,8 @@ const mapDispatchToProps = dispatch => {
     {
       loadHeatMap: loadHeatMap,
       loadTasksData: loadTasksData,
-      setHeatMapSliderValue: setHeatMapSliderValue
+      setHeatMapSliderValue: setHeatMapSliderValue,
+      toggleHistoricalMode: toggleHeatMapHistoricalMode
     },
     dispatch
   );

@@ -64,3 +64,13 @@ export const setHeatMapSliderValue = (eventID, sliderValue) => {
     }
   };
 };
+
+export const toggleHeatMapHistoricalMode = (eventID, historicalModeEnabled) => {
+  return {
+    type: "TOGGLE_HEATMAP_HISTORICAL_MODE",
+    payload: {
+      eventID: eventID,
+      historicalModeEnabled: historicalModeEnabled
+    }
+  };
+};
