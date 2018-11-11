@@ -14,6 +14,7 @@ export const KeyValueTask = props => {
         <span>{roundedVal ? roundedVal : "0"}</span>
         <span className={styles.units}>{props.taskUnits}</span>
       </p>
+      {props.children}
     </div>
   );
 };
@@ -22,5 +23,6 @@ KeyValueTask.propTypes = {
   taskName: PropTypes.string,
   taskUnits: PropTypes.string,
   taskValue: PropTypes.any,
-  taskIcon: PropTypes.string
+  taskIcon: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array])
 };
