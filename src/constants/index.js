@@ -1,5 +1,6 @@
 /* API Constants */
 import { KeyValueTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/KeyValueTask/KeyValueTask";
+import { BounceRateTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/BounceRateTask/BounceRateTask";
 
 const USE_MOCK_ENDPOINTS = process.env.REACT_APP_USE_MOCK_SERVER === "true";
 
@@ -21,11 +22,14 @@ export const TASKS_METADATA = {
     props: {
       taskName: "Bounce Rate",
       taskUnits: "percent",
-      taskIcon: "arrows-v"
+      taskIcon: "arrows-v",
+      thresholdUnits: "minutes"
     },
-    component: KeyValueTask
+    component: BounceRateTask
   }
 };
+
+export const MAX_DECIMAL_PLACES = 2;
 
 /* Heat Map Constants */
 export const HEATMAP_REFRESH_INTERVAL = 10000;
