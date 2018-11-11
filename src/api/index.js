@@ -164,7 +164,6 @@ class HeatMapAPI {
     const data = await this.request.get(
       `${eventsURL}/${eventID}/tasks/${HISTORICAL_HEATMAP_TASK_ID}`
     );
-    console.log(data);
     return data;
   }
 }
