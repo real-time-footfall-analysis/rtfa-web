@@ -9,8 +9,8 @@ export let tasks = {
       result: {
         "39": 20,
         "40": 88.40333333333334,
-        "41": 32,
-        "42": 10,
+        "41": 32.3,
+        "42": 10.58,
         "50": 12,
         "51": 19
       }
@@ -19,12 +19,12 @@ export let tasks = {
       eventID: 1,
       taskID: 2,
       result: {
-        "39": 10,
-        "40": 38.40333333333334,
-        "41": 42.31,
-        "42": 40,
-        "50": 32,
-        "51": 29
+        "39": { bounceRate: 0.1, threshold: 150 },
+        "40": { bounceRate: 0.3840333333333334, threshold: 150 },
+        "41": { bounceRate: 0.4231, threshold: 150 },
+        "42": { bounceRate: 0.4, threshold: 150 },
+        "50": { bounceRate: 0.32, threshold: 150 },
+        "51": { bounceRate: 0.29, threshold: 150 }
       }
     }
   ],
@@ -42,9 +42,9 @@ export let tasks = {
       eventID: 2,
       taskID: 2,
       result: {
-        "11": 9,
-        "12": 20,
-        "13": 30
+        "11": { bounceRate: 0.9, threshold: 300 },
+        "12": { bounceRate: 0.2, threshold: 300 },
+        "13": { bounceRate: 0.3, threshold: 300 }
       }
     }
   ],
@@ -61,8 +61,8 @@ export let tasks = {
       eventID: 3,
       taskID: 2,
       result: {
-        "59": 42.60975609756098,
-        "60": 36.86
+        "59": { bounceRate: 0.4260975609756098, threshold: 600 },
+        "60": { bounceRate: 0.3686, threshold: 600 }
       }
     }
   ]
