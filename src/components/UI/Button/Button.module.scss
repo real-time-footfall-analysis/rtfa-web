@@ -10,8 +10,14 @@
     family: $fontFamily;
     size: 18px;
   }
+
   &.fill {
     width: 100%;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    pointer-events: none;
   }
   @include clickable();
 }

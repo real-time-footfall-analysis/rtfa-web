@@ -15,6 +15,25 @@
   flex-grow: 1;
   position: relative;
   transition: all $transitionDuration $transitionFunction;
+
+  &.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+
+    &:after {
+      color: white;
+      content: "";
+      left: 50%;
+      opacity: 1;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font: {
+        family: "Font Awesome 5 Pro", sans-serif;
+        size: 8em;
+      }
+    }
+  }
 }
 
 .mapElement {
