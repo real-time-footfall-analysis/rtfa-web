@@ -62,7 +62,13 @@ class HeatMapPage extends Component {
   }
 
   generateMapElement() {
-    const mapContainer = <div className={`${styles.mapContainer}`} />;
+    const mapContainer = (
+      <div
+        className={`${styles.mapContainer} ${
+          this.shouldDisableHistoricalTools() ? styles.disabled : ""
+        }`}
+      />
+    );
     return (
       <HeatMap
         googleMapURL={GOOGLE_MAPS_URL}
@@ -88,7 +94,11 @@ class HeatMapPage extends Component {
         <div className={styles.timeSelectorWrapper}>
           {this.generateTimeSelector()}
         </div>
-        <Button className={styles.playButton} onClick={this.playHeatMap}>
+        <Button
+          disabled={this.shouldDisableHistoricalTools()}
+          className={styles.playButton}
+          onClick={this.playHeatMap}
+        >
           <i className="far fa-play-circle" />
         </Button>
       </div>
@@ -147,6 +157,9 @@ class HeatMapPage extends Component {
   /* Fetches timestamp for the index selected on the slider and converts the
    * timestamp to a date string. */
   timeSelectLabelRenderer(index) {
+    if (!this.props.historicalHeatMapData.timestamps) {
+      return "Loading failed";
+    }
     return timestampToDateString(
       this.props.historicalHeatMapData.timestamps[index]
     );
@@ -155,6 +168,13 @@ class HeatMapPage extends Component {
   /* Returns true if the historical tools should be rendered. */
   shouldDisplayHistoricalTools() {
     return this.props.historicalModeEnabled && this.props.historicalHeatMapData;
+  }
+
+  shouldDisableHistoricalTools() {
+    return (
+      this.shouldDisplayHistoricalTools() &&
+      !this.props.historicalHeatMapData.result
+    );
   }
 
   /* Creates + returns a TimeSelector element if historical mode is enabled. */
@@ -166,6 +186,7 @@ class HeatMapPage extends Component {
           onChange={this.onTimeSelection}
           max={_.size(this.props.historicalHeatMapData.data) - 1}
           labelRenderer={this.timeSelectLabelRenderer}
+          disabled={this.shouldDisableHistoricalTools()}
         />
       </div>
     );
