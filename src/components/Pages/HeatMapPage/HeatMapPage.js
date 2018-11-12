@@ -173,7 +173,7 @@ class HeatMapPage extends Component {
   shouldDisableHistoricalTools() {
     return (
       this.shouldDisplayHistoricalTools() &&
-      !this.props.historicalHeatMapData.result
+      !this.props.historicalHeatMapData.data
     );
   }
 
