@@ -108,7 +108,7 @@ class HeatMapPage extends Component {
   /* Loops through available timestamps and displays the heatmap at each one,
    * for X seconds before moving to the next point in time. */
   async playHeatMap() {
-    const timestamps = this.props.historicalHeatMapData.timestamps;
+    const timestamps = this.props.historicalHeatMapData.result.timestamps;
     for (let index = 0; index < timestamps.length; index++) {
       this.onTimeSelection(index);
       await sleep(HEATMAP_ANIMATION_FRAME_DELAY);
@@ -157,11 +157,11 @@ class HeatMapPage extends Component {
   /* Fetches timestamp for the index selected on the slider and converts the
    * timestamp to a date string. */
   timeSelectLabelRenderer(index) {
-    if (!this.props.historicalHeatMapData.timestamps) {
+    if (!this.props.historicalHeatMapData.result.timestamps) {
       return "Loading failed";
     }
     return timestampToDateString(
-      this.props.historicalHeatMapData.timestamps[index]
+      this.props.historicalHeatMapData.result.timestamps[index]
     );
   }
 
@@ -173,7 +173,7 @@ class HeatMapPage extends Component {
   shouldDisableHistoricalTools() {
     return (
       this.shouldDisplayHistoricalTools() &&
-      !this.props.historicalHeatMapData.data
+      !this.props.historicalHeatMapData.result.data
     );
   }
 
@@ -184,7 +184,7 @@ class HeatMapPage extends Component {
         <TimeSelector
           value={this.props.sliderValue}
           onChange={this.onTimeSelection}
-          max={_.size(this.props.historicalHeatMapData.data) - 1}
+          max={_.size(this.props.historicalHeatMapData.result.data)}
           labelRenderer={this.timeSelectLabelRenderer}
           disabled={this.shouldDisableHistoricalTools()}
         />
@@ -192,6 +192,32 @@ class HeatMapPage extends Component {
     );
   }
 }
+
+/* Takes a historical heat map API response and returns a response in the same
+ * format, but with a sample of `desiredQuantity` points of data. */
+const reduceAmountOfHistoricalHeatMapData = (data, desiredQuantity) => {
+  if (!data || data.result.timestamps.length < desiredQuantity) {
+    return data;
+  }
+  const timestamps = data.result.timestamps,
+    selectedTimestamps = [];
+
+  for (let i = 0; i < desiredQuantity; i++) {
+    selectedTimestamps.push(
+      timestamps[Math.ceil((i * timestamps.length) / desiredQuantity)]
+    );
+  }
+  return {
+    ...data,
+    result: {
+      timestamps: selectedTimestamps,
+      data: selectedTimestamps.reduce((acc, timestamp) => ({
+        ...acc,
+        [timestamp]: data.result.data[timestamp]
+      }))
+    }
+  };
+};
 
 HeatMapPage.propTypes = {
   name: PropTypes.string,
@@ -214,7 +240,10 @@ const mapStateToProps = state => ({
   tasksData: getSelectedEvent(state).tasksData,
   regions: getRegions(state),
   sliderValue: getSelectedEvent(state).heatMapSliderValue,
-  historicalHeatMapData: getSelectedEvent(state).historicalHeatMapData,
+  historicalHeatMapData: reduceAmountOfHistoricalHeatMapData(
+    getSelectedEvent(state).historicalHeatMapData,
+    15
+  ),
   historicalModeEnabled: getSelectedEvent(state).historicalModeEnabled
 });
 
