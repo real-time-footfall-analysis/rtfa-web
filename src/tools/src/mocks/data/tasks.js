@@ -76,14 +76,16 @@ const addHistoricalHeatMapToTaskList = (taskListForEvent, eventID) => {
     {
       eventID: eventID,
       taskID: 4,
-      timestamps: timestamps,
-      data: timestamps.reduce(
-        (acc, timestamp) => ({
-          ...acc,
-          [timestamp]: generateHeatMap(eventID)
-        }),
-        {}
-      )
+      result: {
+        timestamps: timestamps,
+        data: timestamps.reduce(
+          (acc, timestamp) => ({
+            ...acc,
+            [timestamp]: generateHeatMap(eventID)
+          }),
+          {}
+        )
+      }
     }
   ];
 };

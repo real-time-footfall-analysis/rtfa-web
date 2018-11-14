@@ -71,9 +71,10 @@ const eventReducer = (event, action) => {
       };
     case "SET_HEATMAP_SLIDER_VALUE": {
       const index = action.payload.sliderValue;
-      const selectedTimestamp = event.historicalHeatMapData.timestamps[index];
+      const selectedTimestamp =
+        event.historicalHeatMapData.result.timestamps[index];
       const selectedHeatMapData =
-        event.historicalHeatMapData.data[selectedTimestamp];
+        event.historicalHeatMapData.result.data[selectedTimestamp];
       return {
         ...event,
         heatMapData: selectedHeatMapData,
