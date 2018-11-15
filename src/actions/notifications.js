@@ -3,6 +3,11 @@ import { store } from "../store";
 import { lastEmergencyNotificationTimestamp } from "../selectors";
 
 export const pollEmergencyNotifications = eventID => {
+  if (!eventID) {
+    return {
+      type: "NOT_READY_TO_POLL_EMERGENCY_NOTIFICATIONS"
+    };
+  }
   const lastTimestamp = lastEmergencyNotificationTimestamp(store.getState());
   return async dispatch =>
     dispatch({
