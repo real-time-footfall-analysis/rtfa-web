@@ -7,6 +7,7 @@ import NavList from "./NavList/NavList";
 import EventSelector from "./EventSelector/EventSelector";
 import PhotoText from "../UI/PhotoText/PhotoText";
 import Button from "../UI/Button/Button";
+import { NotificationBell } from "../UI/NotificationBell/NotificationBell";
 
 class Sidebar extends Component {
   render() {
@@ -21,6 +22,7 @@ class Sidebar extends Component {
             <Logo />
           </div>
         </Link>
+        <NotificationBell />
 
         <div className={styles.photoText}>
           <PhotoText imageURL={coverPhoto} text={eventName} />
