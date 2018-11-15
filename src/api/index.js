@@ -187,6 +187,11 @@ class TasksAPI {
 class EmergencyNotificationsAPI {
   static request = RequestUtils;
 
+  static processEmergencyNotifications(notifications) {
+    const uniqueNotifications = _.uniqBy(notifications, n => n.occurredAt);
+    return uniqueNotifications.sort((a, b) => b.occurredAt - a.occurredAt);
+  }
+
   static async getAllNotifications(eventID) {
     return await this.getNotificationsSince(eventID);
   }
@@ -198,8 +203,10 @@ class EmergencyNotificationsAPI {
       );
     }
     try {
-      return await this.request.get(
-        `${emergencyNotificationsURL}/${eventID}/${timestamp}`
+      return this.processEmergencyNotifications(
+        await this.request.get(
+          `${emergencyNotificationsURL}/${eventID}/${timestamp}`
+        )
       );
     } catch (err) {
       console.error(

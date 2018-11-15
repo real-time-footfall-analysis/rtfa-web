@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const getSelectedEvent = state => {
   if (!state.events) {
     return {};
@@ -26,4 +28,12 @@ export const getRegion = (state, id) => {
 
 export const eventsAreLoaded = state => {
   return state.selectedEventID !== -1;
+};
+
+export const lastEmergencyNotificationTimestamp = state => {
+  const selectedEvent = getSelectedEvent(state);
+  if (!selectedEvent.notifications || !selectedEvent.notifications.emergency) {
+    return 0;
+  }
+  return _.last(selectedEvent.notifications.emergency);
 };

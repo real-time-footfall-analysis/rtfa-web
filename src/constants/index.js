@@ -8,6 +8,9 @@ export const BASE_URL = USE_MOCK_ENDPOINTS
   ? "http://localhost:8000"
   : "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
 
+/* Notification Constants */
+export const EMERGENCY_NOTIFICATION_POLL_FREQUENCY = 4000;
+
 /* Tasks Constants */
 export const TASKS_METADATA = {
   1: {

@@ -26,7 +26,8 @@ const eventsReducer = (events, action) => {
     case "LOAD_HISTORICAL_HEATMAP_DATA":
     case "LOAD_TASKS_DATA":
     case "SET_HEATMAP_SLIDER_VALUE":
-    case "TOGGLE_HEATMAP_HISTORICAL_MODE": {
+    case "TOGGLE_HEATMAP_HISTORICAL_MODE":
+    case "POLL_EMERGENCY_NOTIFICATIONS": {
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -79,6 +80,18 @@ const eventReducer = (event, action) => {
         ...event,
         heatMapData: selectedHeatMapData,
         heatMapSliderValue: action.payload.sliderValue
+      };
+    }
+    case "POLL_EMERGENCY_NOTIFICATIONS": {
+      const existingNotifications = event.notifications
+        ? event.notifications
+        : [];
+      return {
+        ...event,
+        notifications: [
+          ...existingNotifications,
+          ...action.payload.newNotifications
+        ]
       };
     }
     case "TOGGLE_HEATMAP_HISTORICAL_MODE":
