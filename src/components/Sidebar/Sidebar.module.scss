@@ -17,9 +17,15 @@
   text-align: center;
 }
 
-.logo {
+.navHeader {
+  display: flex;
+  justify-content: center;
   padding: 20px 0 18px 0;
   text-align: center;
+}
+
+.logo {
+  margin-right: 12px;
   @include clickable();
 }
 

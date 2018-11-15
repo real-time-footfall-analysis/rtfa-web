@@ -18,11 +18,13 @@ class Sidebar extends Component {
     return (
       <nav className={styles.sidebar}>
         <Link to="/">
-          <div className={styles.logo}>
-            <Logo />
-          </div>
+          <header className={styles.navHeader}>
+            <div className={styles.logo}>
+              <Logo />
+            </div>
+            <NotificationBell />
+          </header>
         </Link>
-        <NotificationBell />
 
         <div className={styles.photoText}>
           <PhotoText imageURL={coverPhoto} text={eventName} />
