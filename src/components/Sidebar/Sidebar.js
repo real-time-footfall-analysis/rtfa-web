@@ -10,43 +10,60 @@ import Button from "../UI/Button/Button";
 import { EmergencyNotificationBell } from "./EmergencyNotificationBell/EmergencyNotificationBell";
 
 class Sidebar extends Component {
+  renderHeader() {
+    return (
+      <header className={styles.navHeader}>
+        <Link to="/">
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+        </Link>
+        <EmergencyNotificationBell selectedEvent={this.props.selectedEvent} />
+      </header>
+    );
+  }
+
+  renderEventTitleImage() {
+    const event = this.props.selectedEvent;
+    const coverPhoto = event ? event.coverPhotoUrl : "";
+    const eventName = event ? event.name : "";
+    return (
+      <div className={styles.photoText}>
+        <PhotoText imageURL={coverPhoto} text={eventName} />
+      </div>
+    );
+  }
+
+  renderEventSelector() {
+    return (
+      <div className={styles.eventSelector}>
+        <EventSelector
+          selectedEventID={this.props.selectedEvent.eventID}
+          events={this.props.events}
+          handleEventSelection={this.props.handleEventSelection}
+        />
+      </div>
+    );
+  }
+
+  renderNewEventLink() {
+    return (
+      <div className={styles.newEventLink}>
+        <Button leftIcon="calendar-plus" path="/events/new">
+          Create New Event
+        </Button>
+      </div>
+    );
+  }
+
   render() {
-    const coverPhoto = this.props.selectedEvent
-        ? this.props.selectedEvent.coverPhotoUrl
-        : "",
-      eventName = this.props.selectedEvent ? this.props.selectedEvent.name : "";
     return (
       <nav className={styles.sidebar}>
-        <Link to="/">
-          <header className={styles.navHeader}>
-            <div className={styles.logo}>
-              <Logo />
-            </div>
-            <EmergencyNotificationBell
-              selectedEvent={this.props.selectedEvent}
-            />
-          </header>
-        </Link>
-
-        <div className={styles.photoText}>
-          <PhotoText imageURL={coverPhoto} text={eventName} />
-        </div>
-
-        <div className={styles.eventSelector}>
-          <EventSelector
-            selectedEventID={this.props.selectedEvent.eventID}
-            events={this.props.events}
-            handleEventSelection={this.props.handleEventSelection}
-          />
-        </div>
-
+        {this.renderHeader()}
+        {this.renderEventTitleImage()}
+        {this.renderEventSelector()}
         <NavList {...this.props} />
-
-        <div className={styles.newEventLink}>
-          <Button leftIcon="calendar-plus" path="/events/new">
-            Create New Event
-          </Button>
-        </div>
+        {this.renderNewEventLink()}
       </nav>
     );
   }
