@@ -11,7 +11,7 @@ export const pollEmergencyNotifications = eventID => {
         eventID: eventID,
         newNotifications: await api.emergency.getNotificationsSince(
           eventID,
-          lastTimestamp
+          lastTimestamp + 1
         )
       }
     });
