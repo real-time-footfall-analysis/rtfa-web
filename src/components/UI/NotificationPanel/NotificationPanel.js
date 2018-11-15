@@ -4,10 +4,23 @@ import PropTypes from "prop-types";
 import styles from "./NotificationPanel.module.scss";
 import { Icon } from "@blueprintjs/core";
 import { timestampToLongDateString } from "../../../utils";
+import Button from "../Button/Button";
 
 export class NotificationPanel extends Component {
   formatTimestamp(timestamp) {
     return timestampToLongDateString(timestamp);
+  }
+
+  generateResolveButton() {
+    return (
+      <Button
+        className={styles.resolveButton}
+        fill={false}
+        leftIcon="check-circle"
+      >
+        Resolve
+      </Button>
+    );
   }
 
   render() {
@@ -21,6 +34,7 @@ export class NotificationPanel extends Component {
               <p className={styles.timestamp}>
                 {this.formatTimestamp(notification.timestamp)}
               </p>
+              {!notification.resolved ? this.generateResolveButton() : null}
             </div>
           </li>
         ))}

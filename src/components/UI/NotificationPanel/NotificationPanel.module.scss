@@ -11,6 +11,10 @@
   padding: 20px;
   text-indent: 0;
 
+  &:last-child {
+    border-radius: 0 0 4px 4px;
+  }
+
   .title {
     font: {
       size: 1em;
@@ -35,4 +39,10 @@
   &:nth-child(even) {
     background: $secondaryBackground;
   }
+}
+
+.resolveButton {
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 10px 15px;
 }

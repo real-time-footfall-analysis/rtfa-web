@@ -48,7 +48,7 @@ NotificationBell.defaultProps = {
           <strong>Emergency </strong> at <strong>Main Stage</strong>
         </span>
       ),
-      notificationID: "032d7856-e8d1-11e8-bb9b-4c34884325d3-154228450339",
+      notificationID: "032d7856-e8d1-11e8-bb9b-4c34884325d4-154228450339",
       timestamp: "1542300000",
       resolved: true
     },
@@ -59,7 +59,7 @@ NotificationBell.defaultProps = {
           <strong>Emergency </strong> at <strong>Toilets</strong>
         </span>
       ),
-      notificationID: "032d7856-e8d1-11e8-bb9b-4c34884325d3-154228450339",
+      notificationID: "032d7856-e8d1-11e8-bb9b-4c34884325d5-154228450339",
       timestamp: "1542201341",
       resolved: true
     },
@@ -70,7 +70,7 @@ NotificationBell.defaultProps = {
           <strong>Emergency </strong> at <strong>Burger Stand</strong>
         </span>
       ),
-      notificationID: "032d7856-e8d1-11e8-bb9b-4c34884325d3-154228450339",
+      notificationID: "032d7856-e8d1-11e8-bb9b-4c34884325d6-154228450339",
       timestamp: "1542101971",
       resolved: true
     }
