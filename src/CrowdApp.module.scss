@@ -1,8 +1,11 @@
+@import "./styles/_vars.scss";
+
 .content {
   display: flex;
 }
 
 .main {
   flex-grow: 1;
+  margin-left: $sidebarWidth;
   padding: 20px 50px;
 }

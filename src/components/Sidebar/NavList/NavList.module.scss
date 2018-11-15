@@ -8,7 +8,7 @@
 .navListItem {
   color: $mainText;
   display: flex;
-  padding: 15px;
+  padding: 15px 20px;
   text-decoration: none;
   @include clickable();
 

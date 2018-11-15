@@ -3,9 +3,12 @@
 .sidebar {
   background: $secondaryBackground;
   height: 100vh;
-  min-width: 300px;
-  position: relative;
-  width: 300px;
+  position: fixed;
+  width: $sidebarWidth;
+
+  @supports (-webkit-overflow-scrolling: touch) {
+    height: 100%;
+  }
 }
 
 .photoText {
@@ -33,5 +36,6 @@
   bottom: 30px;
   position: absolute;
   text-align: center;
+  transition: all 10s ease;
   width: 100%;
 }
