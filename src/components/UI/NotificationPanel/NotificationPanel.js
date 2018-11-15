@@ -7,6 +7,11 @@ import { timestampToLongDateString } from "../../../utils";
 import Button from "../Button/Button";
 
 export class NotificationPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.renderNotification = this.renderNotification.bind(this);
+  }
+
   formatTimestamp(timestamp) {
     return timestampToLongDateString(timestamp);
   }
@@ -17,27 +22,32 @@ export class NotificationPanel extends Component {
         className={styles.resolveButton}
         fill={false}
         leftIcon="check-circle"
+        onClick={() => console.warn("Resolve button click handler!")}
       >
         Resolve
       </Button>
     );
   }
 
+  renderNotification(notification) {
+    return (
+      <li className={styles.notification} key={notification.notificationID}>
+        <Icon icon={notification.icon} iconSize={20} />
+        <div className={styles.content}>
+          <h3 className={styles.title}>{notification.title}</h3>
+          <p className={styles.timestamp}>
+            {this.formatTimestamp(notification.timestamp)}
+          </p>
+          {!notification.resolved ? this.generateResolveButton() : null}
+        </div>
+      </li>
+    );
+  }
+
   render() {
     return (
       <ul className={styles.panel}>
-        {this.props.notifications.map(notification => (
-          <li className={styles.notification} key={notification.notificationID}>
-            <Icon icon={notification.icon} iconSize={20} />
-            <div className={styles.content}>
-              <h3 className={styles.title}>{notification.title}</h3>
-              <p className={styles.timestamp}>
-                {this.formatTimestamp(notification.timestamp)}
-              </p>
-              {!notification.resolved ? this.generateResolveButton() : null}
-            </div>
-          </li>
-        ))}
+        {this.props.notifications.map(this.renderNotification)}
       </ul>
     );
   }

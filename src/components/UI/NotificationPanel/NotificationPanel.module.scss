@@ -1,7 +1,10 @@
 @import "../../../styles/_vars.scss";
 
 .panel {
+  border-radius: 4px;
   margin: 0;
+  max-height: 60vh;
+  overflow-y: auto;
   padding: 0;
 }
 
@@ -10,10 +13,6 @@
   list-style: none;
   padding: 20px;
   text-indent: 0;
-
-  &:last-child {
-    border-radius: 0 0 4px 4px;
-  }
 
   .title {
     font: {

@@ -188,8 +188,7 @@ class EmergencyNotificationsAPI {
   static request = RequestUtils;
 
   static processEmergencyNotifications(notifications) {
-    const uniqueNotifications = _.uniqBy(notifications, n => n.occurredAt);
-    return uniqueNotifications.sort((a, b) => b.occurredAt - a.occurredAt);
+    return notifications.sort((a, b) => b.occurredAt - a.occurredAt);
   }
 
   static async getAllNotifications(eventID) {

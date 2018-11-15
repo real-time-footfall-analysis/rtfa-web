@@ -13,6 +13,7 @@ export const MILLISECONDS_IN_A_SECOND = 1000;
 
 /* Notification Constants */
 export const EMERGENCY_NOTIFICATION_POLL_FREQUENCY = 4000;
+export const MAX_NOTIFICATION_COUNT = 20;
 
 /* Tasks Constants */
 export const TASKS_METADATA = {

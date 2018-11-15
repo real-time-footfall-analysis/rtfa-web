@@ -7,7 +7,7 @@ import NavList from "./NavList/NavList";
 import EventSelector from "./EventSelector/EventSelector";
 import PhotoText from "../UI/PhotoText/PhotoText";
 import Button from "../UI/Button/Button";
-import { NotificationBell } from "../UI/NotificationBell/NotificationBell";
+import { EmergencyNotificationBell } from "./EmergencyNotificationBell/EmergencyNotificationBell";
 
 class Sidebar extends Component {
   render() {
@@ -22,7 +22,9 @@ class Sidebar extends Component {
             <div className={styles.logo}>
               <Logo />
             </div>
-            <NotificationBell />
+            <EmergencyNotificationBell
+              selectedEvent={this.props.selectedEvent}
+            />
           </header>
         </Link>
 
