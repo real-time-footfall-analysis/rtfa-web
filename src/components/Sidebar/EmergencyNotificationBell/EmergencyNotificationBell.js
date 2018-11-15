@@ -6,17 +6,21 @@ export class EmergencyNotificationBell extends Component {
   getRegionName(regionIDs) {
     if (!regionIDs) {
       return `Unknown Region`;
-    } else if (!this.props.selectedEvent || !this.props.selectedEvent.regions) {
-      return `Region ${regionIDs[0]}`;
     }
     const relevantRegion = this.props.selectedEvent.regions[regionIDs[0]];
     return relevantRegion.name;
   }
 
+  /* TODO: Refactor this to store a count in the Redux store. */
+  getUnreadNotificationCount() {
+    return this.props.selectedEvent.notifications.reduce(
+      (unreadCount, notification) =>
+        notification.dealtWith ? unreadCount : unreadCount + 1,
+      0
+    );
+  }
+
   processNotifications() {
-    if (!this.props.selectedEvent.notifications) {
-      return [];
-    }
     return this.props.selectedEvent.notifications.map(notification => ({
       icon: "warning-sign",
       title: (
@@ -30,12 +34,20 @@ export class EmergencyNotificationBell extends Component {
       resolved: notification.dealtWith
     }));
   }
+
   render() {
-    return <NotificationBell notifications={this.processNotifications()} />;
+    if (!this.props.selectedEvent || !this.props.selectedEvent.notifications) {
+      return null;
+    }
+    return (
+      <NotificationBell
+        notifications={this.processNotifications()}
+        unreadNotificationCount={this.getUnreadNotificationCount()}
+      />
+    );
   }
 }
 
 EmergencyNotificationBell.propTypes = {
-  notifications: PropTypes.array,
   selectedEvent: PropTypes.object
 };
