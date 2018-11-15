@@ -2,5 +2,37 @@
 
 .panel {
   margin: 0;
-  padding: 30px;
+  padding: 0;
+}
+
+.notification {
+  display: flex;
+  list-style: none;
+  padding: 20px;
+  text-indent: 0;
+
+  .title {
+    font: {
+      size: 1em;
+      weight: normal;
+    }
+    margin: 0 0 5px 0;
+  }
+
+  .timestamp {
+    margin-bottom: 0;
+    opacity: 0.7;
+  }
+
+  :global {
+    .bp3-icon {
+      color: $bellColour;
+      margin-right: 10px;
+      opacity: 0.9;
+    }
+  }
+
+  &:nth-child(even) {
+    background: $secondaryBackground;
+  }
 }
