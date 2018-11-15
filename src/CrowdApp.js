@@ -24,11 +24,9 @@ class CrowdApp extends Component {
   }
 
   startNotificationPolling() {
-    setInterval(
-      () =>
-        this.props.pollEmergencyNotifications(this.props.selectedEvent.eventID),
-      EMERGENCY_NOTIFICATION_POLL_FREQUENCY
-    );
+    setInterval(() => {
+      this.props.pollEmergencyNotifications(this.props.selectedEvent.eventID);
+    }, EMERGENCY_NOTIFICATION_POLL_FREQUENCY);
   }
 
   render() {
