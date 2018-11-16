@@ -7,14 +7,8 @@ import _ from "lodash";
 import { connect } from "react-redux";
 
 class EventsPage extends Component {
-  generateImage(eventName) {
-    const salt = Math.floor(Math.random() * (1000 + 1));
-    return (
-      <img
-        src={`https://source.unsplash.com/600x400/?concert,gig,crowd,music,${salt}`}
-        alt={eventName}
-      />
-    );
+  generateImage(eventName, coverPhotoUrl) {
+    return <img src={coverPhotoUrl} alt={eventName} />;
   }
 
   generateCardTitle(eventName) {
@@ -32,7 +26,7 @@ class EventsPage extends Component {
   }
 
   generateEventCard(event) {
-    const image = this.generateImage(event.name);
+    const image = this.generateImage(event.name, event.coverPhotoUrl);
     const title = this.generateCardTitle(event.name);
     const location = this.generateLocation(event.location);
     return (

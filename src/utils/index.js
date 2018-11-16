@@ -1,14 +1,27 @@
 import _ from "lodash";
-import { MAX_DECIMAL_PLACES } from "../constants";
+import { MAX_DECIMAL_PLACES, MILLISECONDS_IN_A_SECOND } from "../constants";
 
-/* Takes a UNIX timestamp and returns a date string in the format DD/MM/YY */
+/* Takes a UNIX timestamp in SECONDS and returns a date string in the
+ * format DD/MM/YY */
 export const timestampToDateString = timestamp => {
-  const date = new Date(timestamp * 1000);
+  const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
   const shortYear = date
     .getFullYear()
     .toString()
     .slice(2, 4);
   return `${date.getDate()}/${date.getMonth() + 1}/${shortYear}`;
+};
+
+/* Takes a UNIX timestamp IN MILLISECONDS and returns a date string in the
+ * format: "Thursday, 15 November 2018". */
+export const timestampToLongDateString = timestamp => {
+  const date = new Date(timestamp);
+  return date.toLocaleDateString("en-GB", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 };
 
 /* `await sleep(someMilliseconds)` is equivalent to sleep in other languages. */

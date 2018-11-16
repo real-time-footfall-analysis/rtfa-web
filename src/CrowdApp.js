@@ -14,10 +14,19 @@ import { connect } from "react-redux";
 import { getSelectedEvent } from "./selectors";
 import { loadEvents, selectEvent } from "./actions";
 import { bindActionCreators } from "redux";
+import { pollEmergencyNotifications } from "./actions/notifications";
+import { EMERGENCY_NOTIFICATION_POLL_FREQUENCY } from "./constants";
 
 class CrowdApp extends Component {
   componentDidMount() {
     this.props.loadEvents(this.props.organiserID);
+    this.startNotificationPolling();
+  }
+
+  startNotificationPolling() {
+    setInterval(() => {
+      this.props.pollEmergencyNotifications(this.props.selectedEvent.eventID);
+    }, EMERGENCY_NOTIFICATION_POLL_FREQUENCY);
   }
 
   render() {
@@ -42,6 +51,7 @@ CrowdApp.propTypes = {
   selectedEvent: PropTypes.object,
   handleEventSelection: PropTypes.func,
   loadEvents: PropTypes.func,
+  pollEmergencyNotifications: PropTypes.func,
   organiserID: PropTypes.number
 };
 
@@ -57,7 +67,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       handleEventSelection: selectEvent,
-      loadEvents: loadEvents
+      loadEvents: loadEvents,
+      pollEmergencyNotifications: pollEmergencyNotifications
     },
     dispatch
   );

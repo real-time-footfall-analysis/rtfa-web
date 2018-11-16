@@ -1,0 +1,47 @@
+@import "../../../styles/_vars.scss";
+
+.panel {
+  border-radius: 4px;
+  margin: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.notification {
+  display: flex;
+  list-style: none;
+  padding: 20px;
+  text-indent: 0;
+
+  .title {
+    font: {
+      size: 1em;
+      weight: normal;
+    }
+    margin: 0 0 5px 0;
+  }
+
+  .timestamp {
+    margin-bottom: 0;
+    opacity: 0.7;
+  }
+
+  :global {
+    .bp3-icon {
+      color: $bellColour;
+      margin-right: 10px;
+      opacity: 0.9;
+    }
+  }
+
+  &:nth-child(even) {
+    background: $secondaryBackground;
+  }
+}
+
+.resolveButton {
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 10px 15px;
+}

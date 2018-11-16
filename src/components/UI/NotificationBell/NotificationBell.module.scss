@@ -1,0 +1,19 @@
+@import "../../../styles/_vars.scss";
+
+$bellSize: 30px;
+
+.bell {
+  background: $bellColour;
+  border-radius: $bellSize;
+  color: $bellTextColour;
+  cursor: pointer;
+  height: $bellSize;
+  line-height: $bellSize;
+  text-align: center;
+  width: $bellSize;
+  font: {
+    weight: 600;
+  }
+
+  @include clickable();
+}
