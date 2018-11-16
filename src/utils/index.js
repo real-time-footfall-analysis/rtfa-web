@@ -12,6 +12,11 @@ export const timestampToDateString = timestamp => {
   return `${date.getDate()}/${date.getMonth() + 1}/${shortYear}`;
 };
 
+export const timestampToTimeString = timestamp => {
+  const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
+  return `${date.getUTCHours()}:${date.getUTCMinutes()}`;
+};
+
 /* Takes a UNIX timestamp IN MILLISECONDS and returns a date string in the
  * format: "Thursday, 15 November 2018". */
 export const timestampToLongDateString = timestamp => {

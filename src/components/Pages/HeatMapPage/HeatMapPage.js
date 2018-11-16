@@ -16,7 +16,7 @@ import {
   toggleHeatMapHistoricalMode
 } from "../../../actions";
 import { getRegions, getSelectedEvent } from "../../../selectors";
-import { sleep, timestampToDateString } from "../../../utils";
+import { sleep, timestampToTimeString } from "../../../utils";
 import Page from "../../UI/Page/Page";
 import { TimeSelector } from "../../UI/TimeSelector/TimeSelector";
 import HeatMap from "./HeatMap/HeatMap";
@@ -108,8 +108,8 @@ class HeatMapPage extends Component {
   /* Loops through available timestamps and displays the heatmap at each one,
    * for X seconds before moving to the next point in time. */
   async playHeatMap() {
-    const timestamps = this.props.historicalHeatMapData.result.timestamps;
-    for (let index = 0; index < timestamps.length; index++) {
+    const datapoints = _.size(this.props.historicalHeatMapData.result.data);
+    for (let index = 0; index < datapoints; index++) {
       this.onTimeSelection(index);
       await sleep(HEATMAP_ANIMATION_FRAME_DELAY);
     }
@@ -160,7 +160,7 @@ class HeatMapPage extends Component {
     if (!this.props.historicalHeatMapData.result.timestamps) {
       return "Loading failed";
     }
-    return timestampToDateString(
+    return timestampToTimeString(
       this.props.historicalHeatMapData.result.timestamps[index]
     );
   }
@@ -184,7 +184,7 @@ class HeatMapPage extends Component {
         <TimeSelector
           value={this.props.sliderValue}
           onChange={this.onTimeSelection}
-          max={_.size(this.props.historicalHeatMapData.result.data)}
+          max={_.size(this.props.historicalHeatMapData.result.data) - 1}
           labelRenderer={this.timeSelectLabelRenderer}
           disabled={this.shouldDisableHistoricalTools()}
         />
