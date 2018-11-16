@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { NotificationBell } from "../../UI/NotificationBell/NotificationBell";
+import { bindActionCreators } from "redux";
+import { resolveEmergencyNotification } from "../../../actions/notifications";
 
-export class EmergencyNotificationBell extends Component {
+class EmergencyNotificationBell extends Component {
+  constructor(props) {
+    super(props);
+    this.resolveNotification = this.resolveNotification.bind(this);
+  }
+
   getRegionName(regionIDs) {
-    if (!regionIDs) {
+    if (!regionIDs || regionIDs.length < 1) {
       return `Unknown Region`;
     }
     const relevantRegion = this.props.selectedEvent.regions[regionIDs[0]];
@@ -30,9 +38,27 @@ export class EmergencyNotificationBell extends Component {
         </span>
       ),
       timestamp: notification.occurredAt,
-      notificationID: notification.uuid + notification.timestamp,
+      notificationID: notification.uuid + "|" + notification.occurredAt,
       resolved: notification.dealtWith
     }));
+  }
+
+  getIDComponents(notificationID) {
+    const splitID = notificationID.split("|");
+    return {
+      uuid: splitID[0],
+      occurredAt: parseInt(splitID[1])
+    };
+  }
+
+  resolveNotification(notification) {
+    const { uuid, occurredAt } = this.getIDComponents(
+      notification.notificationID
+    );
+    const originalNotification = this.props.selectedEvent.notifications.filter(
+      n => n.occurredAt === occurredAt && n.uuid === uuid
+    )[0];
+    this.props.onResolve(originalNotification);
   }
 
   render() {
@@ -43,11 +69,27 @@ export class EmergencyNotificationBell extends Component {
       <NotificationBell
         notifications={this.processNotifications()}
         unreadNotificationCount={this.getUnreadNotificationCount()}
+        onResolve={this.resolveNotification}
       />
     );
   }
 }
 
 EmergencyNotificationBell.propTypes = {
-  selectedEvent: PropTypes.object
+  selectedEvent: PropTypes.object,
+  onResolve: PropTypes.func
 };
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      onResolve: resolveEmergencyNotification
+    },
+    dispatch
+  );
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(EmergencyNotificationBell);

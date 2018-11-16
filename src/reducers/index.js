@@ -27,7 +27,8 @@ const eventsReducer = (events, action) => {
     case "LOAD_TASKS_DATA":
     case "SET_HEATMAP_SLIDER_VALUE":
     case "TOGGLE_HEATMAP_HISTORICAL_MODE":
-    case "POLL_EMERGENCY_NOTIFICATIONS": {
+    case "POLL_EMERGENCY_NOTIFICATIONS":
+    case "RESOLVE_EMERGENCY_NOTIFICATION": {
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -89,9 +90,19 @@ const eventReducer = (event, action) => {
       return {
         ...event,
         notifications: [
-          ...existingNotifications,
-          ...action.payload.newNotifications
+          ...action.payload.newNotifications,
+          ...existingNotifications
         ]
+      };
+    }
+    case "RESOLVE_EMERGENCY_NOTIFICATION": {
+      const updatedNotificationList = resolveNotification(
+        action.payload.notification,
+        event
+      );
+      return {
+        ...event,
+        notifications: updatedNotificationList
       };
     }
     case "TOGGLE_HEATMAP_HISTORICAL_MODE":
@@ -136,6 +147,23 @@ const regionsReducer = (regions, action) => {
       return regions;
     }
   }
+};
+
+const resolveNotification = (targetNotification, event) => {
+  const updatedNotificationList = event.notifications.filter(
+    notification =>
+      !(
+        notification.uuid === targetNotification.uuid &&
+        notification.occurredAt === targetNotification.occurredAt
+      )
+  );
+  const insertionIndex = _.sortedIndexBy(
+    updatedNotificationList,
+    targetNotification,
+    notification => -notification.occurredAt
+  );
+  updatedNotificationList.splice(insertionIndex, 0, targetNotification);
+  return updatedNotificationList;
 };
 
 const regionReducer = (region, action) => {

@@ -195,6 +195,21 @@ class EmergencyNotificationsAPI {
     return await this.getNotificationsSince(eventID);
   }
 
+  static async resolveNotification(notification) {
+    try {
+      return await this.request.post(`${BASE_URL}/emergency-update`, {
+        ...notification,
+        dealtWith: true
+      });
+    } catch (err) {
+      console.error(
+        `Failed to resolve notification. Check the EventsAPI.resolveNotification function in 'api/index.js'`,
+        err
+      );
+      return null;
+    }
+  }
+
   static async getNotificationsSince(eventID, timestamp = 0) {
     if (!eventID) {
       console.error(

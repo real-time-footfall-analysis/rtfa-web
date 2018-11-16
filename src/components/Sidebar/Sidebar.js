@@ -7,7 +7,7 @@ import NavList from "./NavList/NavList";
 import EventSelector from "./EventSelector/EventSelector";
 import PhotoText from "../UI/PhotoText/PhotoText";
 import Button from "../UI/Button/Button";
-import { EmergencyNotificationBell } from "./EmergencyNotificationBell/EmergencyNotificationBell";
+import EmergencyNotificationBell from "./EmergencyNotificationBell/EmergencyNotificationBell";
 
 class Sidebar extends Component {
   renderHeader() {

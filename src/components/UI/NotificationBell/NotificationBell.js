@@ -13,7 +13,12 @@ export class NotificationBell extends Component {
   }
 
   generateNotificationPanel() {
-    return <NotificationPanel notifications={this.props.notifications} />;
+    return (
+      <NotificationPanel
+        notifications={this.props.notifications}
+        onResolve={this.props.onResolve}
+      />
+    );
   }
 
   render() {
@@ -79,5 +84,6 @@ NotificationBell.defaultProps = {
 
 NotificationBell.propTypes = {
   unreadNotificationCount: PropTypes.number,
-  notifications: PropTypes.array
+  notifications: PropTypes.array,
+  onResolve: PropTypes.func
 };

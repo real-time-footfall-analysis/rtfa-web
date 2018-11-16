@@ -16,13 +16,13 @@ export class NotificationPanel extends Component {
     return timestampToLongDateString(timestamp);
   }
 
-  generateResolveButton() {
+  generateResolveButton(notification) {
     return (
       <Button
         className={styles.resolveButton}
         fill={false}
         leftIcon="check-circle"
-        onClick={() => console.warn("Resolve button click handler!")}
+        onClick={() => this.props.onResolve(notification)}
       >
         Resolve
       </Button>
@@ -38,7 +38,9 @@ export class NotificationPanel extends Component {
           <p className={styles.timestamp}>
             {this.formatTimestamp(notification.timestamp)}
           </p>
-          {!notification.resolved ? this.generateResolveButton() : null}
+          {!notification.resolved
+            ? this.generateResolveButton(notification)
+            : null}
         </div>
       </li>
     );
@@ -54,5 +56,6 @@ export class NotificationPanel extends Component {
 }
 
 NotificationPanel.propTypes = {
-  notifications: PropTypes.array
+  notifications: PropTypes.array,
+  onResolve: PropTypes.func
 };
