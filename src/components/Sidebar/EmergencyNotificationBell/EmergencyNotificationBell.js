@@ -11,11 +11,25 @@ class EmergencyNotificationBell extends Component {
     this.resolveNotification = this.resolveNotification.bind(this);
   }
 
+  regionNotFound(functionName, regionID) {
+    console.warn(
+      `${functionName} in EmergencyNotificationBell.js couldn't find a region with ID ${regionID}`
+    );
+    console.warn(
+      "The following regions were available when the error occurred: ",
+      this.props.selectedEvent.regions
+    );
+  }
+
   getRegionName(regionIDs) {
     if (!regionIDs || regionIDs.length < 1) {
       return `Unknown Region`;
     }
     const relevantRegion = this.props.selectedEvent.regions[regionIDs[0]];
+    if (!relevantRegion) {
+      this.regionNotFound("getRegionName()", regionIDs[0]);
+      return `Region ${regionIDs[0]}`;
+    }
     return relevantRegion.name;
   }
 

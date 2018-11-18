@@ -121,8 +121,9 @@ const regionsReducer = (regions, action) => {
   }
   switch (action.type) {
     case "CREATE_NEW_REGION": {
-      const existingBoxesHidden = _.map(regions, region =>
-        regionReducer(region, action)
+      const existingBoxesHidden = _.keyBy(
+        _.map(regions, region => regionReducer(region, action)),
+        "regionID"
       );
       return createUpdatedObject(
         existingBoxesHidden,
