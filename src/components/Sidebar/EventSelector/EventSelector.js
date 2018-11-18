@@ -6,15 +6,6 @@ import { Select } from "@blueprintjs/select";
 import styles from "./EventSelector.module.scss";
 
 class EventSelector extends Component {
-  constructor(props) {
-    super(props);
-    this.handleEventSelection = this.handleEventSelection.bind(this);
-  }
-
-  handleEventSelection(event) {
-    this.props.handleEventSelection(event);
-  }
-
   render() {
     const eventList = _.map(this.props.events, (event, eventID) => {
         return { ...event, id: eventID };
@@ -27,7 +18,7 @@ class EventSelector extends Component {
         items={eventList}
         itemRenderer={renderEvents}
         filterable={false}
-        onItemSelect={this.handleEventSelection}
+        onItemSelect={event => this.props.handleEventSelection(event.eventID)}
       >
         <Button
           large={true}
