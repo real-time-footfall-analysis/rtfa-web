@@ -10,7 +10,8 @@ import {
   updateRegionOnServer,
   updateRegionName,
   updateRegionRadius,
-  updateRegionType
+  updateRegionType,
+  toggleRegionMarkerBox
 } from "../../../../../actions";
 import { getSelectedEvent } from "../../../../../selectors";
 import Button from "../../../../UI/Button/Button";
@@ -68,7 +69,10 @@ const CreateRegionForm = props => {
         leftIcon="check-circle"
         fill={true}
         onClick={() => {
-          props.onClose();
+          props.toggleRegionMarkerBox(
+            props.selectedEvent.eventID,
+            props.region.regionID
+          );
           props.updateRegionOnServer(
             props.selectedEvent.eventID,
             props.region.regionID
@@ -87,6 +91,7 @@ CreateRegionForm.propTypes = {
   updateRegionType: PropTypes.func,
   updateRegionRadius: PropTypes.func,
   updateRegionOnServer: PropTypes.func,
+  toggleRegionMarkerBox: PropTypes.func,
   onClose: PropTypes.func,
   selectedEvent: PropTypes.object
 };
@@ -97,7 +102,8 @@ const mapDispatchToProps = dispatch => {
       updateRegionName: updateRegionName,
       updateRegionType: updateRegionType,
       updateRegionRadius: updateRegionRadius,
-      updateRegionOnServer: updateRegionOnServer
+      updateRegionOnServer: updateRegionOnServer,
+      toggleRegionMarkerBox: toggleRegionMarkerBox
     },
     dispatch
   );
