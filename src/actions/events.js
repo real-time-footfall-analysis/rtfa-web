@@ -14,12 +14,12 @@ export const loadEvents = organiserID => {
   };
 };
 
-export const selectEvent = event => {
-  loadHeatMapPageDataIfNeeded(event.eventID);
+export const selectEvent = eventID => {
+  loadHeatMapPageDataIfNeeded(eventID);
   return {
     type: "SELECT_NEW_EVENT",
     payload: {
-      selectedEventID: event.eventID
+      selectedEventID: eventID
     }
   };
 };

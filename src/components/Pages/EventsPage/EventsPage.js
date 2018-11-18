@@ -5,6 +5,8 @@ import Page from "../../UI/Page/Page";
 import styles from "./EventsPage.module.scss";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { selectEvent } from "../../../actions";
 
 class EventsPage extends Component {
   generateImage(eventName, coverPhotoUrl) {
@@ -35,6 +37,9 @@ class EventsPage extends Component {
         className={`${styles.eventCard} .bp3-skeleton`}
         interactive={true}
         elevation={1}
+        onClick={() => {
+          this.props.handleEventSelection(event.eventID);
+        }}
       >
         {image}
         {title}
@@ -65,7 +70,20 @@ class EventsPage extends Component {
 
 EventsPage.propTypes = {
   name: PropTypes.string,
-  events: PropTypes.object
+  events: PropTypes.object,
+  handleEventSelection: PropTypes.func
 };
 
-export default connect(state => ({ events: state.events }))(EventsPage);
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      handleEventSelection: selectEvent
+    },
+    dispatch
+  );
+};
+
+export default connect(
+  state => ({ events: state.events }),
+  mapDispatchToProps
+)(EventsPage);
