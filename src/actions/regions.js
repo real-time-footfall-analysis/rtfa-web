@@ -1,6 +1,7 @@
 import api from "../api";
 import { store } from "../store";
 import { getRegion } from "../selectors";
+import { ActionTypes } from "./actionTypes";
 
 /* Region Actions */
 export const createNewRegion = (organiserID, eventID, region) => {
@@ -9,7 +10,7 @@ export const createNewRegion = (organiserID, eventID, region) => {
      * simultaneously, but just take the first item for now. */
     const responseRegion = (await api.events.addRegions(eventID, region))[0];
     return dispatch({
-      type: "CREATE_NEW_REGION",
+      type: ActionTypes.CREATE_NEW_REGION,
       payload: {
         eventID: eventID,
         region: {
@@ -36,7 +37,7 @@ export const toggleRegionMarkerBox = (eventID, regionID) => {
     throw TypeError("No regionID passed into toggleRegionMarkerBox");
   }
   return {
-    type: "TOGGLE_REGION_MARKER_BOX",
+    type: ActionTypes.TOGGLE_REGION_MARKER_BOX,
     payload: {
       eventID: eventID,
       regionID: regionID
@@ -54,7 +55,7 @@ export const updateRegion = (
     throw TypeError("No regionID passed into updateRegionName");
   }
   return {
-    type: "UPDATE_REGION",
+    type: ActionTypes.UPDATE_REGION,
     payload: {
       eventID: eventID,
       regionID: regionID,
@@ -83,7 +84,7 @@ export const updateRegionOnServer = (eventID, regionID) => {
   return async dispatch => {
     const updatedRegion = await processRegionUpdate(eventID, regionID);
     return dispatch({
-      type: "UPDATE_REGION",
+      type: ActionTypes.UPDATE_REGION,
       payload: {
         eventID: eventID,
         regionID: updatedRegion.regionID,

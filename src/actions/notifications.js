@@ -1,6 +1,7 @@
 import api from "../api";
 import { store } from "../store";
 import { lastEmergencyNotificationTimestamp } from "../selectors";
+import { ActionTypes } from "./actionTypes";
 
 export const pollEmergencyNotifications = eventID => {
   if (!eventID) {
@@ -11,7 +12,7 @@ export const pollEmergencyNotifications = eventID => {
   const lastTimestamp = lastEmergencyNotificationTimestamp(store.getState());
   return async dispatch =>
     dispatch({
-      type: "POLL_EMERGENCY_NOTIFICATIONS",
+      type: ActionTypes.POLL_EMERGENCY_NOTIFICATIONS,
       payload: {
         eventID: eventID,
         newNotifications: await api.emergency.getNotificationsSince(
@@ -27,7 +28,7 @@ export const resolveEmergencyNotification = notification => {
     // eslint-disable-next-line
     const response = await api.emergency.resolveNotification(notification);
     const actionType = response
-      ? "RESOLVE_EMERGENCY_NOTIFICATION"
+      ? ActionTypes.RESOLVE_EMERGENCY_NOTIFICATION
       : "RESOLVING_EMERGENCY_NOTIFICATION_FAILED";
     return dispatch({
       type: actionType,
