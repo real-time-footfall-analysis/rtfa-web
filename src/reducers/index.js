@@ -1,34 +1,31 @@
 import _ from "lodash";
 import { combineReducers } from "redux";
+import { ActionTypes } from "../actions/actionTypes";
 
 const eventsReducer = (events, action) => {
   if (!events) {
     return {};
   }
   switch (action.type) {
-    case "LOAD_EVENTS":
+    case ActionTypes.LOAD_EVENTS:
       return action.payload.events;
-    case "CREATE_NEW_EVENT":
+    case ActionTypes.CREATE_NEW_EVENT:
       return createUpdatedObject(
         events,
         action.payload.event.eventID,
         action.payload.event
       );
-    case "CREATE_NEW_REGION":
-    case "DELETE_REGION":
-    case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION":
-      return _.keyBy(
-        _.map(events, event => eventReducer(event, action)),
-        "eventID"
-      );
-    case "LOAD_HEATMAP_DATA":
-    case "LOAD_HISTORICAL_HEATMAP_DATA":
-    case "LOAD_TASKS_DATA":
-    case "SET_HEATMAP_SLIDER_VALUE":
-    case "TOGGLE_HEATMAP_HISTORICAL_MODE":
-    case "POLL_EMERGENCY_NOTIFICATIONS":
-    case "RESOLVE_EMERGENCY_NOTIFICATION": {
+    case ActionTypes.CREATE_NEW_REGION:
+    case ActionTypes.DELETE_REGION:
+    case ActionTypes.TOGGLE_REGION_MARKER_BOX:
+    case ActionTypes.UPDATE_REGION:
+    case ActionTypes.LOAD_HEATMAP_DATA:
+    case ActionTypes.LOAD_HISTORICAL_HEATMAP_DATA:
+    case ActionTypes.LOAD_TASKS_DATA:
+    case ActionTypes.SET_HEATMAP_SLIDER_VALUE:
+    case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
+    case ActionTypes.POLL_EMERGENCY_NOTIFICATIONS:
+    case ActionTypes.RESOLVE_EMERGENCY_NOTIFICATION: {
       return _.keyBy(
         _.map(events, event => eventReducer(event, action)),
         "eventID"
@@ -46,32 +43,32 @@ const eventReducer = (event, action) => {
     return event;
   }
   switch (action.type) {
-    case "CREATE_NEW_REGION":
-    case "DELETE_REGION":
-    case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION":
+    case ActionTypes.CREATE_NEW_REGION:
+    case ActionTypes.DELETE_REGION:
+    case ActionTypes.TOGGLE_REGION_MARKER_BOX:
+    case ActionTypes.UPDATE_REGION:
       return createUpdatedObject(
         event,
         "regions",
         regionsReducer(event.regions, action)
       );
     /* TODO: Refactor these into a generic reducer. */
-    case "LOAD_HEATMAP_DATA":
+    case ActionTypes.LOAD_HEATMAP_DATA:
       return {
         ...event,
         heatMapData: action.payload.heatMapData
       };
-    case "LOAD_HISTORICAL_HEATMAP_DATA":
+    case ActionTypes.LOAD_HISTORICAL_HEATMAP_DATA:
       return {
         ...event,
         historicalHeatMapData: action.payload.historicalHeatMapData
       };
-    case "LOAD_TASKS_DATA":
+    case ActionTypes.LOAD_TASKS_DATA:
       return {
         ...event,
         tasksData: action.payload.tasksData
       };
-    case "SET_HEATMAP_SLIDER_VALUE": {
+    case ActionTypes.SET_HEATMAP_SLIDER_VALUE: {
       const index = action.payload.sliderValue;
       const selectedTimestamp =
         event.historicalHeatMapData.result.timestamps[index];
@@ -83,7 +80,7 @@ const eventReducer = (event, action) => {
         heatMapSliderValue: action.payload.sliderValue
       };
     }
-    case "POLL_EMERGENCY_NOTIFICATIONS": {
+    case ActionTypes.POLL_EMERGENCY_NOTIFICATIONS: {
       const existingNotifications = event.notifications
         ? event.notifications
         : [];
@@ -95,7 +92,7 @@ const eventReducer = (event, action) => {
         ]
       };
     }
-    case "RESOLVE_EMERGENCY_NOTIFICATION": {
+    case ActionTypes.RESOLVE_EMERGENCY_NOTIFICATION: {
       const updatedNotificationList = resolveNotification(
         action.payload.notification,
         event
@@ -105,7 +102,7 @@ const eventReducer = (event, action) => {
         notifications: updatedNotificationList
       };
     }
-    case "TOGGLE_HEATMAP_HISTORICAL_MODE":
+    case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
       return {
         ...event,
         historicalModeEnabled: action.payload.historicalModeEnabled
@@ -120,7 +117,7 @@ const regionsReducer = (regions, action) => {
     return {};
   }
   switch (action.type) {
-    case "CREATE_NEW_REGION": {
+    case ActionTypes.CREATE_NEW_REGION: {
       const existingBoxesHidden = _.keyBy(
         _.map(regions, region => regionReducer(region, action)),
         "regionID"
@@ -131,14 +128,14 @@ const regionsReducer = (regions, action) => {
         action.payload.region
       );
     }
-    case "DELETE_REGION": {
+    case ActionTypes.DELETE_REGION: {
       return _.filter(
         regions,
         region => region.regionID !== action.payload.regionID
       );
     }
-    case "TOGGLE_REGION_MARKER_BOX":
-    case "UPDATE_REGION": {
+    case ActionTypes.TOGGLE_REGION_MARKER_BOX:
+    case ActionTypes.UPDATE_REGION: {
       return _.keyBy(
         _.map(regions, region => regionReducer(region, action)),
         "regionID"
@@ -173,19 +170,19 @@ const regionReducer = (region, action) => {
   }
   const isTargetRegion = region.regionID === action.payload.regionID;
   switch (action.type) {
-    case "CREATE_NEW_REGION": {
+    case ActionTypes.CREATE_NEW_REGION: {
       return {
         ...region,
         isBoxOpen: isTargetRegion
       };
     }
-    case "TOGGLE_REGION_MARKER_BOX": {
+    case ActionTypes.TOGGLE_REGION_MARKER_BOX: {
       return {
         ...region,
         isBoxOpen: isTargetRegion ? !region.isBoxOpen : false
       };
     }
-    case "UPDATE_REGION": {
+    case ActionTypes.UPDATE_REGION: {
       if (!isTargetRegion) {
         return region;
       }
@@ -204,13 +201,13 @@ const selectedEventIDReducer = (selectedEventID, action) => {
     return -1;
   }
   switch (action.type) {
-    case "SELECT_NEW_EVENT":
+    case ActionTypes.SELECT_NEW_EVENT:
       return action.payload.selectedEventID;
-    case "LOAD_EVENTS":
+    case ActionTypes.LOAD_EVENTS:
       return _.isEmpty(action.payload.events)
         ? {}
         : _.values(action.payload.events)[0].eventID;
-    case "CREATE_NEW_EVENT":
+    case ActionTypes.CREATE_NEW_EVENT:
       if (!action.payload.event.eventID) {
         console.error(
           "CREATE_NEW_EVENT failed due to: undefined eventID. See action object below:"

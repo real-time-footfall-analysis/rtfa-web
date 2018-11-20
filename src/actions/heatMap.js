@@ -3,6 +3,7 @@ import _ from "lodash";
 import api from "../api";
 import { store } from "../store";
 import { eventsAreLoaded } from "../selectors";
+import { ActionTypes } from "./actionTypes";
 
 const isHeatMapPageActive = () => {
   const isActive = matchPath(window.location.pathname, "/heatMap");
@@ -28,7 +29,7 @@ export const loadHeatMap = eventID => {
   }
   return async dispatch =>
     dispatch({
-      type: "LOAD_HEATMAP_DATA",
+      type: ActionTypes.LOAD_HEATMAP_DATA,
       payload: {
         eventID: eventID,
         heatMapData: await api.heatMap.getHeatMapData(eventID)
@@ -45,7 +46,7 @@ export const loadHistoricalHeatMap = eventID => {
   }
   return async dispatch =>
     dispatch({
-      type: "LOAD_HISTORICAL_HEATMAP_DATA",
+      type: ActionTypes.LOAD_HISTORICAL_HEATMAP_DATA,
       payload: {
         eventID: eventID,
         historicalHeatMapData: await api.heatMap.getHistoricalHeatMapData(
@@ -65,7 +66,7 @@ export const loadTasksData = eventID => {
   return async dispatch => {
     const tasks = await api.tasks.getDataForAllTasks(eventID);
     return dispatch({
-      type: "LOAD_TASKS_DATA",
+      type: ActionTypes.LOAD_TASKS_DATA,
       payload: {
         eventID: eventID,
         tasksData: tasks.filter(_.identity)
@@ -76,7 +77,7 @@ export const loadTasksData = eventID => {
 
 export const setHeatMapSliderValue = (eventID, sliderValue) => {
   return {
-    type: "SET_HEATMAP_SLIDER_VALUE",
+    type: ActionTypes.SET_HEATMAP_SLIDER_VALUE,
     payload: {
       eventID: eventID,
       sliderValue: sliderValue
@@ -89,7 +90,7 @@ export const toggleHeatMapHistoricalMode = (eventID, historicalModeEnabled) => {
     store.dispatch(loadHistoricalHeatMap(eventID));
   }
   return {
-    type: "TOGGLE_HEATMAP_HISTORICAL_MODE",
+    type: ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE,
     payload: {
       eventID: eventID,
       historicalModeEnabled: historicalModeEnabled
