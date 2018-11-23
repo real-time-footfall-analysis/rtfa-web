@@ -20,6 +20,12 @@ export const newEventMock = {
   indoorOutdoor: "outdoor"
 };
 
+/* Pusher */
+export const PUSHER_API_KEY = "544e69db41ad4dcc08db";
+export const PUSHER_API_OPTIONS = {
+  cluster: "eu"
+};
+
 /* Global Constants */
 export const MILLISECONDS_IN_A_SECOND = 1000;
 

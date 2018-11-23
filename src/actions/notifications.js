@@ -1,26 +1,24 @@
 import api from "../api";
 import { store } from "../store";
-import { lastEmergencyNotificationTimestamp } from "../selectors";
+import { getSelectedEvent } from "../selectors";
 import { ActionTypes } from "./actionTypes";
 
-export const pollEmergencyNotifications = eventID => {
+export const loadInitialEmergencyNotifications = () => {
+  const eventID = getSelectedEvent(store.getState()).eventID;
   if (!eventID) {
     return {
       type: "NOT_READY_TO_POLL_EMERGENCY_NOTIFICATIONS"
     };
   }
-  const lastTimestamp = lastEmergencyNotificationTimestamp(store.getState());
-  return async dispatch =>
+  store.dispatch(async dispatch =>
     dispatch({
       type: ActionTypes.POLL_EMERGENCY_NOTIFICATIONS,
       payload: {
         eventID: eventID,
-        newNotifications: await api.emergency.getNotificationsSince(
-          eventID,
-          lastTimestamp + 1
-        )
+        newNotifications: await api.emergency.getNotificationsSince(eventID, 0)
       }
-    });
+    })
+  );
 };
 
 export const resolveEmergencyNotification = notification => {

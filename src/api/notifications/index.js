@@ -1,5 +1,7 @@
 import { BASE_URL } from "../../constants";
 import { RequestUtils } from "../utils/";
+import { PusherAPI } from "../pusher";
+import { PusherChannels } from "../pusher/channels";
 
 const emergencyNotificationsURL = `${BASE_URL}/live/emergency`;
 
@@ -48,5 +50,14 @@ export class EmergencyNotificationsAPI {
       );
       return [];
     }
+  }
+
+  static subscribeToNotifications(callback) {
+    const channel = PusherChannels.emergency;
+    PusherAPI.subscribe(
+      channel.channelName,
+      channel.eventTypes.helpRequest,
+      callback
+    );
   }
 }

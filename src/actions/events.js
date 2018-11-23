@@ -1,6 +1,7 @@
 import api from "../api";
 import { ActionTypes } from "./actionTypes";
 import { loadHeatMapPageDataIfNeeded } from "./heatMap";
+import { loadInitialEmergencyNotifications } from "./notifications";
 
 export const loadEvents = organiserID => {
   return async dispatch => {
@@ -12,6 +13,7 @@ export const loadEvents = organiserID => {
       }
     });
     loadHeatMapPageDataIfNeeded();
+    loadInitialEmergencyNotifications();
   };
 };
 
