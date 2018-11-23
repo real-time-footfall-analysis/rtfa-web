@@ -1,12 +1,24 @@
-/* API Constants */
 import { KeyValueTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/KeyValueTask/KeyValueTask";
 import { BounceRateTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/BounceRateTask/BounceRateTask";
 
+/* API Constants */
 const USE_MOCK_ENDPOINTS = process.env.REACT_APP_USE_MOCK_SERVER === "true";
 
 export const BASE_URL = USE_MOCK_ENDPOINTS
   ? "http://localhost:8000"
   : "http://ec2co-ecsel-aho8usgy987y-668630006.eu-central-1.elb.amazonaws.com";
+
+export const newEventMock = {
+  name: "Latitude Festival",
+  location: "Suffolk, United Kingdom",
+  startDate: new Date("2019-07-18").toISOString(),
+  endDate: new Date("2019-07-21").toISOString(),
+  maxAttendance: 150000,
+  coverPhotoUrl:
+    "https://www.latitudefestival.com/sites/live.inviqa.latitudefestival.com/files/images/news/kennerdeigh_scott_-_latitude_festival_2016_-_01f666ea-4db3-11e6-b71f-3645563dd1ea_-_api.jpg",
+  organiserID: 1,
+  indoorOutdoor: "outdoor"
+};
 
 /* Global Constants */
 export const MILLISECONDS_IN_A_SECOND = 1000;
