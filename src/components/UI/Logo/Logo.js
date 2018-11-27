@@ -4,7 +4,7 @@ import styles from "./logo.module.scss";
 const Logo = () => {
   return (
     <span className={styles.logoContainer}>
-      <i className={styles.icon + " fa fa-users"} />
+      <i className={styles.icon + " far fa-users"} />
       <h1 className={styles.appName}>Crowd</h1>
     </span>
   );
