@@ -8,7 +8,7 @@ import NumberField from "../../UI/NumberField/NumberField";
 import DateRangeField from "../../UI/DateRangeField/DateRangeField";
 import FileField from "../../UI/FileField/FileField";
 import NavigateButton from "../../UI/NavigateButton/NavigateButton";
-import { newEventMock } from "../../../api/eventsMock";
+import { newEventMock } from "../../../constants";
 import { createNewEvent } from "../../../actions";
 
 import styles from "./NewEventForm.module.scss";
