@@ -1,7 +1,7 @@
 import { EventsAPI } from "./events";
 import { HeatMapAPI } from "./heatMap";
 import { TasksAPI } from "./tasks";
-import { EmergencyNotificationsAPI } from "./notifications";
+import { EmergencyNotificationsAPI } from "./emergencyNotifications";
 
 class API {
   static events = EventsAPI;
