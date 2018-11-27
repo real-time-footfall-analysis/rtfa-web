@@ -1,6 +1,13 @@
 import _ from "lodash";
 import { generateSubresourceEndpoints } from "./endpointGenerators";
-import { events, newEvent, regions, tasks, heatMaps } from "./data";
+import {
+  events,
+  newEvent,
+  regions,
+  tasks,
+  heatMaps,
+  sentNotifications
+} from "./data";
 
 const fs = require("fs");
 
@@ -54,13 +61,34 @@ const heatMapEndpoints = _.reduce(
   {}
 );
 
+const sentNotificationsEndpoint = _.reduce(
+  events,
+  (endpoints, event) => ({
+    ...endpoints,
+    [`/events/${event.eventID}/notifications`]: {
+      get: sentNotifications[event.eventID]
+        ? sentNotifications[event.eventID]
+        : []
+    }
+  }),
+  {}
+);
+
+const individualNotificationEndpoints = generateSubresourceEndpoints(
+  sentNotifications,
+  "notifications",
+  "notificationId"
+);
+
 const allEndpoints = {
   ...allEventsEndpoint,
   ...individualEventEndpoints,
   ...allRegionsEndpoint,
   ...individualRegionEndpoints,
   ...individualTaskEndpoints,
-  ...heatMapEndpoints
+  ...heatMapEndpoints,
+  ...sentNotificationsEndpoint,
+  ...individualNotificationEndpoints
 };
 
 fs.writeFile("dist/mocks/data.json", JSON.stringify(allEndpoints), err => {
