@@ -1,7 +1,7 @@
 import api from "../api";
 import { ActionTypes } from "./actionTypes";
 import { loadHeatMapPageDataIfNeeded } from "./heatMap";
-import { setupEmergencyNotifications } from "./notifications";
+import { setupEmergencyNotifications } from "./emergencyNotifications";
 
 /* Load all event objects for the given organiserID and trigger additional
  * requests for heatMap data and emergency notifications. */

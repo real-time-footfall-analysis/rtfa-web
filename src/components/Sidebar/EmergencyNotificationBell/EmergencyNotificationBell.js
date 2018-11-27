@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { NotificationBell } from "../../UI/NotificationBell/NotificationBell";
 import { bindActionCreators } from "redux";
-import { resolveEmergencyNotification } from "../../../actions/notifications";
+import { resolveEmergencyNotification } from "../../../actions/emergencyNotifications";
 
 class EmergencyNotificationBell extends Component {
   constructor(props) {
