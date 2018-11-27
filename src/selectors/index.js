@@ -29,9 +29,9 @@ export const eventsAreLoaded = state => {
 };
 
 export const lastEmergencyNotificationTimestamp = state => {
-  const selectedEvent = getSelectedEvent(state);
-  if (!selectedEvent.notifications || selectedEvent.notifications.length < 1) {
+  const emergencyNotifs = getSelectedEvent(state).emergencyNotifications;
+  if (!emergencyNotifs || emergencyNotifs.length < 1) {
     return 0;
   }
-  return selectedEvent.notifications[0].occurredAt;
+  return emergencyNotifs[0].occurredAt;
 };

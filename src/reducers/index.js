@@ -81,12 +81,12 @@ const eventReducer = (event, action) => {
       };
     }
     case ActionTypes.LOAD_EMERGENCY_NOTIFICATIONS: {
-      const existingNotifications = event.notifications
-        ? event.notifications
+      const existingNotifications = event.emergencyNotifications
+        ? event.emergencyNotifications
         : [];
       return {
         ...event,
-        notifications: [
+        emergencyNotifications: [
           ...action.payload.newNotifications,
           ...existingNotifications
         ]
@@ -99,7 +99,7 @@ const eventReducer = (event, action) => {
       );
       return {
         ...event,
-        notifications: updatedNotificationList
+        emergencyNotifications: updatedNotificationList
       };
     }
     case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
@@ -148,7 +148,7 @@ const regionsReducer = (regions, action) => {
 };
 
 const resolveNotification = (targetNotification, event) => {
-  const updatedNotificationList = event.notifications.filter(
+  const updatedNotificationList = event.emergencyNotifications.filter(
     notification =>
       !(
         notification.uuid === targetNotification.uuid &&
