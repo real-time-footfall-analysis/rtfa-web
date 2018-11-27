@@ -1,7 +1,32 @@
 import _ from "lodash";
 
-/* Given an object of resources keyed by eventID, returns a list of endpoints
- * for all of those resources. */
+/* Given an array of resources, returns a single endpoint per event for
+ * accessing all of those resources. */
+export const generateAllSubresourceEndpoint = (
+  events,
+  resources,
+  pluralResourceName
+) => {
+  return _.reduce(
+    events,
+    (endpoints, event) => ({
+      ...endpoints,
+      [`/events/${event.eventID}/${pluralResourceName}`]: {
+        get: resources[event.eventID] ? resources[event.eventID] : []
+      }
+    }),
+    {}
+  );
+};
+
+/* Given an object of resources keyed by eventID, returns endpoints
+ * for all of those resources.
+ *
+ * @param resources = { 1: [ { regionID: 39 } ] }
+ * @param pluralResourceName = "regions"
+ * @param resourceIDProperty = "regionID"
+ * @returns [{"/events/1/regions/39": { get: { regionID: 42 }}}]
+ */
 export const generateSubresourceEndpoints = (
   resources,
   pluralResourceName,
