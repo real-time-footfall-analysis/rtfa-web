@@ -24,6 +24,7 @@ const eventsReducer = (events, action) => {
     case ActionTypes.LOAD_TASKS_DATA:
     case ActionTypes.SET_HEATMAP_SLIDER_VALUE:
     case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
+    case ActionTypes.LOAD_SENT_NOTIFICATIONS:
     case ActionTypes.LOAD_EMERGENCY_NOTIFICATIONS:
     case ActionTypes.RESOLVE_EMERGENCY_NOTIFICATION: {
       return _.keyBy(
@@ -80,13 +81,19 @@ const eventReducer = (event, action) => {
         heatMapSliderValue: action.payload.sliderValue
       };
     }
+    case ActionTypes.LOAD_SENT_NOTIFICATIONS: {
+      return {
+        ...event,
+        sentNotifications: action.payload.sentNotifications
+      };
+    }
     case ActionTypes.LOAD_EMERGENCY_NOTIFICATIONS: {
-      const existingNotifications = event.notifications
-        ? event.notifications
+      const existingNotifications = event.emergencyNotifications
+        ? event.emergencyNotifications
         : [];
       return {
         ...event,
-        notifications: [
+        emergencyNotifications: [
           ...action.payload.newNotifications,
           ...existingNotifications
         ]
@@ -99,7 +106,7 @@ const eventReducer = (event, action) => {
       );
       return {
         ...event,
-        notifications: updatedNotificationList
+        emergencyNotifications: updatedNotificationList
       };
     }
     case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
@@ -148,7 +155,7 @@ const regionsReducer = (regions, action) => {
 };
 
 const resolveNotification = (targetNotification, event) => {
-  const updatedNotificationList = event.notifications.filter(
+  const updatedNotificationList = event.emergencyNotifications.filter(
     notification =>
       !(
         notification.uuid === targetNotification.uuid &&

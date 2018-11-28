@@ -1,9 +1,20 @@
 import _ from "lodash";
-import { generateSubresourceEndpoints } from "./endpointGenerators";
-import { events, newEvent, regions, tasks, heatMaps } from "./data";
+import {
+  generateAllSubresourceEndpoint,
+  generateSubresourceEndpoints
+} from "./endpointGenerators";
+import {
+  events,
+  newEvent,
+  regions,
+  tasks,
+  heatMaps,
+  sentNotifications
+} from "./data";
 
 const fs = require("fs");
 
+/* @endpoint /events */
 const allEventsEndpoint = {
   "/events": {
     get: events,
@@ -11,6 +22,7 @@ const allEventsEndpoint = {
   }
 };
 
+/* @endpoint /events/{eventID} */
 const individualEventEndpoints = _.reduce(
   events,
   (endpoints, event) => ({
@@ -22,29 +34,28 @@ const individualEventEndpoints = _.reduce(
   {}
 );
 
-const allRegionsEndpoint = _.reduce(
+/* @endpoint /events/{eventID}/regions */
+const allRegionsEndpoint = generateAllSubresourceEndpoint(
   events,
-  (endpoints, event) => ({
-    ...endpoints,
-    [`/events/${event.eventID}/regions`]: {
-      get: regions[event.eventID] ? regions[event.eventID] : []
-    }
-  }),
-  {}
+  regions,
+  "regions"
 );
 
+/* @endpoint /events/{eventID}/regions/{regionID} */
 const individualRegionEndpoints = generateSubresourceEndpoints(
   regions,
   "regions",
   "regionID"
 );
 
+/* @endpoint /events/{eventID}/tasks/{taskID} */
 const individualTaskEndpoints = generateSubresourceEndpoints(
   tasks,
   "tasks",
   "taskID"
 );
 
+/* @endpoint /live/heatmap/${eventID} */
 const heatMapEndpoints = _.reduce(
   heatMaps,
   (endpoints, heatMap, eventID) => ({
@@ -54,15 +65,33 @@ const heatMapEndpoints = _.reduce(
   {}
 );
 
+/* @endpoint /events/{eventID}/notifications */
+const sentNotificationsEndpoint = generateAllSubresourceEndpoint(
+  events,
+  sentNotifications,
+  "notifications"
+);
+
+/* @endpoint /events/{eventID}/notifications/{notificationId} */
+const individualNotificationEndpoints = generateSubresourceEndpoints(
+  sentNotifications,
+  "notifications",
+  "notificationId"
+);
+
 const allEndpoints = {
   ...allEventsEndpoint,
   ...individualEventEndpoints,
   ...allRegionsEndpoint,
   ...individualRegionEndpoints,
   ...individualTaskEndpoints,
-  ...heatMapEndpoints
+  ...heatMapEndpoints,
+  ...sentNotificationsEndpoint,
+  ...individualNotificationEndpoints
 };
 
+/* Write allEndpoints to data.json (which is then used as the config file for
+ * mock-json-server). */
 fs.writeFile("dist/mocks/data.json", JSON.stringify(allEndpoints), err => {
   if (err) throw err;
   console.log("Saved endpoints file to data.json");

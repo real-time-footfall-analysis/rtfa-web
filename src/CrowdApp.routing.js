@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 import EventsPage from "./components/Pages/EventsPage/EventsPage";
 import NewEventPage from "./components/Pages/NewEventPage/NewEventPage";
-import React from "react";
 import AddRegionsPage from "./components/Pages/AddRegionsPage/AddRegionsPage";
 import HeatMapPage from "./components/Pages/HeatMapPage/HeatMapPage";
+import NotificationsPage from "./components/Pages/NotificationsPage/NotificationsPage";
 
 const routes = [
   {
@@ -29,21 +29,6 @@ const routes = [
     inSidebar: false
   },
   {
-    path: "/maps",
-    name: "Maps",
-    iconName: "map",
-    content: () => <h1>Maps Page</h1>,
-    inSidebar: true
-  },
-  {
-    path: "/regionGroups",
-    name: "Region Groups",
-    shortName: "Groups",
-    iconName: "layer-group",
-    content: () => <h1>Region Groups</h1>,
-    inSidebar: true
-  },
-  {
     path: "/regions",
     name: "Regions",
     description: "Edit your region names, type and radii.",
@@ -56,6 +41,13 @@ const routes = [
     name: "Heat Map",
     iconName: "fire",
     content: HeatMapPage,
+    inSidebar: true
+  },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    iconName: "bell",
+    content: NotificationsPage,
     inSidebar: true
   }
 ];

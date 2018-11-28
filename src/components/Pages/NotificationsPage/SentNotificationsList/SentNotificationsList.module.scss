@@ -1,0 +1,19 @@
+@import "../../../../styles/_vars.scss";
+
+$notificationMargin: 20px;
+
+.list {
+  display: grid;
+  grid-column-gap: $notificationMargin;
+  grid-row-gap: $notificationMargin;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+
+  @media screen and (min-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 1060px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

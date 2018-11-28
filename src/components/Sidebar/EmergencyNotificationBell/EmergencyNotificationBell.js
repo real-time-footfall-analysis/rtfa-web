@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { NotificationBell } from "../../UI/NotificationBell/NotificationBell";
 import { bindActionCreators } from "redux";
-import { resolveEmergencyNotification } from "../../../actions/notifications";
+import { resolveEmergencyNotification } from "../../../actions/emergencyNotifications";
 
 class EmergencyNotificationBell extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class EmergencyNotificationBell extends Component {
 
   /* TODO: Refactor this to store a count in the Redux store. */
   getUnreadNotificationCount() {
-    return this.props.selectedEvent.notifications.reduce(
+    return this.props.selectedEvent.emergencyNotifications.reduce(
       (unreadCount, notification) =>
         notification.dealtWith ? unreadCount : unreadCount + 1,
       0
@@ -43,18 +43,20 @@ class EmergencyNotificationBell extends Component {
   }
 
   processNotifications() {
-    return this.props.selectedEvent.notifications.map(notification => ({
-      icon: "warning-sign",
-      title: (
-        <span>
-          <strong>Emergency</strong> at
-          {` ${this.getRegionName(notification.regionIds)}`}
-        </span>
-      ),
-      timestamp: notification.occurredAt,
-      notificationID: notification.uuid + "|" + notification.occurredAt,
-      resolved: notification.dealtWith
-    }));
+    return this.props.selectedEvent.emergencyNotifications.map(
+      notification => ({
+        icon: "warning-sign",
+        title: (
+          <span>
+            <strong>Emergency</strong> at
+            {` ${this.getRegionName(notification.regionIds)}`}
+          </span>
+        ),
+        timestamp: notification.occurredAt,
+        notificationID: notification.uuid + "|" + notification.occurredAt,
+        resolved: notification.dealtWith
+      })
+    );
   }
 
   getIDComponents(notificationID) {
@@ -69,14 +71,17 @@ class EmergencyNotificationBell extends Component {
     const { uuid, occurredAt } = this.getIDComponents(
       notification.notificationID
     );
-    const originalNotification = this.props.selectedEvent.notifications.filter(
+    const originalNotification = this.props.selectedEvent.emergencyNotifications.filter(
       n => n.occurredAt === occurredAt && n.uuid === uuid
     )[0];
     this.props.onResolve(originalNotification);
   }
 
   render() {
-    if (!this.props.selectedEvent || !this.props.selectedEvent.notifications) {
+    if (
+      !this.props.selectedEvent ||
+      !this.props.selectedEvent.emergencyNotifications
+    ) {
       return null;
     }
     return (
