@@ -21,6 +21,8 @@ class SendNotificationForm extends Component {
     this.regionIDToName = this.regionIDToName.bind(this);
     this.handleRegionSelect = this.handleRegionSelect.bind(this);
     this.handleTagRemove = this.handleTagRemove.bind(this);
+    this.isRegionSelected = this.isRegionSelected.bind(this);
+    this.renderRegionListEntry = this.renderRegionListEntry.bind(this);
   }
 
   regionIDToName(regionID) {
@@ -63,46 +65,77 @@ class SendNotificationForm extends Component {
     this.deselectRegion(regionIDToRemove);
   }
 
+  renderTitleField() {
+    return (
+      <TextField
+        label="Title"
+        value={this.state.title}
+        placeholder="Enter your notification's title..."
+        onChange={event => this.setState({ title: event.target.value })}
+      />
+    );
+  }
+
+  renderDescriptionField() {
+    return (
+      <TextField
+        label="Description"
+        value={this.state.description}
+        placeholder="Enter your notification's description"
+        onChange={event => this.setState({ description: event.target.value })}
+      />
+    );
+  }
+
+  renderRegionSelectField() {
+    return (
+      <FormGroup
+        label="Target Regions"
+        helperText="Select the regions that you want to send notifications to."
+      >
+        {this.renderRegionSelector()}
+      </FormGroup>
+    );
+  }
+
+  renderRegionSelector() {
+    return (
+      <MultiSelect
+        placeholder="Search for regions..."
+        tagRenderer={this.regionIDToName}
+        tagInputProps={{ onRemove: this.handleTagRemove }}
+        items={this.getRegionIDs()}
+        noResults="No Regions Found"
+        itemRenderer={this.renderRegionListEntry}
+        selectedItems={this.state.selectedRegions}
+        onItemSelect={this.handleRegionSelect}
+      />
+    );
+  }
+
+  getRegionIDs() {
+    return _.map(this.props.regions, region => region.regionID);
+  }
+
+  renderRegionListEntry(regionID, { modifiers, handleClick }) {
+    return (
+      <MenuItem
+        active={modifiers.active}
+        key={regionID}
+        icon={this.isRegionSelected(regionID) ? "tick" : "blank"}
+        text={this.regionIDToName(regionID)}
+        onClick={handleClick}
+      />
+    );
+  }
+
   render() {
     return (
       <section>
         <h2>Send New Notification</h2>
-        <TextField
-          label="Title"
-          value={this.state.title}
-          placeholder="Enter your notification's title..."
-          onChange={event => this.setState({ title: event.target.value })}
-        />
-        <TextField
-          label="Description"
-          value={this.state.description}
-          placeholder="Enter your notification's description"
-          onChange={event => this.setState({ description: event.target.value })}
-        />
-        <FormGroup
-          label="Target Regions"
-          helperText="Select the regions that you want to send notifications to."
-        >
-          <MultiSelect
-            placeholder="Search for regions..."
-            tagRenderer={this.regionIDToName}
-            tagInputProps={{ onRemove: this.handleTagRemove }}
-            items={_.map(this.props.regions, region => region.regionID)}
-            noResults="No Regions Found"
-            itemRenderer={(regionID, { modifiers, handleClick }) => (
-              <MenuItem
-                active={modifiers.active}
-                key={regionID}
-                icon={this.isRegionSelected(regionID) ? "tick" : "blank"}
-                text={this.regionIDToName(regionID)}
-                onClick={handleClick}
-              />
-            )}
-            selectedItems={this.state.selectedRegions}
-            onItemSelect={this.handleRegionSelect}
-          />
-        </FormGroup>
-        <br />
+        {this.renderTitleField()}
+        {this.renderDescriptionField()}
+        {this.renderRegionSelectField()}
         <Button>Submit</Button>
       </section>
     );
