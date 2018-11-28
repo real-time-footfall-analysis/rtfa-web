@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import TextField from "../../../UI/TextField/TextField";
 import { MultiSelect } from "@blueprintjs/select";
-import Button from "../../../UI/Button/Button";
 import { MenuItem } from "@blueprintjs/core";
+import _ from "lodash";
 import PropTypes from "prop-types";
+import TextField from "../../../UI/TextField/TextField";
+import Button from "../../../UI/Button/Button";
 
 class SendNotificationForm extends Component {
   static propTypes = {
@@ -42,7 +43,7 @@ class SendNotificationForm extends Component {
         />
         <MultiSelect
           tagRenderer={this.regionIDToName}
-          items={[39, 42, 50]}
+          items={_.map(this.props.regions, region => region.regionID)}
           itemRenderer={(regionID, { modifiers, handleClick }) => (
             <MenuItem
               active={modifiers.active}
