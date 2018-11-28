@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { MultiSelect } from "@blueprintjs/select";
-import { FormGroup, MenuItem } from "@blueprintjs/core";
+import { FormGroup, Icon, MenuItem } from "@blueprintjs/core";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import TextField from "../../../UI/TextField/TextField";
 import Button from "../../../UI/Button/Button";
+import styles from "./SendNotificationForm.module.scss";
 
 class SendNotificationForm extends Component {
   static propTypes = {
@@ -65,10 +66,27 @@ class SendNotificationForm extends Component {
     this.deselectRegion(regionIDToRemove);
   }
 
+  renderFormTitle() {
+    return (
+      <h2 className={styles.formTitle}>
+        <Icon
+          icon="add"
+          tagName="span"
+          style={{
+            verticalAlign: "baseline",
+            marginRight: 7
+          }}
+        />
+        Send New Notification
+      </h2>
+    );
+  }
+
   renderTitleField() {
     return (
       <TextField
         label="Title"
+        icon="edit"
         value={this.state.title}
         placeholder="Enter your notification's title..."
         onChange={event => this.setState({ title: event.target.value })}
@@ -80,6 +98,7 @@ class SendNotificationForm extends Component {
     return (
       <TextField
         label="Description"
+        icon="align-left"
         value={this.state.description}
         placeholder="Enter your notification's description"
         onChange={event => this.setState({ description: event.target.value })}
@@ -103,7 +122,10 @@ class SendNotificationForm extends Component {
       <MultiSelect
         placeholder="Search for regions..."
         tagRenderer={this.regionIDToName}
-        tagInputProps={{ onRemove: this.handleTagRemove }}
+        tagInputProps={{
+          onRemove: this.handleTagRemove,
+          leftIcon: "geosearch"
+        }}
         items={this.getRegionIDs()}
         noResults="No Regions Found"
         itemRenderer={this.renderRegionListEntry}
@@ -131,12 +153,12 @@ class SendNotificationForm extends Component {
 
   render() {
     return (
-      <section>
-        <h2>Send New Notification</h2>
+      <section className={styles.sendNotificationForm}>
+        {this.renderFormTitle()}
         {this.renderTitleField()}
         {this.renderDescriptionField()}
         {this.renderRegionSelectField()}
-        <Button>Submit</Button>
+        <Button fill={true}>Submit</Button>
       </section>
     );
   }

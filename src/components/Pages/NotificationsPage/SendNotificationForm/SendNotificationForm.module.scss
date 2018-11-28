@@ -1,1 +1,46 @@
 @import "../../../../styles/_vars.scss";
+
+$formPadding: 40px;
+
+:global {
+  .bp3-menu-item.bp3-intent-primary.bp3-active,
+  .bp3-tag {
+    background-color: $highlight;
+  }
+}
+
+.sendNotificationForm {
+  max-width: 600px;
+  padding: 40px 0;
+
+  .formTitle {
+    color: $darkText;
+    font-weight: 500;
+    margin-top: 0;
+  }
+
+  :global {
+    .bp3-form-group {
+      margin-bottom: 30px;
+    }
+
+    .bp3-label {
+      color: $midText;
+      display: block;
+      font-size: 16px;
+      margin-bottom: 200px;
+    }
+
+    .bp3-popover-target {
+      width: 100%;
+    }
+
+    .bp3-input.bp3-multi-select {
+      padding: 5px 5px 5px 10px;
+    }
+
+    .bp3-input-ghost {
+      font-size: 16px;
+    }
+  }
+}
