@@ -1,21 +1,22 @@
 import React from "react";
 import styles from "./SentNotification.module.scss";
+import PropTypes from "prop-types";
 
-const SentNotification = () => {
+export const SentNotification = props => {
   return (
     <article className={styles.notification}>
       <h3 className={styles.title}>
         <i className={`${styles.icon} far fa-bell`} />
-        Discount at Campsite Bar!
+        {props.title}
       </h3>
-      <p className={styles.description}>
-        Quote 25POFF to bar staff for 25% off drinks.
-      </p>
-      <p className={styles.metadata}>
-        Sent to Arena Bar, Campsite @ 12:43pm on Weds 21st June
-      </p>
+      <p className={styles.description}>{props.description}</p>
+      <p className={styles.metadata}>{props.metadata}</p>
     </article>
   );
 };
 
-export default SentNotification;
+SentNotification.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  metadata: PropTypes.string
+};

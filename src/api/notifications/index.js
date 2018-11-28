@@ -8,6 +8,7 @@ export class NotificationsAPI {
   static async getAll(eventID) {
     if (!eventID) {
       console.error("You didn't pass an eventID into NotificationsAPI.getAll");
+      return;
     }
     return await this.request.get(`${eventsURL}/${eventID}/notifications`);
   }
