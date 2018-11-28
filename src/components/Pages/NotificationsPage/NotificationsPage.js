@@ -11,6 +11,7 @@ import {
   timestampToTimeString
 } from "../../../utils";
 import { MILLISECONDS_IN_A_SECOND } from "../../../constants";
+import SendNotificationForm from "./SendNotificationForm/SendNotificationForm";
 
 class NotificationsPage extends Component {
   static propTypes = {
@@ -32,6 +33,7 @@ class NotificationsPage extends Component {
     return (
       <Page title={<span>Notifications</span>}>
         <SentNotificationsList notifications={this.processNotifications()} />
+        <SendNotificationForm />
       </Page>
     );
   }
