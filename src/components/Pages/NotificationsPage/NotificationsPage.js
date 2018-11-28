@@ -20,11 +20,12 @@ class NotificationsPage extends Component {
     regions: PropTypes.object
   };
 
+  componentDidMount() {
+    this.fetchNotificationsIfNeeded();
+  }
+
   componentDidUpdate() {
-    /* Fetch sentNotifications if needed. */
-    if (this.props.selectedEventID !== -1 && !this.props.notifications) {
-      this.props.loadSentNotifications(this.props.selectedEventID);
-    }
+    this.fetchNotificationsIfNeeded();
   }
 
   render() {
@@ -33,6 +34,15 @@ class NotificationsPage extends Component {
         <SentNotificationsList notifications={this.processNotifications()} />
       </Page>
     );
+  }
+
+  /* Calls the action creator for loading sent notifications if
+   * an event has been selected (i.e. events have been loaded) and
+   * the notifications haven't already been loaded. */
+  fetchNotificationsIfNeeded() {
+    if (this.props.selectedEventID !== -1 && !this.props.notifications) {
+      this.props.loadSentNotifications(this.props.selectedEventID);
+    }
   }
 
   /* Simplifies API notification objects into only what is needed for render. */
