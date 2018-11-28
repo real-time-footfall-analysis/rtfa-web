@@ -17,7 +17,7 @@ export const sentNotifications = {
       eventID: 1 // This field isn't actually in API response, but makes generation easier
     },
     {
-      notificationId: 238,
+      notificationId: 239,
       title: "Free churros in the canteen!",
       description: "Come to the churro stand and get a delicious free dessert.",
       occurredAt: 1543319123,
