@@ -9,7 +9,8 @@ import {
   regions,
   tasks,
   heatMaps,
-  sentNotifications
+  sentNotifications,
+  newSentNotification
 } from "./data";
 
 const fs = require("fs");
@@ -72,6 +73,17 @@ const sentNotificationsEndpoint = generateAllSubresourceEndpoint(
   "notifications"
 );
 
+/* @endpoint POST /events/1/notifications
+ *  This endpoint only exists for Event 1, the time + effort of making it
+ *  generic for all events wasn't worth it. */
+const sendNewNotificationEndpoint = {
+  [`/events/1/notifications`]: {
+    post: {
+      data: newSentNotification
+    }
+  }
+};
+
 /* @endpoint GET /events/{eventID}/notifications/{notificationId} */
 const individualNotificationEndpoints = generateSubresourceEndpoints(
   sentNotifications,
@@ -87,6 +99,7 @@ const allEndpoints = {
   ...individualTaskEndpoints,
   ...heatMapEndpoints,
   ...sentNotificationsEndpoint,
+  ...sendNewNotificationEndpoint,
   ...individualNotificationEndpoints
 };
 
