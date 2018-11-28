@@ -76,11 +76,10 @@ const sentNotificationsEndpoint = generateAllSubresourceEndpoint(
 /* @endpoint POST /events/1/notifications
  *  This endpoint only exists for Event 1, the time + effort of making it
  *  generic for all events wasn't worth it. */
-const sendNewNotificationEndpoint = {
-  [`/events/1/notifications`]: {
-    post: {
-      data: newSentNotification
-    }
+sentNotificationsEndpoint[`/events/1/notifications`] = {
+  ...sentNotificationsEndpoint[`/events/1/notifications`],
+  post: {
+    data: newSentNotification
   }
 };
 
@@ -99,7 +98,6 @@ const allEndpoints = {
   ...individualTaskEndpoints,
   ...heatMapEndpoints,
   ...sentNotificationsEndpoint,
-  ...sendNewNotificationEndpoint,
   ...individualNotificationEndpoints
 };
 
