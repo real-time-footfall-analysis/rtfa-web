@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import TextField from "../../../UI/TextField/TextField";
 import { MultiSelect } from "@blueprintjs/select";
 import Button from "../../../UI/Button/Button";
-import { MenuItem, Tag } from "@blueprintjs/core";
+import { MenuItem } from "@blueprintjs/core";
+import PropTypes from "prop-types";
 
 class SendNotificationForm extends Component {
+  static propTypes = {
+    regions: PropTypes.array
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +17,15 @@ class SendNotificationForm extends Component {
       description: "",
       selectedRegions: []
     };
+    this.regionIDToName = this.regionIDToName.bind(this);
   }
+
+  regionIDToName(regionID) {
+    return this.props.regions[regionID]
+      ? this.props.regions[regionID].name
+      : `Region ${regionID}`;
+  }
+
   render() {
     return (
       <section>
@@ -28,12 +41,22 @@ class SendNotificationForm extends Component {
           onChange={event => this.setState({ description: event.target.value })}
         />
         <MultiSelect
-          tagRenderer={tag => <Tag>{tag}</Tag>}
-          items={["Campsite Bar", "Arena Bar", "Main Stage"]}
-          itemRenderer={(item, { modifiers }) => (
-            <MenuItem active={modifiers.active} key={item} text={item} />
+          tagRenderer={this.regionIDToName}
+          items={[39, 42, 50]}
+          itemRenderer={(regionID, { modifiers, handleClick }) => (
+            <MenuItem
+              active={modifiers.active}
+              key={regionID}
+              text={this.regionIDToName(regionID)}
+              onClick={handleClick}
+            />
           )}
-          onItemSelect={console.log}
+          selectedItems={this.state.selectedRegions}
+          onItemSelect={selectedRegion => {
+            this.setState({
+              selectedRegions: [...this.state.selectedRegions, selectedRegion]
+            });
+          }}
         />
         <br />
         <Button>Submit</Button>

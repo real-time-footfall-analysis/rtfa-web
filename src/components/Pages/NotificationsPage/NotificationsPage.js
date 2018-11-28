@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Page from "../../UI/Page/Page";
 import { SentNotificationsList } from "./SentNotificationsList/SentNotificationsList";
-import { getSelectedEvent } from "../../../selectors";
+import { getRegions, getSelectedEvent } from "../../../selectors";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loadSentNotifications } from "../../../actions/notifications";
@@ -33,7 +33,7 @@ class NotificationsPage extends Component {
     return (
       <Page title={<span>Notifications</span>}>
         <SentNotificationsList notifications={this.processNotifications()} />
-        <SendNotificationForm />
+        <SendNotificationForm regions={this.props.regions} />
       </Page>
     );
   }
@@ -76,7 +76,7 @@ class NotificationsPage extends Component {
 
 const mapStateToProps = state => ({
   selectedEventID: state.selectedEventID,
-  regions: getSelectedEvent(state).regions,
+  regions: getRegions(state),
   notifications: getSelectedEvent(state).sentNotifications
 });
 
