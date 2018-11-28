@@ -1,18 +1,20 @@
 import _ from "lodash";
+import { RequestTypes } from "./requestTypes";
 
 /* Given an array of resources, returns a single endpoint per event for
  * accessing all of those resources. */
 export const generateAllSubresourceEndpoint = (
   events,
   resources,
-  pluralResourceName
+  pluralResourceName,
+  requestType = RequestTypes.GET
 ) => {
   return _.reduce(
     events,
     (endpoints, event) => ({
       ...endpoints,
       [`/events/${event.eventID}/${pluralResourceName}`]: {
-        get: resources[event.eventID] ? resources[event.eventID] : []
+        [requestType]: resources[event.eventID] ? resources[event.eventID] : []
       }
     }),
     {}
@@ -30,7 +32,8 @@ export const generateAllSubresourceEndpoint = (
 export const generateSubresourceEndpoints = (
   resources,
   pluralResourceName,
-  resourceIDProperty
+  resourceIDProperty,
+  requestType = RequestTypes.GET
 ) => {
   return _.reduce(
     _.map(resources, _.identity),
@@ -38,7 +41,8 @@ export const generateSubresourceEndpoints = (
       const endpointsForCurrentEvent = generateSingleEventSubresourceEndpoints(
         resourcesForEvent,
         pluralResourceName,
-        resourceIDProperty
+        resourceIDProperty,
+        requestType
       );
       return {
         ...endpoints,
@@ -55,7 +59,8 @@ export const generateSubresourceEndpoints = (
 const generateSingleEventSubresourceEndpoints = (
   resourceList,
   pluralResourceName,
-  idProperty
+  idProperty,
+  requestType = RequestTypes.GET
 ) =>
   resourceList.reduce(
     (resourceEndpoints, resource) => ({
@@ -63,7 +68,7 @@ const generateSingleEventSubresourceEndpoints = (
       [`/events/${resource.eventID}/${pluralResourceName}/${
         resource[idProperty]
       }`]: {
-        get: resource
+        [requestType]: resource
       }
     }),
     {}
