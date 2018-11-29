@@ -10,7 +10,7 @@ import CreateRegionForm from "./CreateRegionForm/CreateRegionForm";
 /* TODO: Refactor this and HeatMap to use Redux to update centre. */
 class AddRegionsMapSubcomponent extends Component {
   componentWillUnmount() {
-    centreSet = false;
+    window.centreSet = false;
   }
   render() {
     const markers = generateRegionMarkersWithPopup(
@@ -39,10 +39,10 @@ export const AddRegionsMap = withScriptjs(
   withGoogleMap(AddRegionsMapSubcomponent)
 );
 
-let centreSet = false;
+window.centreSet = false;
 const setCentre = (ref, regions) => {
-  if (_.size(regions) !== 0 && !centreSet && ref) {
-    centreSet = true;
+  if (_.size(regions) !== 0 && !window.centreSet && ref) {
+    window.centreSet = true;
     ref.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.setCenter(
       calculateMidpointOfRegions(regions)
     );

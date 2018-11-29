@@ -15,11 +15,11 @@ import PropTypes from "prop-types";
 import RegionTaskData from "../Tasks/RegionTaskData/RegionTaskData";
 
 /* TODO: Refactor this and AddRegionsMap to use Redux to update centre. */
-let centreSet = false;
+window.centreSet = false;
 
 class HeatMapSubcomponent extends Component {
   componentWillUnmount() {
-    centreSet = false;
+    window.centreSet = false;
   }
   render() {
     const markers = generateRegionMarkersWithPopup(
@@ -62,9 +62,10 @@ HeatMapSubcomponent.propTypes = {
 
 export const HeatMap = withScriptjs(withGoogleMap(HeatMapSubcomponent));
 
+/* TODO: This is duplicated from AddRegionsMap, REFACTOR. */
 const setCentre = (ref, regions) => {
-  if (_.size(regions) !== 0 && !centreSet && ref) {
-    centreSet = true;
+  if (_.size(regions) !== 0 && !window.centreSet && ref) {
+    window.centreSet = true;
     ref.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.setCenter(
       calculateMidpointOfRegions(regions)
     );
