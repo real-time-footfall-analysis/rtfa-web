@@ -12,4 +12,16 @@ export class NotificationsAPI {
     }
     return await this.request.get(`${eventsURL}/${eventID}/notifications`);
   }
+
+  static async sendNotification(eventID, notification) {
+    if (!eventID) {
+      console.error(
+        "You didn't pass an eventID into NotificationsAPI.sendNotification"
+      );
+    }
+    return await this.request.post(
+      `${eventsURL}/${eventID}/notifications`,
+      notification
+    );
+  }
 }
