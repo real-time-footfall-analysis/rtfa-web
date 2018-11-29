@@ -13,6 +13,18 @@ export class TasksAPI {
     const results = this.taskIDs.map(taskID => {
       return this.request.get(`${eventsURL}/${eventID}/tasks/${taskID}`);
     });
-    return Promise.all(results.map(p => p.catch(() => undefined)));
+    return Promise.all(
+      results.map(p => p.then(this.transformTaskData).catch(() => undefined))
+    );
+  }
+
+  static transformTaskData(taskData) {
+    const transformer = TASKS_METADATA[taskData.taskID].transformer;
+    if (transformer) {
+      console.log("Transformer detected for ", taskData);
+      return Promise.resolve(transformer(taskData));
+    } else {
+      return Promise.resolve(taskData);
+    }
   }
 }
