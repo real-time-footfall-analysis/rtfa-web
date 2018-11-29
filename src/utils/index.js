@@ -5,16 +5,15 @@ import { MAX_DECIMAL_PLACES, MILLISECONDS_IN_A_SECOND } from "../constants";
  * format DD/MM/YY */
 export const timestampToDateString = timestamp => {
   const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
-  const shortYear = date
-    .getFullYear()
-    .toString()
-    .slice(2, 4);
-  return `${date.getDate()}/${date.getMonth() + 1}/${shortYear}`;
+  return date.toDateString();
 };
 
 export const timestampToTimeString = timestamp => {
   const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
-  return `${date.getUTCHours()}:${date.getUTCMinutes()}`;
+  return date.toLocaleTimeString("enGB", {
+    hour: "numeric",
+    minute: "numeric"
+  });
 };
 
 /* Takes a UNIX timestamp IN MILLISECONDS and returns a date string in the
@@ -28,6 +27,9 @@ export const timestampToLongDateString = timestamp => {
     day: "numeric"
   });
 };
+
+/* @returns The current UNIX timestamp in seconds. */
+export const currentTimestamp = () => Math.floor(new Date().getTime() / 1000);
 
 /* `await sleep(someMilliseconds)` is equivalent to sleep in other languages. */
 export const sleep = ms => {
