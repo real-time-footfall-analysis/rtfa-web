@@ -22,6 +22,7 @@ export const loadEvents = organiserID => {
 /* Create an action to mark the given eventID as "selected". */
 export const selectEvent = eventID => {
   loadHeatMapPageDataIfNeeded(eventID);
+  window.centreSet = false;
   return {
     type: ActionTypes.SELECT_NEW_EVENT,
     payload: {

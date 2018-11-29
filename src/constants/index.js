@@ -1,5 +1,7 @@
 import { KeyValueTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/KeyValueTask/KeyValueTask";
 import { BounceRateTask } from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/BounceRateTask/BounceRateTask";
+import PopularTimesTask from "../components/Pages/HeatMapPage/Tasks/TaskRenderers/PopularTimesTask/PopularTimesTask";
+import { TaskTransformers } from "../api/tasks/transformers";
 
 /* API Constants */
 const USE_MOCK_ENDPOINTS = process.env.REACT_APP_USE_MOCK_SERVER === "true";
@@ -41,7 +43,8 @@ export const TASKS_METADATA = {
       taskUnits: "minutes",
       taskIcon: "clock"
     },
-    component: KeyValueTask
+    component: KeyValueTask,
+    transformer: TaskTransformers.averageStayTime
   },
   2: {
     props: {
@@ -51,9 +54,16 @@ export const TASKS_METADATA = {
       thresholdUnits: "minutes"
     },
     component: BounceRateTask
+  },
+  5: {
+    props: {
+      taskName: "Popular Times",
+      taskIcon: "signal"
+    },
+    component: PopularTimesTask,
+    transformer: TaskTransformers.popularTimes
   }
 };
-
 export const MAX_DECIMAL_PLACES = 2;
 
 /* Heat Map Constants */

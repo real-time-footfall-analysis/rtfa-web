@@ -10,9 +10,11 @@ export class RegionTaskData extends Component {
     return (
       <div className={styles.taskForm}>
         <h1 className={styles.regionName}>{this.props.region.name}</h1>
-        {this.props.tasksData.map(task =>
-          renderTask(task, this.props.region.regionID)
-        )}
+        <section className={styles.tasks}>
+          {this.props.tasksData.map(task =>
+            renderTask(task, this.props.region.regionID)
+          )}
+        </section>
       </div>
     );
   }

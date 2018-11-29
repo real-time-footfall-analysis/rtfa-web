@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./KeyValueTask.module.scss";
+import TaskTitle from "../../../../../UI/TaskTitle/TaskTitle";
 
 export const KeyValueTask = props => {
   const roundedVal = Math.round(props.taskValue);
   return (
     <div className={styles.task}>
-      <h4 className={styles.taskName}>
-        <i className={`far fa-${props.taskIcon} ${styles.icon}`} />
-        {props.taskName}
-      </h4>
+      <TaskTitle icon={props.taskIcon} name={props.taskName} />
       <p className={styles.taskValue}>
         <span>{roundedVal ? roundedVal : "0"}</span>
         <span className={styles.units}>{props.taskUnits}</span>

@@ -5,6 +5,9 @@ import styles from "./BounceRateTask.module.scss";
 import { decimalToPercentage } from "../../../../../../utils";
 
 export const BounceRateTask = props => {
+  if (!props.taskValue) {
+    return null;
+  }
   const formattedBounceRate = decimalToPercentage(props.taskValue.bounceRate);
   return (
     <KeyValueTask {...props} taskValue={formattedBounceRate}>
