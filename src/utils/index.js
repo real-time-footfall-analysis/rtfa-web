@@ -43,6 +43,11 @@ export const timestampToLongDateString = timestamp => {
 /* @returns The current UNIX timestamp in seconds. */
 export const currentTimestamp = () => Math.floor(new Date().getTime() / 1000);
 
+/* @params seconds A number of seconds
+ * @returns Seconds converted to minutes, rounded to MAX_DECIMAL_PLACES. */
+export const secondsToMinutes = seconds =>
+  (seconds / 60).toFixed(MAX_DECIMAL_PLACES);
+
 /* `await sleep(someMilliseconds)` is equivalent to sleep in other languages. */
 export const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));

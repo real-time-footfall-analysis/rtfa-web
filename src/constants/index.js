@@ -43,7 +43,8 @@ export const TASKS_METADATA = {
       taskUnits: "minutes",
       taskIcon: "clock"
     },
-    component: KeyValueTask
+    component: KeyValueTask,
+    transformer: TaskTransformers.averageStayTime
   },
   2: {
     props: {
