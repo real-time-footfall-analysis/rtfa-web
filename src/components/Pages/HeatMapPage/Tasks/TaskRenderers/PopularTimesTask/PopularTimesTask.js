@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Bar } from "react-chartjs-2";
+import * as PropTypes from "prop-types";
 import TaskTitle from "../../../../../UI/TaskTitle/TaskTitle";
 import { timestampToTimeString } from "../../../../../../utils";
-import * as PropTypes from "prop-types";
+import styles from "./PopularTimesTask.module.scss";
 
 class PopularTimesTask extends Component {
   static propTypes = {
@@ -69,17 +70,18 @@ class PopularTimesTask extends Component {
       return null;
     }
     return (
-      <div>
+      <div className="task fill">
         <TaskTitle name="Popular Times" icon="signal" />
-        <Bar
-          data={data}
-          width={300}
-          height={200}
-          options={{
-            legend: { display: false },
-            maintainAspectRatio: false
-          }}
-        />
+        <div className={styles.chart}>
+          <Bar
+            data={data}
+            responsive={true}
+            options={{
+              legend: { display: false },
+              maintainAspectRatio: false
+            }}
+          />
+        </div>
       </div>
     );
   }

@@ -1,5 +1,20 @@
 @import "../../../../../styles/_vars.scss";
 
+.taskForm {
+  padding: 5px;
+}
+
 .regionName {
   color: $darkText;
+}
+
+.tasks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+:global {
+  .task.fill {
+    grid-column: 1/-1;
+  }
 }
