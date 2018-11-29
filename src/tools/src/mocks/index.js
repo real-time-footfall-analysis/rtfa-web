@@ -9,12 +9,13 @@ import {
   regions,
   tasks,
   heatMaps,
-  sentNotifications
+  sentNotifications,
+  newSentNotification
 } from "./data";
 
 const fs = require("fs");
 
-/* @endpoint /events */
+/* @endpoint GET /events */
 const allEventsEndpoint = {
   "/events": {
     get: events,
@@ -22,7 +23,7 @@ const allEventsEndpoint = {
   }
 };
 
-/* @endpoint /events/{eventID} */
+/* @endpoint GET /events/{eventID} */
 const individualEventEndpoints = _.reduce(
   events,
   (endpoints, event) => ({
@@ -34,28 +35,28 @@ const individualEventEndpoints = _.reduce(
   {}
 );
 
-/* @endpoint /events/{eventID}/regions */
+/* @endpoint GET /events/{eventID}/regions */
 const allRegionsEndpoint = generateAllSubresourceEndpoint(
   events,
   regions,
   "regions"
 );
 
-/* @endpoint /events/{eventID}/regions/{regionID} */
+/* @endpoint GET /events/{eventID}/regions/{regionID} */
 const individualRegionEndpoints = generateSubresourceEndpoints(
   regions,
   "regions",
   "regionID"
 );
 
-/* @endpoint /events/{eventID}/tasks/{taskID} */
+/* @endpoint GET /events/{eventID}/tasks/{taskID} */
 const individualTaskEndpoints = generateSubresourceEndpoints(
   tasks,
   "tasks",
   "taskID"
 );
 
-/* @endpoint /live/heatmap/${eventID} */
+/* @endpoint GET /live/heatmap/${eventID} */
 const heatMapEndpoints = _.reduce(
   heatMaps,
   (endpoints, heatMap, eventID) => ({
@@ -65,14 +66,24 @@ const heatMapEndpoints = _.reduce(
   {}
 );
 
-/* @endpoint /events/{eventID}/notifications */
+/* @endpoint GET /events/{eventID}/notifications */
 const sentNotificationsEndpoint = generateAllSubresourceEndpoint(
   events,
   sentNotifications,
   "notifications"
 );
 
-/* @endpoint /events/{eventID}/notifications/{notificationId} */
+/* @endpoint POST /events/1/notifications
+ *  This endpoint only exists for Event 1, the time + effort of making it
+ *  generic for all events wasn't worth it. */
+sentNotificationsEndpoint[`/events/1/notifications`] = {
+  ...sentNotificationsEndpoint[`/events/1/notifications`],
+  post: {
+    data: newSentNotification
+  }
+};
+
+/* @endpoint GET /events/{eventID}/notifications/{notificationId} */
 const individualNotificationEndpoints = generateSubresourceEndpoints(
   sentNotifications,
   "notifications",

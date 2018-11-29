@@ -19,6 +19,7 @@ export const ActionTypes = {
 
   /* Notification Actions */
   LOAD_SENT_NOTIFICATIONS: "LOAD_SENT_NOTIFICATIONS",
+  SEND_NOTIFICATION: "SEND_NOTIFICATION",
 
   /* Emergency Notification Actions */
   LOAD_EMERGENCY_NOTIFICATIONS: "LOAD_EMERGENCY_NOTIFICATIONS",

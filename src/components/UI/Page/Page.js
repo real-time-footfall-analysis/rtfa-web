@@ -19,7 +19,7 @@ export const Page = props => {
 Page.propTypes = {
   title: PropTypes.element,
   description: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
   flex: PropTypes.bool
 };
 
