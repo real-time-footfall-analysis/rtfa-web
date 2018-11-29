@@ -6,10 +6,13 @@ import PropTypes from "prop-types";
 import TextField from "../../../UI/TextField/TextField";
 import Button from "../../../UI/Button/Button";
 import styles from "./SendNotificationForm.module.scss";
+import { currentTimestamp } from "../../../../utils";
 
 class SendNotificationForm extends Component {
   static propTypes = {
-    regions: PropTypes.array
+    eventID: PropTypes.number,
+    regions: PropTypes.object,
+    sendNotification: PropTypes.func
   };
 
   constructor(props) {
@@ -19,6 +22,7 @@ class SendNotificationForm extends Component {
       description: "",
       selectedRegions: []
     };
+    this.initialState = this.state;
     this.regionIDToName = this.regionIDToName.bind(this);
     this.handleRegionSelect = this.handleRegionSelect.bind(this);
     this.handleTagRemove = this.handleTagRemove.bind(this);
@@ -64,6 +68,11 @@ class SendNotificationForm extends Component {
       region => region.name === tagContent
     )[0].regionID;
     this.deselectRegion(regionIDToRemove);
+  }
+
+  /* Sets all fields in the form to blank values. */
+  clearForm() {
+    this.setState(this.initialState);
   }
 
   renderFormTitle() {
@@ -151,6 +160,33 @@ class SendNotificationForm extends Component {
     );
   }
 
+  /* TODO: The onClick handler here should be a function called handleFormSubmit
+   *        but there were some bugs with .bind(this) */
+  renderSubmitButton() {
+    return (
+      <Button
+        fill={true}
+        onClick={() => {
+          this.clearForm();
+          this.props.sendNotification(this.props.eventID, this.notification());
+        }}
+      >
+        Submit
+      </Button>
+    );
+  }
+
+  /* @returns A notification object based on the current values of the fields
+   *          in the form. */
+  notification() {
+    return {
+      title: this.state.title,
+      description: this.state.description,
+      regionIDs: this.state.selectedRegions,
+      occurredAt: currentTimestamp()
+    };
+  }
+
   render() {
     return (
       <section className={styles.sendNotificationForm}>
@@ -158,12 +194,10 @@ class SendNotificationForm extends Component {
         {this.renderTitleField()}
         {this.renderDescriptionField()}
         {this.renderRegionSelectField()}
-        <Button fill={true}>Submit</Button>
+        {this.renderSubmitButton()}
       </section>
     );
   }
 }
-
-SendNotificationForm.propTypes = {};
 
 export default SendNotificationForm;

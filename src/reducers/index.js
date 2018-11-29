@@ -25,6 +25,7 @@ const eventsReducer = (events, action) => {
     case ActionTypes.SET_HEATMAP_SLIDER_VALUE:
     case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
     case ActionTypes.LOAD_SENT_NOTIFICATIONS:
+    case ActionTypes.SEND_NOTIFICATION:
     case ActionTypes.LOAD_EMERGENCY_NOTIFICATIONS:
     case ActionTypes.RESOLVE_EMERGENCY_NOTIFICATION: {
       return _.keyBy(
@@ -79,6 +80,15 @@ const eventReducer = (event, action) => {
         ...event,
         heatMapData: selectedHeatMapData,
         heatMapSliderValue: action.payload.sliderValue
+      };
+    }
+    case ActionTypes.SEND_NOTIFICATION: {
+      return {
+        ...event,
+        sentNotifications: [
+          action.payload.notification,
+          ...event.sentNotifications
+        ]
       };
     }
     case ActionTypes.LOAD_SENT_NOTIFICATIONS: {

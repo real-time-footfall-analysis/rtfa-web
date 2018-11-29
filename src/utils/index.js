@@ -16,6 +16,18 @@ export const timestampToTimeString = timestamp => {
   });
 };
 
+/* @param timestamp A UNIX timestamp in SECONDS
+ * @returns A date string in the format "Thu, 29 Nov 2018" */
+export const timestampToShortDateString = timestamp => {
+  const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
+  return date.toLocaleDateString("en-GB", {
+    weekday: "short",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+};
+
 /* Takes a UNIX timestamp IN MILLISECONDS and returns a date string in the
  * format: "Thursday, 15 November 2018". */
 export const timestampToLongDateString = timestamp => {
