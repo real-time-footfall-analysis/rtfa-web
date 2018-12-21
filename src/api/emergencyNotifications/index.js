@@ -63,6 +63,10 @@ export class EmergencyNotificationsAPI {
    * executed with new data every time an emergency update event occurs. */
   static subscribeToNotifications(eventID, callback) {
     const channel = PusherChannels.emergency;
-    PusherAPI.subscribe(eventID, channel.eventTypes.emergencyUpdate, callback);
+    PusherAPI.subscribe(
+      eventID,
+      channel.eventTypes.emergencyUpdate,
+      (eventID, newNotification) => callback(eventID, newNotification)
+    );
   }
 }
