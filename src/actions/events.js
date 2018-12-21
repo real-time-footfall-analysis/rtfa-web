@@ -2,6 +2,8 @@ import api from "../api";
 import { ActionTypes } from "./actionTypes";
 import { loadHeatMapPageDataIfNeeded } from "./heatMap";
 import { setupEmergencyNotifications } from "./emergencyNotifications";
+import { getSelectedEvent } from "../selectors";
+import { store } from "../store";
 
 /* Load all event objects for the given organiserID and trigger additional
  * requests for heatMap data and emergency notifications. */
@@ -21,13 +23,19 @@ export const loadEvents = organiserID => {
 
 /* Create an action to mark the given eventID as "selected". */
 export const selectEvent = eventID => {
-  loadHeatMapPageDataIfNeeded(eventID);
+  if (eventID === getSelectedEvent(store.getState()).eventID) {
+    return { type: "RESELECTED_SAME_EVENT", payload: {} };
+  }
   window.centreSet = false;
-  return {
-    type: ActionTypes.SELECT_NEW_EVENT,
-    payload: {
-      selectedEventID: eventID
-    }
+  return dispatch => {
+    dispatch({
+      type: ActionTypes.SELECT_NEW_EVENT,
+      payload: {
+        selectedEventID: eventID
+      }
+    });
+    loadHeatMapPageDataIfNeeded(eventID);
+    setupEmergencyNotifications();
   };
 };
 

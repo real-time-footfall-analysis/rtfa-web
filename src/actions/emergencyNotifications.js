@@ -3,18 +3,49 @@ import { store } from "../store";
 import { getSelectedEvent } from "../selectors";
 import { ActionTypes } from "./actionTypes";
 
-/* If newNotifications are provided, dispatch an action to store them.
- * Otherwise fetch the initial set of notifications and dispatch an action
- * to store those instead. */
-const loadEmergencyNotifications = async newNotifications => {
-  const eventID = getSelectedEvent(store.getState()).eventID;
+/* Emergency Notification Setup */
+export const setupEmergencyNotifications = () => {
+  const { eventID, emergencyNotifications } = getSelectedEvent(
+    store.getState()
+  );
+  /* Only fetch initial notification set if it doesn't already exist. */
+  if (!emergencyNotifications) {
+    /* Empty .then(): we don't care about the empty promise returned here. */
+    loadInitialEmergencyNotifications(eventID).then();
+  }
+  subscribeToFurtherEmergencyNotifications();
+};
+
+/* Fetch the initial set of notifications for `eventID` and call
+ * storeEmergencyNotifications to add them to the Redux store. */
+const loadInitialEmergencyNotifications = async eventID => {
   if (!eventID) {
-    console.error(`No selected eventID in loadEmergencyNotifications.`);
+    console.error(`No selected eventID in loadInitialEmergencyNotifications.`);
     return;
   }
-  if (!newNotifications) {
-    newNotifications = await api.emergency.getAllNotifications(eventID);
-  }
+  let initialNotifications = await api.emergency.getAllNotifications(eventID);
+  storeEmergencyNotifications(eventID, initialNotifications);
+};
+
+/* Subscribe to incoming emergency push notifications for the current
+ * eventID. */
+const subscribeToFurtherEmergencyNotifications = () => {
+  const eventID = getSelectedEvent(store.getState()).eventID;
+  api.emergency.subscribeToNotifications(
+    eventID.toString(),
+    storeEmergencyNotification
+  );
+};
+
+/* Dispatch an action to add a single new emergency notification to the
+ * store, under the given eventID. */
+export const storeEmergencyNotification = (eventID, newNotification) => {
+  storeEmergencyNotifications(eventID, [newNotification]);
+};
+
+/* Dispatch an action to add an array of new emergency notifications to the
+ * store, under the given eventID. */
+const storeEmergencyNotifications = (eventID, newNotifications) => {
   store.dispatch({
     type: ActionTypes.LOAD_EMERGENCY_NOTIFICATIONS,
     payload: {
@@ -22,36 +53,6 @@ const loadEmergencyNotifications = async newNotifications => {
       newNotifications: newNotifications
     }
   });
-};
-
-/* This function is syntactic sugar for the initial state fetching functionality
- * of `loadEmergencyNotifications`. */
-const loadInitialEmergencyNotifications = () => {
-  /* Empty .then() is used here because we're otherwise ignoring the promise
-   * returned from loadEmergencyNotifications. */
-  loadEmergencyNotifications().then();
-};
-
-/* Dispatch an action to add a single new emergency notification to the
- * store. */
-export const storeEmergencyNotification = newNotifications => {
-  /* Empty .then() is used here because we're otherwise ignoring the promise
-   * returned from loadEmergencyNotifications. */
-  loadEmergencyNotifications([newNotifications]).then();
-};
-
-/* Emergency Notification Setup */
-export const setupEmergencyNotifications = () => {
-  loadInitialEmergencyNotifications();
-  subscribeToFurtherEmergencyNotifications();
-};
-
-const subscribeToFurtherEmergencyNotifications = () => {
-  const eventID = getSelectedEvent(store.getState()).eventID;
-  api.emergency.subscribeToNotifications(
-    eventID.toString(),
-    storeEmergencyNotification
-  );
 };
 
 /* Submit a request to resolve a specific notification to the API and
