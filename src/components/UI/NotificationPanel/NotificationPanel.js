@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Icon } from "@blueprintjs/core";
+import "simplebar";
+import "simplebar/dist/simplebar.css";
 
 import styles from "./NotificationPanel.module.scss";
-import { Icon } from "@blueprintjs/core";
 import { timestampToLongDateString } from "../../../utils";
 import Button from "../Button/Button";
 
@@ -48,7 +50,7 @@ export class NotificationPanel extends Component {
 
   render() {
     return (
-      <ul className={styles.panel}>
+      <ul className={styles.panel} data-simplebar>
         {this.props.notifications.map(this.renderNotification)}
       </ul>
     );

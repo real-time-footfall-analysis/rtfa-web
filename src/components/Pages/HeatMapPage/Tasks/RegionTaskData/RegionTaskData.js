@@ -6,7 +6,18 @@ import { getSelectedEvent } from "../../../../../selectors";
 import { renderTask } from "../TaskRenderers";
 
 export class RegionTaskData extends Component {
+  loadingMessage() {
+    return (
+      <h2 className={styles.loadingMessage}>
+        <i className={`${styles.spinner} fas fa-spinner fa-spin`} />
+        Loading task data...
+      </h2>
+    );
+  }
   render() {
+    if (!this.props.tasksData) {
+      return this.loadingMessage();
+    }
     return (
       <div className={styles.taskForm}>
         <h1 className={styles.regionName}>{this.props.region.name}</h1>
