@@ -1,13 +1,8 @@
 import _ from "lodash";
 import { MAX_DECIMAL_PLACES, MILLISECONDS_IN_A_SECOND } from "../constants";
 
-/* Takes a UNIX timestamp in SECONDS and returns a date string in the
- * format DD/MM/YY */
-export const timestampToDateString = timestamp => {
-  const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
-  return date.toDateString();
-};
-
+/* @param `timestamp` A UNIX timestamp in SECONDS
+ * @returns A time string in the format HH:MM */
 export const timestampToTimeString = timestamp => {
   const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
   return date.toLocaleTimeString("enGB", {
@@ -16,24 +11,24 @@ export const timestampToTimeString = timestamp => {
   });
 };
 
-/* @param timestamp A UNIX timestamp in SECONDS
- * @returns A date string in the format "Thu, 29 Nov 2018" */
-export const timestampToShortDateString = timestamp => {
-  const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
-  return date.toLocaleDateString("en-GB", {
-    weekday: "short",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-};
+/* @param `timestamp` A UNIX timestamp in SECONDS
+ * @returns A date string in the format "Thu, 15 November 2018" */
+export const timestampToShortDateString = timestamp =>
+  timestampToDateString(timestamp, false);
 
-/* Takes a UNIX timestamp IN SECONDS and returns a date string in the
- * format: "Thursday, 15 November 2018". */
-export const timestampToLongDateString = timestamp => {
+/* @param `timestamp` A UNIX timestamp in SECONDS
+ * @returns A date string in the format "Thursday, 15 November 2018" */
+export const timestampToLongDateString = timestamp =>
+  timestampToDateString(timestamp, true);
+
+/* @param `timestamp` A UNIX timestamp in SECONDS
+ * @param `isLong` boolean: if true, days are long strings e.g. "Thursday"
+ *                          if false, days are short strings e.g. "Thu"
+ * @returns A date string in the format "<Weekday>, 29 Nov 2018" */
+const timestampToDateString = (timestamp, isLong) => {
   const date = new Date(timestamp * MILLISECONDS_IN_A_SECOND);
   return date.toLocaleDateString("en-GB", {
-    weekday: "long",
+    weekday: isLong ? "long" : "short",
     year: "numeric",
     month: "long",
     day: "numeric"
@@ -43,7 +38,7 @@ export const timestampToLongDateString = timestamp => {
 /* @returns The current UNIX timestamp in seconds. */
 export const currentTimestamp = () => Math.floor(new Date().getTime() / 1000);
 
-/* @params seconds A number of seconds
+/* @params `seconds` A number of seconds
  * @returns Seconds converted to minutes, rounded to MAX_DECIMAL_PLACES. */
 export const secondsToMinutes = seconds =>
   (seconds / 60).toFixed(MAX_DECIMAL_PLACES);
