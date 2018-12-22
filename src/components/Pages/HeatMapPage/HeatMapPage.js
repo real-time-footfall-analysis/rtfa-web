@@ -203,18 +203,21 @@ const reduceAmountOfHistoricalHeatMapData = (data, desiredQuantity) => {
     selectedTimestamps = [];
 
   for (let i = 0; i < desiredQuantity; i++) {
-    selectedTimestamps.push(
-      timestamps[Math.ceil((i * timestamps.length) / desiredQuantity)]
-    );
+    const stepSize = Math.ceil(timestamps.length / desiredQuantity);
+    selectedTimestamps.push(timestamps[i * stepSize]);
   }
+
   return {
     ...data,
     result: {
       timestamps: selectedTimestamps,
-      data: selectedTimestamps.reduce((acc, timestamp) => ({
-        ...acc,
-        [timestamp]: data.result.data[timestamp]
-      }))
+      data: selectedTimestamps.reduce(
+        (acc, timestamp) => ({
+          ...acc,
+          [timestamp]: data.result.data[timestamp]
+        }),
+        {}
+      )
     }
   };
 };
