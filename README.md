@@ -1,7 +1,7 @@
-# Real Time Footfall Analysis
+# :round_pushpin: Real Time Footfall Analysis
 This repository contains a React front-end for the [Real Time Footfall Analysis](https://github.com/real-time-footfall-analysis) project.
 
-## Setup
+## :wrench: Setup
 1. Clone this repository
 2. `cd` into the cloned directory and run `yarn install`
 3. Setup the following **File Watchers** in WebStorm (or your IDE of choice):
@@ -13,7 +13,7 @@ This repository contains a React front-end for the [Real Time Footfall Analysis]
     2. Run `yarn install`
     3. Set `REACT_APP_USE_MOCK_SERVER=true` in your Node environment. 
     
-## Style Guidelines
+## :ribbon: Style Guidelines
 As mentioned above, this project uses [Prettier](https://prettier.io) for code formatting and `package.json` enforces code-style compliance with a pre-commit validation hook. Setting up File Watchers is the best way to ensure you're always compliant with the style guide.
 
 Pre-commit validation also involves `ESLint` checks, which should ideally be displayed live in your IDE as you code; this means there is no need for an ESLint File Watcher.
