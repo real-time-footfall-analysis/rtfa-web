@@ -124,6 +124,17 @@ const eventReducer = (event, action) => {
         ...event,
         historicalModeEnabled: action.payload.historicalModeEnabled
       };
+    case ActionTypes.INITIALISE_HISTORICAL_HEATMAP: {
+      const histData = event.historicalHeatMapData;
+      if (!histData || !histData.result || !histData.result.timestamps) {
+        return event;
+      }
+      const firstTimestamp = histData.result.timestamps[0];
+      return {
+        ...event,
+        heatMapData: histData.result.data[firstTimestamp]
+      };
+    }
     default:
       return event;
   }

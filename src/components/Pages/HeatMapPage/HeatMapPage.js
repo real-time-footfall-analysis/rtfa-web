@@ -146,7 +146,7 @@ class HeatMapPage extends Component {
     historicalModeEnabled
       ? this.disableDataPolling()
       : this.enableDataPolling();
-    this.props.toggleHistoricalMode(eventID, historicalModeEnabled);
+    toggleHeatMapHistoricalMode(eventID, historicalModeEnabled);
   }
 
   /* Update historical heat map date value when user interacts with slider. */
@@ -233,8 +233,7 @@ HeatMapPage.propTypes = {
   regions: PropTypes.object,
   tasksData: PropTypes.array,
   historicalModeEnabled: PropTypes.bool,
-  historicalHeatMapData: PropTypes.object,
-  toggleHistoricalMode: PropTypes.func
+  historicalHeatMapData: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -255,8 +254,7 @@ const mapDispatchToProps = dispatch => {
     {
       loadHeatMap: loadHeatMap,
       loadTasksData: loadTasksData,
-      setHeatMapSliderValue: setHeatMapSliderValue,
-      toggleHistoricalMode: toggleHeatMapHistoricalMode
+      setHeatMapSliderValue: setHeatMapSliderValue
     },
     dispatch
   );
