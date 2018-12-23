@@ -1,4 +1,4 @@
-# :round_pushpin: Real Time Footfall Analysis
+# :round_pushpin: Real Time Footfall Analysis [![Build Status](https://travis-ci.org/real-time-footfall-analysis/rtfa-web.svg?branch=master)](https://travis-ci.org/real-time-footfall-analysis/rtfa-web) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 This repository contains a React front-end for the [Real Time Footfall Analysis](https://github.com/real-time-footfall-analysis) project.
 
 ## :wrench: Setup
