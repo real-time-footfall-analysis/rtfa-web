@@ -37,6 +37,7 @@ export class NotificationPanel extends Component {
         <Icon icon={notification.icon} iconSize={20} />
         <div className={styles.content}>
           <h3 className={styles.title}>{notification.title}</h3>
+          <p className={styles.description}>{notification.description}</p>
           <p className={styles.timestamp}>
             {this.formatTimestamp(notification.timestamp)}
           </p>
