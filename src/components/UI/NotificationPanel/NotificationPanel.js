@@ -33,7 +33,7 @@ export class NotificationPanel extends Component {
 
   renderNotification(notification) {
     return (
-      <li className={styles.notification} key={notification.notificationID}>
+      <div className={styles.notification} key={notification.notificationID}>
         <Icon icon={notification.icon} iconSize={20} />
         <div className={styles.content}>
           <h3 className={styles.title}>{notification.title}</h3>
@@ -45,15 +45,15 @@ export class NotificationPanel extends Component {
             ? this.generateResolveButton(notification)
             : null}
         </div>
-      </li>
+      </div>
     );
   }
 
   render() {
     return (
-      <ul className={styles.panel} data-simplebar>
-        {this.props.notifications.map(this.renderNotification)}
-      </ul>
+      <div className={styles.panel} data-simplebar>
+        <div>{this.props.notifications.map(this.renderNotification)}</div>
+      </div>
     );
   }
 }
