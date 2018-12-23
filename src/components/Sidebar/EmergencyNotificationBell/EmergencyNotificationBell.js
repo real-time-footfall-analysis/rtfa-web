@@ -47,11 +47,11 @@ class EmergencyNotificationBell extends Component {
       notification => ({
         icon: "warning-sign",
         title: (
-          <span>
-            <strong>Emergency</strong> at
-            {` ${this.getRegionName(notification.regionIds)}`}
-          </span>
+          <strong>
+            Emergency at {`${this.getRegionName(notification.regionIds)}`}
+          </strong>
         ),
+        description: notification.description,
         timestamp: notification.occurredAt,
         notificationID: notification.uuid + "|" + notification.occurredAt,
         resolved: notification.dealtWith
