@@ -67,7 +67,7 @@ export const TASKS_METADATA = {
 export const MAX_DECIMAL_PLACES = 2;
 
 /* Heat Map Constants */
-export const HEATMAP_REFRESH_INTERVAL = 10000;
+export const HEATMAP_REFRESH_INTERVAL = 5000;
 export const HEATMAP_USERS_SCALE_FACTOR = 1;
 export const HEATMAP_POINT_RADIUS = 10;
 export const HISTORICAL_HEATMAP_TASK_ID = 4;
