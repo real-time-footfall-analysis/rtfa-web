@@ -30,6 +30,12 @@ class SendNotificationForm extends Component {
     this.renderRegionListEntry = this.renderRegionListEntry.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.eventID !== this.props.eventID) {
+      this.setState(this.initialState);
+    }
+  }
+
   regionIDToName(regionID) {
     return this.props.regions[regionID]
       ? this.props.regions[regionID].name
