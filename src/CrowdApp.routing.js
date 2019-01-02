@@ -1,9 +1,13 @@
 /* eslint-disable react/display-name */
+import _ from "lodash";
+
 import EventsPage from "./components/Pages/EventsPage/EventsPage";
 import NewEventPage from "./components/Pages/NewEventPage/NewEventPage";
 import AddRegionsPage from "./components/Pages/AddRegionsPage/AddRegionsPage";
 import HeatMapPage from "./components/Pages/HeatMapPage/HeatMapPage";
 import NotificationsPage from "./components/Pages/NotificationsPage/NotificationsPage";
+import { store } from "./store";
+import { loadSentNotifications } from "./actions/notifications";
 
 const routes = [
   {
@@ -34,21 +38,39 @@ const routes = [
     description: "Edit your region names, type and radii.",
     iconName: "object-ungroup",
     content: AddRegionsPage,
-    inSidebar: true
+    inSidebar: true,
+    /* itemCounter is a function that calculates how many "items" that this page
+     * is displaying, (e.g. itemCounter for the regions page should return
+     * the number of regions that currently exist)
+     */
+    itemCounter: event => {
+      return event && event.regions ? _.size(event.regions) : 0;
+    }
   },
   {
     path: "/heatMap",
-    name: "Heat Map",
+    name: "Heat Maps",
     iconName: "fire",
     content: HeatMapPage,
-    inSidebar: true
+    inSidebar: true,
+    itemCounter: () => 2
   },
   {
     path: "/notifications",
     name: "Notifications",
     iconName: "bell",
     content: NotificationsPage,
-    inSidebar: true
+    inSidebar: true,
+    itemCounter: event => {
+      if (event.sentNotifications) {
+        return _.size(event.sentNotifications);
+      } else if (event != null && event.eventID != null) {
+        /* Load notifications */
+        store.dispatch(loadSentNotifications(event.eventID));
+        return _.size(event.sentNotifications);
+      }
+      return 0;
+    }
   }
 ];
 
