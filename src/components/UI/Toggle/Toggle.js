@@ -5,10 +5,18 @@ import { Button, ButtonGroup } from "@blueprintjs/core";
 const Toggle = props => {
   return (
     <ButtonGroup>
-      <Button active={props.leftActive} onClick={props.leftClicked}>
+      <Button
+        disabled={props.disabled}
+        active={props.leftActive}
+        onClick={props.onLeftSelect}
+      >
         {props.children[0]}
       </Button>
-      <Button active={!props.leftActive} onClick={props.rightClicked}>
+      <Button
+        disabled={props.disabled}
+        active={!props.leftActive}
+        onClick={props.onRightSelect}
+      >
         {props.children[1]}
       </Button>
     </ButtonGroup>
@@ -17,8 +25,9 @@ const Toggle = props => {
 
 Toggle.propTypes = {
   leftActive: PropTypes.bool,
-  leftClicked: PropTypes.func,
-  rightClicked: PropTypes.func,
+  disabled: PropTypes.bool,
+  onLeftSelect: PropTypes.func,
+  onRightSelect: PropTypes.func,
   children: PropTypes.any
 };
 

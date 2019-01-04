@@ -9,6 +9,8 @@ $transitionFunction: ease-in-out;
 
 $sidebarWidth: 300px;
 
+$scrollbarThumbWidth: 5px;
+
 @mixin clickable() {
   cursor: pointer;
   transition: opacity $transitionDuration $transitionFunction;

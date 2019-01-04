@@ -36,8 +36,9 @@ export class HistoricalModeToggle extends Component {
       <div className={styles.toggleWrapper}>
         <Toggle
           leftActive={!this.props.historicalModeEnabled}
-          rightClicked={this.enableHistoricalMode}
-          leftClicked={this.disableHistoricalMode}
+          onLeftSelect={this.disableHistoricalMode}
+          onRightSelect={this.enableHistoricalMode}
+          disabled={this.props.disabled}
         >
           {HistoricalModeToggle.generateLabels()}
         </Toggle>
@@ -48,6 +49,7 @@ export class HistoricalModeToggle extends Component {
 
 HistoricalModeToggle.propTypes = {
   historicalModeEnabled: PropTypes.bool,
+  disabled: PropTypes.bool,
   toggleHistoricalMode: PropTypes.func,
   selectedEventID: PropTypes.number
 };

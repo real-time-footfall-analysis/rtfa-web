@@ -160,3 +160,17 @@ a {
 ::selection {
   background: rgba($highlight, 0.2);
 }
+
+div::-webkit-scrollbar {
+  width: $scrollbarThumbWidth;
+}
+
+div::-webkit-scrollbar-thumb {
+  background: $scrollbarThumbColour;
+  border-radius: 20px;
+}
+
+div::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 20px;
+}

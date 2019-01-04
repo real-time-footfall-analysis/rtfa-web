@@ -7,6 +7,25 @@ $formPadding: 40px;
   .bp3-tag {
     background-color: $highlight;
   }
+
+  .bp3-menu::-webkit-scrollbar {
+    width: $scrollbarThumbWidth;
+  }
+
+  .bp3-menu::-webkit-scrollbar-thumb {
+    background: $scrollbarThumbColour;
+    border-radius: 20px;
+  }
+
+  .bp3-menu::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 20px;
+  }
+
+  .bp3-popover-content .bp3-menu {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
 
 .sendNotificationForm {

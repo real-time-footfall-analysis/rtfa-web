@@ -31,6 +31,9 @@ import styles from "./HeatMapPage.module.scss";
 class HeatMapPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      playing: false
+    };
     /* Bind callbacks. */
     this.timeSelectLabelRenderer = this.timeSelectLabelRenderer.bind(this);
     this.onTimeSelection = this.onTimeSelection.bind(this);
@@ -105,7 +108,7 @@ class HeatMapPage extends Component {
           {this.generateTimeSelector()}
         </div>
         <Button
-          disabled={this.shouldDisableHistoricalTools()}
+          disabled={this.shouldDisableHistoricalTools() || this.state.playing}
           className={styles.playButton}
           onClick={this.playHeatMap}
         >
@@ -118,11 +121,17 @@ class HeatMapPage extends Component {
   /* Loops through available timestamps and displays the heatmap at each one,
    * for X seconds before moving to the next point in time. */
   async playHeatMap() {
+    this.setState({
+      playing: true
+    });
     const datapoints = _.size(this.props.historicalHeatMapData.result.data);
     for (let index = 0; index < datapoints; index++) {
       this.onTimeSelection(index);
       await sleep(HEATMAP_ANIMATION_FRAME_DELAY);
     }
+    this.setState({
+      playing: false
+    });
   }
 
   /* Creates a toggle allowing you to select "Live" and "Historical" views. */
@@ -136,6 +145,7 @@ class HeatMapPage extends Component {
         historicalModeEnabled={this.props.historicalModeEnabled}
         toggleHistoricalMode={this.historicalModeChange}
         selectedEventID={this.props.selectedEventID}
+        disabled={this.state.playing}
       />
     );
   }
@@ -219,7 +229,7 @@ const reduceAmountOfHistoricalHeatMapData = (data, desiredCount) => {
     selectedTimestamps = [];
 
   for (let i = 0; i < desiredCount; i++) {
-    const stepSize = Math.ceil(timestamps.length / desiredCount);
+    const stepSize = Math.floor(timestamps.length / desiredCount);
     selectedTimestamps.push(timestamps[i * stepSize]);
   }
 
@@ -262,7 +272,7 @@ const mapStateToProps = state => ({
   sliderValue: getSelectedEvent(state).heatMapSliderValue,
   historicalHeatMapData: reduceAmountOfHistoricalHeatMapData(
     getSelectedEvent(state).historicalHeatMapData,
-    15
+    19
   ),
   historicalModeEnabled: getSelectedEvent(state).historicalModeEnabled
 });
