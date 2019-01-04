@@ -67,7 +67,7 @@ class HeatMapPage extends Component {
     if (!this.props.historicalHeatMapData) {
       this.props.loadHistoricalHeatMap(this.props.selectedEventID);
     }
-    if (!this.props.heatMapData) {
+    if (!this.props.liveHeatMapData) {
       this.props.loadHeatMap(this.props.selectedEventID);
     }
     if (!this.props.tasksData) {
@@ -95,12 +95,30 @@ class HeatMapPage extends Component {
         containerElement={mapContainer}
         mapElement={<div className={styles.mapElement} />}
         regions={this.props.regions}
-        heatMapData={this.props.heatMapData}
+        heatMapData={this.selectHeatMapData()}
         randomise={!this.props.historicalModeEnabled}
         tasksData={this.props.tasksData}
       />
     );
   }
+
+  /* Returns the last-seen live heat map data, or the historical heat map data
+   * if historicalModeEnabled is true.
+   *
+   * @returns A heat map data object of the form { regionID: count }
+   */
+  selectHeatMapData = () => {
+    if (this.props.historicalModeEnabled) {
+      const histData = this.props.historicalHeatMapData;
+      if (!histData || !histData.timestamps) {
+        return {};
+      }
+      const timestamp = histData.timestamps[this.props.sliderValue];
+      return histData.data[timestamp];
+    } else {
+      return this.props.liveHeatMapData;
+    }
+  };
 
   /* Creates the historical view toolbar, containing the TimeSelector and
    * play button. */
@@ -253,7 +271,7 @@ const reduceAmountOfHistoricalHeatMapData = (data, desiredCount) => {
 
 HeatMapPage.propTypes = {
   name: PropTypes.string,
-  heatMapData: PropTypes.object,
+  liveHeatMapData: PropTypes.object,
   selectedEventID: PropTypes.number,
   loadHeatMap: PropTypes.func,
   loadHistoricalHeatMap: PropTypes.func,
@@ -269,10 +287,10 @@ HeatMapPage.propTypes = {
 
 const mapStateToProps = state => ({
   selectedEventID: state.selectedEventID,
-  heatMapData: getSelectedEvent(state).heatMapData,
+  liveHeatMapData: getSelectedEvent(state).liveHeatMapData,
   tasksData: getSelectedEvent(state).tasksData,
   regions: getRegions(state),
-  sliderValue: getSelectedEvent(state).heatMapSliderValue,
+  sliderValue: getSelectedEvent(state).sliderValue,
   historicalHeatMapData: reduceAmountOfHistoricalHeatMapData(
     getSelectedEvent(state).historicalHeatMapData,
     19

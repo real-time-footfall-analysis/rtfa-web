@@ -58,7 +58,7 @@ const eventReducer = (event, action) => {
     case ActionTypes.LOAD_HEATMAP_DATA:
       return {
         ...event,
-        heatMapData: action.payload.heatMapData
+        liveHeatMapData: action.payload.heatMapData
       };
     case ActionTypes.LOAD_HISTORICAL_HEATMAP_DATA:
       return {
@@ -71,14 +71,9 @@ const eventReducer = (event, action) => {
         tasksData: action.payload.tasksData
       };
     case ActionTypes.SET_HEATMAP_SLIDER_VALUE: {
-      const index = action.payload.sliderValue;
-      const selectedTimestamp = event.historicalHeatMapData.timestamps[index];
-      const selectedHeatMapData =
-        event.historicalHeatMapData.data[selectedTimestamp];
       return {
         ...event,
-        heatMapData: selectedHeatMapData,
-        heatMapSliderValue: action.payload.sliderValue
+        sliderValue: action.payload.sliderValue
       };
     }
     case ActionTypes.SEND_NOTIFICATION: {
@@ -123,33 +118,11 @@ const eventReducer = (event, action) => {
       return {
         ...event,
         historicalModeEnabled: historicalModeEnabled,
-        sliderValue: 0,
-        heatMapData: getHeatMapData(event, historicalModeEnabled),
-        previousLiveData: historicalModeEnabled ? event.heatMapData : null
+        sliderValue: 0
       };
     }
     default:
       return event;
-  }
-};
-
-/* Returns the last-seen live heat map data, or the historical heat map data
- * if historicalModeEnabled is true.
- *
- * @param event The event object that heat map data will be obtained from
- * @historicalModeEnabled True iff requesting historical heat map data
- * @returns A heat map data object
- */
-const getHeatMapData = (event, historicalModeEnabled) => {
-  if (historicalModeEnabled) {
-    const histData = event.historicalHeatMapData;
-    if (!histData || !histData.timestamps) {
-      return {};
-    }
-    const firstTimestamp = histData.timestamps[0];
-    return histData.data[firstTimestamp];
-  } else {
-    return event.previousLiveData;
   }
 };
 
