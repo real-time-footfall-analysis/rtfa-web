@@ -79,14 +79,37 @@ export const GOOGLE_MAPS_URL = `https://maps.googleapis.com/maps/api/js?v=3.exp&
 export const GOOGLE_MAPS_DEFAULT_CENTRE = { lat: 51.507441, lng: -0.127683 };
 export const DARK_GOOGLE_MAPS_STYLES = [
   {
-    elementType: "geometry",
+    featureType: "all",
+    elementType: "labels.text.fill",
     stylers: [
       {
-        color: "#212121"
+        saturation: 36
+      },
+      {
+        color: "#000000"
+      },
+      {
+        lightness: 40
       }
     ]
   },
   {
+    featureType: "all",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        visibility: "on"
+      },
+      {
+        color: "#000000"
+      },
+      {
+        lightness: 16
+      }
+    ]
+  },
+  {
+    featureType: "all",
     elementType: "labels.icon",
     stylers: [
       {
@@ -95,41 +118,71 @@ export const DARK_GOOGLE_MAPS_STYLES = [
     ]
   },
   {
-    elementType: "labels.text.fill",
+    featureType: "administrative",
+    elementType: "geometry.fill",
     stylers: [
       {
-        color: "#757575"
-      }
-    ]
-  },
-  {
-    elementType: "labels.text.stroke",
-    stylers: [
+        color: "#000000"
+      },
       {
-        color: "#212121"
+        lightness: 20
       }
     ]
   },
   {
     featureType: "administrative",
-    elementType: "geometry",
+    elementType: "geometry.stroke",
     stylers: [
       {
-        color: "#757575"
+        color: "#000000"
+      },
+      {
+        lightness: 17
+      },
+      {
+        weight: 1.2
+      }
+    ]
+  },
+  {
+    featureType: "administrative",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off"
       }
     ]
   },
   {
     featureType: "administrative.country",
-    elementType: "labels.text.fill",
+    elementType: "all",
     stylers: [
       {
-        color: "#9e9e9e"
+        visibility: "simplified"
       }
     ]
   },
   {
-    featureType: "administrative.land_parcel",
+    featureType: "administrative.country",
+    elementType: "geometry",
+    stylers: [
+      {
+        visibility: "simplified"
+      }
+    ]
+  },
+  {
+    featureType: "administrative.country",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "simplified"
+      }
+    ]
+  },
+  {
+    featureType: "administrative.province",
+    elementType: "all",
     stylers: [
       {
         visibility: "off"
@@ -138,15 +191,76 @@ export const DARK_GOOGLE_MAPS_STYLES = [
   },
   {
     featureType: "administrative.locality",
-    elementType: "labels.text.fill",
+    elementType: "all",
     stylers: [
       {
-        color: "#bdbdbd"
+        visibility: "simplified"
+      },
+      {
+        saturation: "-100"
+      },
+      {
+        lightness: "30"
       }
     ]
   },
   {
     featureType: "administrative.neighborhood",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "administrative.land_parcel",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "landscape",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "simplified"
+      },
+      {
+        gamma: "0.00"
+      },
+      {
+        lightness: "74"
+      }
+    ]
+  },
+  {
+    featureType: "landscape",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#34334f"
+      },
+      {
+        lightness: "-37"
+      }
+    ]
+  },
+  {
+    featureType: "landscape.man_made",
+    elementType: "all",
+    stylers: [
+      {
+        lightness: "3"
+      }
+    ]
+  },
+  {
+    featureType: "poi",
+    elementType: "all",
     stylers: [
       {
         visibility: "off"
@@ -155,183 +269,67 @@ export const DARK_GOOGLE_MAPS_STYLES = [
   },
   {
     featureType: "poi",
-    elementType: "labels.text",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#757575"
-      }
-    ]
-  },
-  {
-    featureType: "poi.business",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#181818"
-      }
-    ]
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#616161"
-      }
-    ]
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#1b1b1b"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "geometry.fill",
-    stylers: [
-      {
-        color: "#2c2c2c"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "labels.icon",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#8a8a8a"
-      }
-    ]
-  },
-  {
-    featureType: "road.arterial",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road.arterial",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#373737"
-      }
-    ]
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#3c3c3c"
-      }
-    ]
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road.highway.controlled_access",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#4e4e4e"
-      }
-    ]
-  },
-  {
-    featureType: "road.local",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "road.local",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#616161"
-      }
-    ]
-  },
-  {
-    featureType: "transit",
-    stylers: [
-      {
-        visibility: "off"
-      }
-    ]
-  },
-  {
-    featureType: "transit",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#757575"
-      }
-    ]
-  },
-  {
-    featureType: "water",
     elementType: "geometry",
     stylers: [
       {
         color: "#000000"
+      },
+      {
+        lightness: 21
       }
     ]
   },
   {
-    featureType: "water",
-    elementType: "labels.text",
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [
+      {
+        visibility: "simplified"
+      }
+    ]
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#2d2c45"
+      },
+      {
+        lightness: "0"
+      }
+    ]
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#000000"
+      },
+      {
+        lightness: 29
+      },
+      {
+        weight: 0.2
+      }
+    ]
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#7d7c9b"
+      },
+      {
+        lightness: "43"
+      }
+    ]
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.text.stroke",
     stylers: [
       {
         visibility: "off"
@@ -339,11 +337,125 @@ export const DARK_GOOGLE_MAPS_STYLES = [
     ]
   },
   {
-    featureType: "water",
+    featureType: "road.arterial",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#2d2c45"
+      },
+      {
+        lightness: "1"
+      }
+    ]
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "on"
+      }
+    ]
+  },
+  {
+    featureType: "road.arterial",
     elementType: "labels.text.fill",
     stylers: [
       {
-        color: "#3d3d3d"
+        color: "#7d7c9b"
+      }
+    ]
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "road.local",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#2d2c45"
+      },
+      {
+        lightness: "-1"
+      },
+      {
+        gamma: "1"
+      }
+    ]
+  },
+  {
+    featureType: "road.local",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "on"
+      },
+      {
+        hue: "#ff0000"
+      }
+    ]
+  },
+  {
+    featureType: "road.local",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#7d7c9b"
+      },
+      {
+        lightness: "-31"
+      }
+    ]
+  },
+  {
+    featureType: "road.local",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "transit",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#2d2c45"
+      },
+      {
+        lightness: "-36"
+      }
+    ]
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#2d2c45"
+      },
+      {
+        lightness: "0"
+      },
+      {
+        gamma: "1"
+      }
+    ]
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        visibility: "off"
       }
     ]
   }

@@ -5,11 +5,14 @@ import TaskTitle from "../../../../../UI/TaskTitle/TaskTitle";
 
 export const KeyValueTask = props => {
   const roundedVal = Math.round(props.taskValue);
+  if (!roundedVal) {
+    return null;
+  }
   return (
     <div className={styles.task}>
       <TaskTitle icon={props.taskIcon} name={props.taskName} />
       <p className={styles.taskValue}>
-        <span>{roundedVal ? roundedVal : "0"}</span>
+        <span>{roundedVal}</span>
         <span className={styles.units}>{props.taskUnits}</span>
       </p>
       {props.children}
