@@ -1,24 +1,8 @@
-import { matchPath } from "react-router-dom";
 import _ from "lodash";
 import api from "../api";
 import { store } from "../store";
 import { eventsAreLoaded } from "../selectors";
 import { ActionTypes } from "./actionTypes";
-
-const isHeatMapPageActive = () => {
-  const isActive = matchPath(window.location.pathname, "/heatMap");
-  return !!isActive;
-};
-
-export const loadHeatMapPageDataIfNeeded = eventID => {
-  if (!eventID) {
-    eventID = store.getState().selectedEventID;
-  }
-  if (isHeatMapPageActive()) {
-    store.dispatch(loadHeatMap(eventID));
-    store.dispatch(loadTasksData(eventID));
-  }
-};
 
 export const loadHeatMap = eventID => {
   const eventsLoaded = eventsAreLoaded(store.getState());

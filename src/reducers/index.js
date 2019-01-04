@@ -72,10 +72,9 @@ const eventReducer = (event, action) => {
       };
     case ActionTypes.SET_HEATMAP_SLIDER_VALUE: {
       const index = action.payload.sliderValue;
-      const selectedTimestamp =
-        event.historicalHeatMapData.result.timestamps[index];
+      const selectedTimestamp = event.historicalHeatMapData.timestamps[index];
       const selectedHeatMapData =
-        event.historicalHeatMapData.result.data[selectedTimestamp];
+        event.historicalHeatMapData.data[selectedTimestamp];
       return {
         ...event,
         heatMapData: selectedHeatMapData,
@@ -144,11 +143,11 @@ const eventReducer = (event, action) => {
 const getHeatMapData = (event, historicalModeEnabled) => {
   if (historicalModeEnabled) {
     const histData = event.historicalHeatMapData;
-    if (!histData || !histData.result || !histData.result.timestamps) {
-      return event;
+    if (!histData || !histData.timestamps) {
+      return {};
     }
-    const firstTimestamp = histData.result.timestamps[0];
-    return histData.result.data[firstTimestamp];
+    const firstTimestamp = histData.timestamps[0];
+    return histData.data[firstTimestamp];
   } else {
     return event.previousLiveData;
   }

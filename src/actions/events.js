@@ -1,6 +1,5 @@
 import api from "../api";
 import { ActionTypes } from "./actionTypes";
-import { loadHeatMapPageDataIfNeeded } from "./heatMap";
 import { setupEmergencyNotifications } from "./emergencyNotifications";
 import { getSelectedEvent } from "../selectors";
 import { store } from "../store";
@@ -16,7 +15,6 @@ export const loadEvents = organiserID => {
         events: events
       }
     });
-    loadHeatMapPageDataIfNeeded();
     setupEmergencyNotifications();
   };
 };
@@ -34,7 +32,6 @@ export const selectEvent = eventID => {
         selectedEventID: eventID
       }
     });
-    loadHeatMapPageDataIfNeeded(eventID);
     setupEmergencyNotifications();
   };
 };

@@ -67,6 +67,12 @@ class HeatMapPage extends Component {
     if (!this.props.historicalHeatMapData) {
       this.props.loadHistoricalHeatMap(this.props.selectedEventID);
     }
+    if (!this.props.heatMapData) {
+      this.props.loadHeatMap(this.props.selectedEventID);
+    }
+    if (!this.props.tasksData) {
+      this.props.loadTasksData(this.props.selectedEventID);
+    }
   }
 
   componentWillUnmount() {
@@ -124,7 +130,7 @@ class HeatMapPage extends Component {
     this.setState({
       playing: true
     });
-    const datapoints = _.size(this.props.historicalHeatMapData.result.data);
+    const datapoints = _.size(this.props.historicalHeatMapData.data);
     for (let index = 0; index < datapoints; index++) {
       this.onTimeSelection(index);
       await sleep(HEATMAP_ANIMATION_FRAME_DELAY);
@@ -137,7 +143,7 @@ class HeatMapPage extends Component {
   /* Creates a toggle allowing you to select "Live" and "Historical" views. */
   generateHistoricalToggle() {
     const historicalData = this.props.historicalHeatMapData;
-    if (!historicalData || !historicalData.result) {
+    if (!historicalData) {
       return null;
     }
     return (
@@ -183,11 +189,11 @@ class HeatMapPage extends Component {
   /* Fetches timestamp for the index selected on the slider and converts the
    * timestamp to a date string. */
   timeSelectLabelRenderer(index) {
-    if (!this.props.historicalHeatMapData.result.timestamps) {
+    if (!this.props.historicalHeatMapData.timestamps) {
       return "Loading failed";
     }
     return timestampToTimeString(
-      this.props.historicalHeatMapData.result.timestamps[index]
+      this.props.historicalHeatMapData.timestamps[index]
     );
   }
 
@@ -199,7 +205,7 @@ class HeatMapPage extends Component {
   shouldDisableHistoricalTools() {
     return (
       this.shouldDisplayHistoricalTools() &&
-      !this.props.historicalHeatMapData.result.data
+      !this.props.historicalHeatMapData.data
     );
   }
 
@@ -210,7 +216,7 @@ class HeatMapPage extends Component {
         <TimeSelector
           value={this.props.sliderValue}
           onChange={this.onTimeSelection}
-          max={_.size(this.props.historicalHeatMapData.result.data) - 1}
+          max={_.size(this.props.historicalHeatMapData.data) - 1}
           labelRenderer={this.timeSelectLabelRenderer}
           disabled={this.shouldDisableHistoricalTools()}
         />
@@ -222,10 +228,10 @@ class HeatMapPage extends Component {
 /* Takes a historical heat map API response and returns a response in the same
  * format, but with a sample of `desiredCount` points of data. */
 const reduceAmountOfHistoricalHeatMapData = (data, desiredCount) => {
-  if (!data || !data.result || data.result.timestamps.length < desiredCount) {
+  if (!data || !data.timestamps || data.timestamps.length < desiredCount) {
     return data;
   }
-  const timestamps = data.result.timestamps,
+  const timestamps = data.timestamps,
     selectedTimestamps = [];
 
   for (let i = 0; i < desiredCount; i++) {
@@ -234,17 +240,14 @@ const reduceAmountOfHistoricalHeatMapData = (data, desiredCount) => {
   }
 
   return {
-    ...data,
-    result: {
-      timestamps: selectedTimestamps,
-      data: selectedTimestamps.reduce(
-        (acc, timestamp) => ({
-          ...acc,
-          [timestamp]: data.result.data[timestamp]
-        }),
-        {}
-      )
-    }
+    timestamps: selectedTimestamps,
+    data: selectedTimestamps.reduce(
+      (acc, timestamp) => ({
+        ...acc,
+        [timestamp]: data.data[timestamp]
+      }),
+      {}
+    )
   };
 };
 

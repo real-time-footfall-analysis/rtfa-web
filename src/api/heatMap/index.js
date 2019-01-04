@@ -18,8 +18,13 @@ export class HeatMapAPI {
     if (!eventID) {
       console.error("You didn't pass an eventID into getHistoricalHeatMapData");
     }
-    return await this.request.get(
+    const response = await this.request.get(
       `${eventsURL}/${eventID}/tasks/${HISTORICAL_HEATMAP_TASK_ID}`
     );
+    if (!response || !response.result) {
+      return {};
+    }
+    /* Discard the "task" wrapper around the historical heatMap data */
+    return response.result;
   }
 }
