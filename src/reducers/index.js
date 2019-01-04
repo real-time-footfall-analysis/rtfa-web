@@ -119,24 +119,38 @@ const eventReducer = (event, action) => {
         emergencyNotifications: updatedNotificationList
       };
     }
-    case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE:
+    case ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE: {
+      const historicalModeEnabled = action.payload.historicalModeEnabled;
       return {
         ...event,
-        historicalModeEnabled: action.payload.historicalModeEnabled
-      };
-    case ActionTypes.INITIALISE_HISTORICAL_HEATMAP: {
-      const histData = event.historicalHeatMapData;
-      if (!histData || !histData.result || !histData.result.timestamps) {
-        return event;
-      }
-      const firstTimestamp = histData.result.timestamps[0];
-      return {
-        ...event,
-        heatMapData: histData.result.data[firstTimestamp]
+        historicalModeEnabled: historicalModeEnabled,
+        sliderValue: 0,
+        heatMapData: getHeatMapData(event, historicalModeEnabled),
+        previousLiveData: historicalModeEnabled ? event.heatMapData : null
       };
     }
     default:
       return event;
+  }
+};
+
+/* Returns the last-seen live heat map data, or the historical heat map data
+ * if historicalModeEnabled is true.
+ *
+ * @param event The event object that heat map data will be obtained from
+ * @historicalModeEnabled True iff requesting historical heat map data
+ * @returns A heat map data object
+ */
+const getHeatMapData = (event, historicalModeEnabled) => {
+  if (historicalModeEnabled) {
+    const histData = event.historicalHeatMapData;
+    if (!histData || !histData.result || !histData.result.timestamps) {
+      return event;
+    }
+    const firstTimestamp = histData.result.timestamps[0];
+    return histData.result.data[firstTimestamp];
+  } else {
+    return event.previousLiveData;
   }
 };
 

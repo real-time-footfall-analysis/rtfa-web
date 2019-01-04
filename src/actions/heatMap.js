@@ -85,46 +85,14 @@ export const setHeatMapSliderValue = (eventID, sliderValue) => {
   };
 };
 
-/* Handle all data fetching/setup for enabling historical heat maps if
- * `historicalModeEnabled` is true. Otherwise, marks historical mode as
- * disabled. */
-export const toggleHeatMapHistoricalMode = (eventID, historicalModeEnabled) => {
-  if (historicalModeEnabled) {
-    fetchAndSetHistoricalHeatMapData(eventID).then();
-  } else {
-    setHeatMapHistoricalMode(eventID, false);
-  }
-};
-
-/* Marks historical mode as enabled, loads historical heat map data
- * and then sets the displayed heat map to use the data from the
- * first historical timestamp. */
-const fetchAndSetHistoricalHeatMapData = async eventID => {
-  setHeatMapHistoricalMode(eventID, true);
-  await store.dispatch(loadHistoricalHeatMap(eventID));
-  initialiseHistoricalHeatMap(eventID);
-};
-
-/* Dispatches an action to set historical mode to `historicalModeEnabled`
+/* Returns an action to set historical mode to `historicalModeEnabled`
  * for the given eventID. */
-const setHeatMapHistoricalMode = (eventID, historicalModeEnabled) => {
-  store.dispatch({
+export const setHeatMapHistoricalMode = (eventID, historicalModeEnabled) => {
+  return {
     type: ActionTypes.TOGGLE_HEATMAP_HISTORICAL_MODE,
     payload: {
       eventID: eventID,
       historicalModeEnabled: historicalModeEnabled
     }
-  });
-};
-
-/* Dispatches an action to set the currently displayed heatMapData for the
- * given eventID to be equal to the data for the first timestamp in the event's
- * historical heat map dataset. */
-const initialiseHistoricalHeatMap = eventID => {
-  store.dispatch({
-    type: ActionTypes.INITIALISE_HISTORICAL_HEATMAP,
-    payload: {
-      eventID: eventID
-    }
-  });
+  };
 };

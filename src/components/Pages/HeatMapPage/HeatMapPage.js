@@ -11,19 +11,22 @@ import {
 } from "../../../constants";
 import {
   loadHeatMap,
+  loadHistoricalHeatMap,
   loadTasksData,
-  setHeatMapSliderValue,
-  toggleHeatMapHistoricalMode
+  setHeatMapHistoricalMode,
+  setHeatMapSliderValue
 } from "../../../actions";
 import { getRegions, getSelectedEvent } from "../../../selectors";
 import { sleep, timestampToTimeString } from "../../../utils";
+
+import Button from "../../UI/Button/Button";
 import Page from "../../UI/Page/Page";
 import { TimeSelector } from "../../UI/TimeSelector/TimeSelector";
+
 import HeatMap from "./HeatMap/HeatMap";
 import { HistoricalModeToggle } from "./HistoricalModeToggle/HistoricalModeToggle";
 
 import styles from "./HeatMapPage.module.scss";
-import Button from "../../UI/Button/Button";
 
 class HeatMapPage extends Component {
   constructor(props) {
@@ -52,8 +55,15 @@ class HeatMapPage extends Component {
   componentDidMount() {
     this.props.loadHeatMap(this.props.selectedEventID);
     this.props.loadTasksData(this.props.selectedEventID);
+    this.props.loadHistoricalHeatMap(this.props.selectedEventID);
     /* Poll for live heat map data every N seconds. */
     this.enableDataPolling();
+  }
+
+  componentDidUpdate() {
+    if (!this.props.historicalHeatMapData) {
+      this.props.loadHistoricalHeatMap(this.props.selectedEventID);
+    }
   }
 
   componentWillUnmount() {
@@ -117,6 +127,10 @@ class HeatMapPage extends Component {
 
   /* Creates a toggle allowing you to select "Live" and "Historical" views. */
   generateHistoricalToggle() {
+    const historicalData = this.props.historicalHeatMapData;
+    if (!historicalData || !historicalData.result) {
+      return null;
+    }
     return (
       <HistoricalModeToggle
         historicalModeEnabled={this.props.historicalModeEnabled}
@@ -143,10 +157,12 @@ class HeatMapPage extends Component {
   /* Toggles data polling as needed and then dispatches a Redux action to toggle
    * the historical mode property in the store. */
   historicalModeChange(eventID, historicalModeEnabled) {
-    historicalModeEnabled
-      ? this.disableDataPolling()
-      : this.enableDataPolling();
-    toggleHeatMapHistoricalMode(eventID, historicalModeEnabled);
+    if (historicalModeEnabled) {
+      this.disableDataPolling();
+    } else {
+      this.enableDataPolling();
+    }
+    this.props.setHeatMapHistoricalMode(eventID, historicalModeEnabled);
   }
 
   /* Update historical heat map date value when user interacts with slider. */
@@ -194,16 +210,16 @@ class HeatMapPage extends Component {
 }
 
 /* Takes a historical heat map API response and returns a response in the same
- * format, but with a sample of `desiredQuantity` points of data. */
-const reduceAmountOfHistoricalHeatMapData = (data, desiredQuantity) => {
-  if (!data || data.result.timestamps.length < desiredQuantity) {
+ * format, but with a sample of `desiredCount` points of data. */
+const reduceAmountOfHistoricalHeatMapData = (data, desiredCount) => {
+  if (!data || !data.result || data.result.timestamps.length < desiredCount) {
     return data;
   }
   const timestamps = data.result.timestamps,
     selectedTimestamps = [];
 
-  for (let i = 0; i < desiredQuantity; i++) {
-    const stepSize = Math.ceil(timestamps.length / desiredQuantity);
+  for (let i = 0; i < desiredCount; i++) {
+    const stepSize = Math.ceil(timestamps.length / desiredCount);
     selectedTimestamps.push(timestamps[i * stepSize]);
   }
 
@@ -227,7 +243,9 @@ HeatMapPage.propTypes = {
   heatMapData: PropTypes.object,
   selectedEventID: PropTypes.number,
   loadHeatMap: PropTypes.func,
+  loadHistoricalHeatMap: PropTypes.func,
   loadTasksData: PropTypes.func,
+  setHeatMapHistoricalMode: PropTypes.func,
   setHeatMapSliderValue: PropTypes.func,
   sliderValue: PropTypes.number,
   regions: PropTypes.object,
@@ -253,6 +271,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       loadHeatMap: loadHeatMap,
+      loadHistoricalHeatMap: loadHistoricalHeatMap,
+      setHeatMapHistoricalMode: setHeatMapHistoricalMode,
       loadTasksData: loadTasksData,
       setHeatMapSliderValue: setHeatMapSliderValue
     },
