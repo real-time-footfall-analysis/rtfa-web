@@ -4,10 +4,12 @@ import styles from "./NonIdealState.module.scss";
 
 const NonIdealState = props => {
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${props.alignLeft ? styles.alignLeft : ""}`}
+    >
       <i className={`${props.icon} ${styles.icon}`} />
       <h3 className={`${styles.title}`}>{props.title}</h3>
-      <p className={`${styles.description}`}>{props.description}</p>
+      <p>{props.description}</p>
     </div>
   );
 };
@@ -15,7 +17,8 @@ const NonIdealState = props => {
 NonIdealState.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
+  alignLeft: PropTypes.bool
 };
 
 export default NonIdealState;
