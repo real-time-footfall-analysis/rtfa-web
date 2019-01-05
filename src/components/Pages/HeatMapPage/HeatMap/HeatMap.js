@@ -2,7 +2,9 @@
 import React, { Component } from "react";
 import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
 import HeatmapLayer from "react-google-maps/lib/components/visualization/HeatmapLayer";
+import PropTypes from "prop-types";
 import _ from "lodash";
+
 import {
   DARK_GOOGLE_MAPS_STYLES,
   GOOGLE_MAPS_DEFAULT_CENTRE,
@@ -11,7 +13,6 @@ import {
 } from "../../../../constants";
 import { generateRegionMarkersWithPopup } from "../../../UI/RegionMarker/generators";
 import { calculateMidpointOfRegions } from "../../../../utils";
-import PropTypes from "prop-types";
 import RegionTaskData from "../Tasks/RegionTaskData/RegionTaskData";
 
 /* TODO: Refactor this and AddRegionsMap to use Redux to update centre. */
@@ -21,6 +22,16 @@ class HeatMapSubcomponent extends Component {
   componentWillUnmount() {
     window.centreSet = false;
   }
+
+  getProcessedData() {
+    if (!this.props.heatMapData) {
+      return [];
+    }
+    return this.props.historicalMode
+      ? generateHeatMapPoints(this.props.regions, this.props.heatMapData, false)
+      : this.props.heatMapData;
+  }
+
   render() {
     const markers = generateRegionMarkersWithPopup(
       this.props.regions,
@@ -35,16 +46,12 @@ class HeatMapSubcomponent extends Component {
         options={{ styles: DARK_GOOGLE_MAPS_STYLES }}
       >
         <HeatmapLayer
-          data={generateHeatMapPoints(
-            this.props.regions,
-            this.props.heatMapData,
-            this.props.randomise
-          )}
+          data={this.getProcessedData()}
           options={{
             opacity: 1,
-            radius: this.props.randomise
-              ? HEATMAP_POINT_RADIUS
-              : HEATMAP_POINT_RADIUS * 2
+            radius: this.props.historicalMode
+              ? HEATMAP_POINT_RADIUS * 4
+              : HEATMAP_POINT_RADIUS
           }}
         />
         {markers}
@@ -55,9 +62,9 @@ class HeatMapSubcomponent extends Component {
 
 HeatMapSubcomponent.propTypes = {
   regions: PropTypes.object,
-  heatMapData: PropTypes.object,
+  heatMapData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   tasksData: PropTypes.array,
-  randomise: PropTypes.bool
+  historicalMode: PropTypes.bool
 };
 
 export const HeatMap = withScriptjs(withGoogleMap(HeatMapSubcomponent));
@@ -72,7 +79,7 @@ const setCentre = (ref, regions) => {
   }
 };
 
-const generateHeatMapPoints = (regions, heatMapData, randomise) => {
+export const generateHeatMapPoints = (regions, heatMapData, randomise) => {
   const points = [];
   _.forEach(heatMapData, (count, regionID) => {
     const region = regions[regionID];

@@ -96,7 +96,7 @@ class HeatMapPage extends Component {
         mapElement={<div className={styles.mapElement} />}
         regions={this.props.regions}
         heatMapData={this.selectHeatMapData()}
-        randomise={!this.props.historicalModeEnabled}
+        historicalMode={this.props.historicalModeEnabled}
         tasksData={this.props.tasksData}
       />
     );
@@ -271,7 +271,7 @@ const reduceAmountOfHistoricalHeatMapData = (data, desiredCount) => {
 
 HeatMapPage.propTypes = {
   name: PropTypes.string,
-  liveHeatMapData: PropTypes.object,
+  liveHeatMapData: PropTypes.array,
   selectedEventID: PropTypes.number,
   loadHeatMap: PropTypes.func,
   loadHistoricalHeatMap: PropTypes.func,

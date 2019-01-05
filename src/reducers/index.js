@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { combineReducers } from "redux";
 import { ActionTypes } from "../actions/actionTypes";
+import { generateHeatMapPoints } from "../components/Pages/HeatMapPage/HeatMap/HeatMap";
 
 const eventsReducer = (events, action) => {
   if (!events) {
@@ -58,7 +59,11 @@ const eventReducer = (event, action) => {
     case ActionTypes.LOAD_HEATMAP_DATA:
       return {
         ...event,
-        liveHeatMapData: action.payload.heatMapData
+        liveHeatMapData: generateHeatMapPoints(
+          event.regions,
+          action.payload.heatMapData,
+          true
+        )
       };
     case ActionTypes.LOAD_HISTORICAL_HEATMAP_DATA:
       return {
