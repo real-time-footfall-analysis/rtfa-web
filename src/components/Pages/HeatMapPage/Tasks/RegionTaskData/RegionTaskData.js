@@ -7,6 +7,7 @@ import _ from "lodash";
 import { getSelectedEvent } from "../../../../../selectors";
 import { renderTask } from "../TaskRenderers";
 import styles from "./RegionTaskData.module.scss";
+import { REGION_CATEGORIES } from "../../../../../constants";
 
 export class RegionTaskData extends Component {
   loadingMessage() {
@@ -45,7 +46,12 @@ export class RegionTaskData extends Component {
     const tasks = this.getTaskComponents();
     return (
       <div className={styles.taskForm}>
-        <h1 className={styles.regionName}>{this.props.region.name}</h1>
+        <h1 className={styles.regionName}>
+          <i className={styles.icon}>
+            {REGION_CATEGORIES[this.props.region.cat].icon}
+          </i>
+          {this.props.region.name}
+        </h1>
         <section
           className={`${styles.tasks}
                       ${this.emptyTasks(tasks) ? styles.noTasks : ""}`}

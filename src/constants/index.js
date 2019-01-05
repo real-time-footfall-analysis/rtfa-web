@@ -66,6 +66,30 @@ export const TASKS_METADATA = {
 };
 export const MAX_DECIMAL_PLACES = 2;
 
+/* Region Categories Metadata */
+export const REGION_CATEGORIES = {
+  0: {
+    category: "Uncategorised",
+    icon: ""
+  },
+  1: {
+    category: "Bar/Pub",
+    icon: ""
+  },
+  2: {
+    category: "Ride",
+    icon: ""
+  },
+  3: {
+    category: "Entertainment/Attraction",
+    icon: ""
+  },
+  4: {
+    category: "Restaurant",
+    icon: ""
+  }
+};
+
 /* Heat Map Constants */
 export const HEATMAP_REFRESH_INTERVAL = 5000;
 export const HEATMAP_USERS_SCALE_FACTOR = 1;
