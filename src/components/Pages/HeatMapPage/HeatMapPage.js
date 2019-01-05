@@ -28,7 +28,6 @@ import HeatMap from "./HeatMap/HeatMap";
 import { HistoricalModeToggle } from "./HistoricalModeToggle/HistoricalModeToggle";
 
 import styles from "./HeatMapPage.module.scss";
-import { Popover } from "@blueprintjs/core";
 
 class HeatMapPage extends Component {
   constructor(props) {
@@ -48,7 +47,7 @@ class HeatMapPage extends Component {
       <Page title={<span>{this.props.name}</span>} flex={true}>
         <div className={styles.heatMapPage}>
           {this.generateHistoricalToggle()}
-          {this.generateIconKeyPopover()}
+          {this.generateIconKey()}
           <div className={styles.content}>
             {this.generateMapElement()}
             {this.generateHistoricalTools()}
@@ -163,32 +162,16 @@ class HeatMapPage extends Component {
 
   /* Returns a popover target that will display the icon-category key when
    * clicked. */
-  generateIconKeyPopover() {
-    return (
-      <div className={styles.iconKeyButton}>
-        <Popover
-          target={this.generateIconKeyButton()}
-          content={this.generateIconKeyContent()}
-        />
-      </div>
+  generateIconKey() {
+    /* Remove the "Uncategorised" category */
+    const categories = _.pickBy(
+      REGION_CATEGORIES,
+      (value, key) => parseInt(key) !== 0
     );
-  }
-
-  generateIconKeyButton() {
-    return (
-      <a href="#">
-        <i className={`${styles.keyButtonIcon} far fa-key`} />
-        Key
-      </a>
-    );
-  }
-
-  generateIconKeyContent() {
     return (
       <section className={styles.iconKeyWrapper}>
-        <h3>Categories</h3>
         <ul>
-          {_.map(REGION_CATEGORIES, (category, index) => (
+          {_.map(categories, (category, index) => (
             <li className={styles.keyEntry} key={index}>
               <i className={styles.keyIcon}>{category.icon}</i>
               {category.category}

@@ -36,25 +36,11 @@
   }
 }
 
-.iconKeyButton {
-  position: absolute;
-  right: 235px;
-  top: 50px;
-}
-
-.keyButtonIcon {
-  font-size: 15px;
-  margin-right: 6px;
-}
-
 .iconKeyWrapper {
   margin: 0;
-  padding: 16px;
-
-  h3 {
-    color: $darkText;
-    margin: 0 0 10px 0;
-  }
+  position: absolute;
+  right: 240px;
+  top: 50px;
 
   ul {
     list-style: none;
@@ -64,7 +50,8 @@
 
   .keyEntry {
     color: $darkText;
-    margin-bottom: 10px;
+    display: inline-block;
+    margin-left: 25px;
 
     &:last-child {
       margin-bottom: 0;
@@ -78,7 +65,7 @@
   font-family: "Font Awesome 5 Pro", sans-serif;
   font-style: normal;
   font-weight: 500;
-  margin-right: 10px;
+  margin-right: 6px;
   text-align: right;
   width: 18px;
 }
