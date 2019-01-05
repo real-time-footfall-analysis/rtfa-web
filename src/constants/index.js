@@ -73,19 +73,19 @@ export const REGION_CATEGORIES = {
     icon: ""
   },
   1: {
-    category: "Bar/Pub",
+    category: "Pubs and Bars",
     icon: ""
   },
   2: {
-    category: "Ride",
+    category: "Rides",
     icon: ""
   },
   3: {
-    category: "Entertainment/Attraction",
+    category: "Entertainment",
     icon: ""
   },
   4: {
-    category: "Restaurant",
+    category: "Restaurants",
     icon: ""
   }
 };

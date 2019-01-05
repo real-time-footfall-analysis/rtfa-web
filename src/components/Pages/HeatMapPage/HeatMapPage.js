@@ -7,7 +7,8 @@ import _ from "lodash";
 import {
   GOOGLE_MAPS_URL,
   HEATMAP_ANIMATION_FRAME_DELAY,
-  HEATMAP_REFRESH_INTERVAL
+  HEATMAP_REFRESH_INTERVAL,
+  REGION_CATEGORIES
 } from "../../../constants";
 import {
   loadHeatMap,
@@ -27,6 +28,7 @@ import HeatMap from "./HeatMap/HeatMap";
 import { HistoricalModeToggle } from "./HistoricalModeToggle/HistoricalModeToggle";
 
 import styles from "./HeatMapPage.module.scss";
+import { Popover } from "@blueprintjs/core";
 
 class HeatMapPage extends Component {
   constructor(props) {
@@ -46,6 +48,7 @@ class HeatMapPage extends Component {
       <Page title={<span>{this.props.name}</span>} flex={true}>
         <div className={styles.heatMapPage}>
           {this.generateHistoricalToggle()}
+          {this.generateIconKeyPopover()}
           <div className={styles.content}>
             {this.generateMapElement()}
             {this.generateHistoricalTools()}
@@ -156,6 +159,44 @@ class HeatMapPage extends Component {
     this.setState({
       playing: false
     });
+  }
+
+  /* Returns a popover target that will display the icon-category key when
+   * clicked. */
+  generateIconKeyPopover() {
+    return (
+      <div className={styles.iconKeyButton}>
+        <Popover
+          target={this.generateIconKeyButton()}
+          content={this.generateIconKeyContent()}
+        />
+      </div>
+    );
+  }
+
+  generateIconKeyButton() {
+    return (
+      <a href="#">
+        <i className={`${styles.keyButtonIcon} far fa-key`} />
+        Key
+      </a>
+    );
+  }
+
+  generateIconKeyContent() {
+    return (
+      <section className={styles.iconKeyWrapper}>
+        <h3>Categories</h3>
+        <ul>
+          {_.map(REGION_CATEGORIES, (category, index) => (
+            <li className={styles.keyEntry} key={index}>
+              <i className={styles.keyIcon}>{category.icon}</i>
+              {category.category}
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
   }
 
   /* Creates a toggle allowing you to select "Live" and "Historical" views. */
