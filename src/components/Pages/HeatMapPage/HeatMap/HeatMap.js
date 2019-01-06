@@ -3,7 +3,6 @@ import { GoogleMap, withGoogleMap, withScriptjs } from "react-google-maps";
 import HeatmapLayer from "react-google-maps/lib/components/visualization/HeatmapLayer";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import google from "react-google-maps";
 
 import {
   DARK_GOOGLE_MAPS_STYLES,
@@ -80,7 +79,10 @@ const setCentre = (ref, regions) => {
 };
 
 export const generateHeatMapPoints = (regions, heatMapData, randomise) => {
+  const google = window.google;
   if (!google) {
+    console.error("Google Maps API not found! Check (HeatMap.js:84)");
+    console.trace();
     return [];
   }
   const points = [];
