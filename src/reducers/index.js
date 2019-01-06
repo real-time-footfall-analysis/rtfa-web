@@ -66,9 +66,16 @@ const eventReducer = (event, action) => {
         )
       };
     case ActionTypes.LOAD_HISTORICAL_HEATMAP_DATA:
+      console.log("PAYLOAD:", action.payload);
       return {
         ...event,
-        historicalHeatMapData: action.payload.historicalHeatMapData
+        historicalHeatMapData: {
+          ...action.payload.historicalHeatMapData,
+          data: convertHistoricalHeatmapDataToPoints(
+            action.payload.historicalHeatMapData.data,
+            event.regions
+          )
+        }
       };
     case ActionTypes.LOAD_TASKS_DATA:
       return {
@@ -129,6 +136,19 @@ const eventReducer = (event, action) => {
     default:
       return event;
   }
+};
+
+/* Converts the heatmap data stored under each timestamp to an array of
+ * randomly generated Google Maps points within that region's radius. */
+const convertHistoricalHeatmapDataToPoints = (historicalData, regions) => {
+  return _.reduce(
+    historicalData,
+    (acc, heatMapData, timestamp) => ({
+      ...acc,
+      [timestamp]: generateHeatMapPoints(regions, heatMapData, true)
+    }),
+    {}
+  );
 };
 
 const regionsReducer = (regions, action) => {

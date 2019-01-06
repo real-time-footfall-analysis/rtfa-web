@@ -96,8 +96,8 @@ export const REGION_CATEGORIES = {
 
 /* Heat Map Constants */
 export const HEATMAP_REFRESH_INTERVAL = 5000;
-export const HEATMAP_USERS_SCALE_FACTOR = 1;
-export const HEATMAP_POINT_RADIUS = 10;
+export const HEATMAP_USERS_SCALE_FACTOR = 10;
+export const HEATMAP_POINT_RADIUS = 20;
 export const HISTORICAL_HEATMAP_TASK_ID = 4;
 export const HEATMAP_ANIMATION_FRAME_DELAY = 300;
 

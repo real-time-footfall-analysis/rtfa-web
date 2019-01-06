@@ -22,35 +22,23 @@ class HeatMapSubcomponent extends Component {
     window.centreSet = false;
   }
 
-  getProcessedData() {
-    if (!this.props.heatMapData) {
-      return [];
-    }
-    return this.props.historicalMode
-      ? generateHeatMapPoints(this.props.regions, this.props.heatMapData, false)
-      : this.props.heatMapData;
-  }
-
   render() {
-    const markers = generateRegionMarkersWithPopup(
-      this.props.regions,
-      RegionTaskData,
-      { tasksData: this.props.tasksData }
-    );
+    const { regions, tasksData, heatMapData } = this.props;
+    const markers = generateRegionMarkersWithPopup(regions, RegionTaskData, {
+      tasksData: tasksData
+    });
     return (
       <GoogleMap
         defaultZoom={15}
         defaultCenter={GOOGLE_MAPS_DEFAULT_CENTRE}
-        ref={ref => setCentre(ref, this.props.regions)}
+        ref={ref => setCentre(ref, regions)}
         options={{ styles: DARK_GOOGLE_MAPS_STYLES }}
       >
         <HeatmapLayer
-          data={this.getProcessedData()}
+          data={heatMapData ? heatMapData : []}
           options={{
             opacity: 1,
-            radius: this.props.historicalMode
-              ? HEATMAP_POINT_RADIUS * 4
-              : HEATMAP_POINT_RADIUS
+            radius: HEATMAP_POINT_RADIUS
           }}
         />
         {markers}
@@ -93,14 +81,17 @@ export const generateHeatMapPoints = (regions, heatMapData, randomise) => {
       return;
     }
     /* Generate n random points around the centre, within the radius. */
-    for (let i = 0; i < count * HEATMAP_USERS_SCALE_FACTOR; i++) {
+    for (let i = 0; i < count; i++) {
       const point = randomise
         ? createRandomisedPoint(region.position, region.radius)
         : region.position;
       points.push(point);
     }
   });
-  return points.map(point => new google.maps.LatLng(point.lat, point.lng));
+  return points.map(point => ({
+    location: new google.maps.LatLng(point.lat, point.lng),
+    weight: HEATMAP_USERS_SCALE_FACTOR
+  }));
 };
 
 /* Given a centre { lat, lng } and a radius in metres, this returns a
