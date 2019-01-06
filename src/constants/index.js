@@ -87,6 +87,10 @@ export const REGION_CATEGORIES = {
   4: {
     category: "Restaurants",
     icon: ""
+  },
+  5: {
+    category: "Toilets",
+    icon: ""
   }
 };
 
