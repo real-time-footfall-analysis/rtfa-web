@@ -24,6 +24,7 @@ export class EmergencyNotificationsAPI {
     try {
       return await this.request.post(`${BASE_URL}/emergency-update`, {
         ...notification,
+        regionIds: notification.regionIds ? notification.regionIds : [],
         dealtWith: true
       });
     } catch (err) {
