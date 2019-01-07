@@ -42,7 +42,7 @@ const eventsReducer = (events, action) => {
 const eventReducer = (event, action) => {
   if (!event) {
     return {};
-  } else if (event.eventID !== action.payload.eventID) {
+  } else if (event.eventID !== parseInt(action.payload.eventID)) {
     return event;
   }
   switch (action.type) {
