@@ -67,7 +67,7 @@ export class EmergencyNotificationsAPI {
     PusherAPI.subscribe(
       eventID,
       channel.eventTypes.emergencyUpdate,
-      (eventID, newNotification) => callback(eventID, newNotification)
+      newNotification => callback(eventID, newNotification)
     );
   }
 }
