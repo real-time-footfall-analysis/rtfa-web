@@ -132,6 +132,11 @@ class SendNotificationForm extends Component {
     );
   }
 
+  doesRegionIDMatchQuery = (query, regionID) =>
+    this.regionIDToName(regionID)
+      .toLowerCase()
+      .indexOf(query.toLowerCase()) >= 0;
+
   renderRegionSelector() {
     return (
       <MultiSelect
@@ -144,6 +149,8 @@ class SendNotificationForm extends Component {
         items={this.getRegionIDs()}
         noResults="No Regions Found"
         itemRenderer={this.renderRegionListEntry}
+        resetOnSelect={true}
+        itemPredicate={this.doesRegionIDMatchQuery}
         selectedItems={this.state.selectedRegions}
         onItemSelect={this.handleRegionSelect}
       />
