@@ -1,6 +1,6 @@
 @import "../../../../styles/_vars.scss";
 
-$formPadding: 40px;
+$formPadding: 0px;
 
 :global {
   .bp3-menu-item.bp3-intent-primary.bp3-active,
@@ -23,14 +23,14 @@ $formPadding: 40px;
   }
 
   .bp3-popover-content .bp3-menu {
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
   }
 }
 
 .sendNotificationForm {
   max-width: 600px;
-  padding: 40px 0;
+  padding: $formPadding 0;
 
   .formTitle {
     color: $darkText;

@@ -32,7 +32,7 @@ Button.propTypes = {
 };
 
 const insertIconIfProvided = (iconName, className) => {
-  return iconName ? <i className={`fa fa-${iconName} ${className}`} /> : null;
+  return iconName ? <i className={`far fa-${iconName} ${className}`} /> : null;
 };
 
 export default Button;

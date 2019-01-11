@@ -1,18 +1,20 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { MultiSelect } from "@blueprintjs/select";
 import { FormGroup, Icon, MenuItem } from "@blueprintjs/core";
 import _ from "lodash";
-import PropTypes from "prop-types";
+
 import TextField from "../../../UI/TextField/TextField";
 import Button from "../../../UI/Button/Button";
-import styles from "./SendNotificationForm.module.scss";
 import { currentTimestamp } from "../../../../utils";
+
+import styles from "./SendNotificationForm.module.scss";
 
 class SendNotificationForm extends Component {
   static propTypes = {
     eventID: PropTypes.number,
     regions: PropTypes.object,
-    sendNotification: PropTypes.func
+    onSubmit: PropTypes.func
   };
 
   constructor(props) {
@@ -37,9 +39,8 @@ class SendNotificationForm extends Component {
   }
 
   regionIDToName(regionID) {
-    return this.props.regions[regionID]
-      ? this.props.regions[regionID].name
-      : `Region ${regionID}`;
+    const { regions } = this.props;
+    return regions[regionID] ? regions[regionID].name : `Region ${regionID}`;
   }
 
   isRegionSelected(regionID) {
@@ -176,12 +177,13 @@ class SendNotificationForm extends Component {
   /* TODO: The onClick handler here should be a function called handleFormSubmit
    *        but there were some bugs with .bind(this) */
   renderSubmitButton() {
+    const { eventID, onSubmit } = this.props;
     return (
       <Button
         fill={true}
         onClick={() => {
           this.clearForm();
-          this.props.sendNotification(this.props.eventID, this.notification());
+          onSubmit(eventID, this.notification());
         }}
       >
         Submit
@@ -192,10 +194,11 @@ class SendNotificationForm extends Component {
   /* @returns A notification object based on the current values of the fields
    *          in the form. */
   notification() {
+    const { title, description, selectedRegions } = this.state;
     return {
-      title: this.state.title,
-      description: this.state.description,
-      regionIDs: this.state.selectedRegions,
+      title: title,
+      description: description,
+      regionIDs: selectedRegions,
       occurredAt: currentTimestamp()
     };
   }

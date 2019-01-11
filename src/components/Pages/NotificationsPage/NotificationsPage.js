@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import Page from "../../UI/Page/Page";
 import { getRegions, getSelectedEvent } from "../../../selectors";
@@ -14,7 +13,8 @@ import {
   timestampToTimeString
 } from "../../../utils";
 import { SentNotificationsList } from "./SentNotificationsList/SentNotificationsList";
-import SendNotificationForm from "./SendNotificationForm/SendNotificationForm";
+import { SendNotificationButton } from "./SendNotificationButton/SendNotificationButton";
+import { SendNotificationFormOverlay } from "./SendNotificationFormOverlay/SendNotificationFormOverlay";
 
 class NotificationsPage extends Component {
   static propTypes = {
@@ -25,6 +25,13 @@ class NotificationsPage extends Component {
     sendNotification: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      formVisible: false
+    };
+  }
+
   componentDidMount() {
     this.fetchNotificationsIfNeeded();
   }
@@ -34,33 +41,53 @@ class NotificationsPage extends Component {
   }
 
   render() {
+    const { selectedEventID, regions } = this.props;
     return (
       <Page title={<span>Notifications</span>}>
         <SentNotificationsList notifications={this.processNotifications()} />
-        <SendNotificationForm
-          eventID={this.props.selectedEventID}
-          regions={this.props.regions}
-          sendNotification={this.props.sendNotification}
+        <SendNotificationButton onClick={this.toggleNewNotificationForm} />
+        <SendNotificationFormOverlay
+          selectedEventID={selectedEventID}
+          regions={regions}
+          onClose={this.toggleNewNotificationForm}
+          onSubmit={this.handleFormSubmit}
+          visible={this.state.formVisible}
         />
       </Page>
     );
   }
 
+  /* Toggles whether the new notification form is visible or not. */
+  toggleNewNotificationForm = () => {
+    this.setState(prevState => ({
+      formVisible: !prevState.formVisible
+    }));
+  };
+
+  /* Hides the form overlay and sends the new notification to the API for
+   * delivery to phones. */
+  handleFormSubmit = (...args) => {
+    this.toggleNewNotificationForm();
+    this.props.sendNotification(...args);
+  };
+
   /* Calls the action creator for loading sent notifications if
    * an event has been selected (i.e. events have been loaded) and
    * the notifications haven't already been loaded. */
   fetchNotificationsIfNeeded() {
-    if (this.props.selectedEventID !== -1 && !this.props.notifications) {
-      this.props.loadSentNotifications(this.props.selectedEventID);
+    let { selectedEventID, notifications, loadSentNotifications } = this.props;
+    if (selectedEventID !== -1 && !notifications) {
+      loadSentNotifications(selectedEventID);
     }
   }
 
   /* Simplifies API notification objects into only what is needed for render. */
   processNotifications() {
-    if (!this.props.notifications) {
+    const { notifications } = this.props;
+    if (!notifications) {
       return [];
     }
-    return this.props.notifications.map(notification => ({
+    return notifications.map(notification => ({
       title: notification.title,
       description: notification.description,
       metadata: this.generateMetadataString(notification),
@@ -71,10 +98,9 @@ class NotificationsPage extends Component {
   /* Generates a metadata string for the given notification, in the format:
    * "Sent to Main Stage, Campsite Bar @ 21:16 on Tuesday, 27 November 2018". */
   generateMetadataString(notification) {
+    const { regions } = this.props;
     const regionNames = notification.regionIds.map(regionID =>
-      this.props.regions[regionID]
-        ? this.props.regions[regionID].name
-        : `Region ${regionID}`
+      regions[regionID] ? regions[regionID].name : `Region ${regionID}`
     );
     const formattedRegionNames = regionNames.join(", ");
     const timestamp = notification.occurredAt;
@@ -90,14 +116,10 @@ const mapStateToProps = state => ({
   notifications: getSelectedEvent(state).sentNotifications
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      loadSentNotifications: loadSentNotifications,
-      sendNotification: sendNotification
-    },
-    dispatch
-  );
+const mapDispatchToProps = {
+  loadSentNotifications,
+  sendNotification
+};
 
 export default connect(
   mapStateToProps,
